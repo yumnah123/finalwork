@@ -16,7 +16,10 @@ import {
 } from "lucide-react";
 import hero1 from "../public/assets1/hero-11.png";
 import hero2 from "../public/assets1/hero-2.png";
+import rtl from "../public/assets1/rtl-line.png";
+import ltr from "../public/assets1/ltr-line.png";
 import logo from "../public/Logo.svg";
+import bmw from "../public/assets1/bmw.png";
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -159,7 +162,7 @@ export default function Home() {
                 <Image
                   src={hero1}
                   alt="Hero Background 1"
-                  className="object-cover"
+                  className="object-cover opacity-40"
                   priority
                   height={505}
                   width={920}
@@ -252,7 +255,10 @@ export default function Home() {
       </section>
 
       {/* Executive Car Services */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 relative">
+        <div className="absolute -top-4 z-50">
+          <Image src={ltr} alt="ltr" className="w-full" />
+        </div>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
@@ -369,6 +375,9 @@ export default function Home() {
             'linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url("https://images.pexels.com/photos/1118448/pexels-photo-1118448.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
         }}
       >
+        <div className="absolute top-0 right-0 z-50">
+          <Image src={rtl} alt="ltr" className="w-full" />
+        </div>
         <div className="container mx-auto px-4 text-center text-white">
           <h2 className="text-4xl font-bold mb-4">
             Experience Premium Car Service
@@ -615,9 +624,7 @@ export default function Home() {
             <div>
               <div className="flex items-center space-x-2 mb-6">
                 <Star className="w-8 h-8 text-primary fill-primary" />
-                <span className="text-primary text-xl font-bold">
-                  GOLDSTAR
-                </span>
+                <span className="text-primary text-xl font-bold">GOLDSTAR</span>
               </div>
               <p className="text-gray-400 text-sm leading-relaxed mb-4">
                 An executive car and chauffeur service covering Surrey, London
