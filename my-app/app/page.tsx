@@ -137,12 +137,11 @@ export default function Home() {
                 className="object-cover"
                 priority
               />
-              {/* Diagonal fade mask using clip-path */}
+              {/* Diagonal fade mask using clip-path with dynamic opacity */}
               <div
-                className="absolute inset-0 bg-black"
+                className="absolute inset-0"
                 style={{
-                  clipPath: `polygon(40% 0%, 100% 0%, 100% 100%, 0% 100%)`,
-                  opacity: 0.4,
+                  background: `linear-gradient(135deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.05) 80%, transparent 85%, transparent 95%)`,
                 }}
               ></div>
               {/* Additional fade for smoother blending */}
