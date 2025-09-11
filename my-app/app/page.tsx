@@ -31,7 +31,7 @@ import premium from "../public/assets1/section3.jpg";
 import banner from "../public/assets1/banner4.jpg";
 import testimonial from "../public/assets1/banner5.jpg";
 import mercedez from "../public/assets1/banner6.jpg";
-import footer from "../public/assets1/banner7.jpg"
+import footer from "../public/assets1/banner7.jpg";
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -84,13 +84,26 @@ export default function Home() {
   ];
 
   const nextTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    setCurrentTestimonial((prev) => {
+      const nextIndex = prev + 3;
+      return nextIndex >= testimonials.length ? 0 : nextIndex;
+    });
   };
 
   const prevTestimonial = () => {
-    setCurrentTestimonial(
-      (prev) => (prev - 1 + testimonials.length) % testimonials.length
-    );
+    setCurrentTestimonial((prev) => {
+      const prevIndex = prev - 3;
+      return prevIndex < 0 ? Math.max(0, testimonials.length - 3) : prevIndex;
+    });
+  };
+
+  // Get current three testimonials
+  const getCurrentTestimonials = () => {
+    const result = [];
+    for (let i = 0; i < 3; i++) {
+      result.push(testimonials[(currentTestimonial + i) % testimonials.length]);
+    }
+    return result;
   };
 
   useEffect(() => {
@@ -582,14 +595,19 @@ export default function Home() {
               form of advertisement and all our work based on it.
             </p>
 
-            <div className="backdrop-blur-sm rounded-lg p-8 mb-8">
-              <div className="text-6xl text-white/30 mb-4">"</div>
-              <p className="text-lg mb-6 italic leading-relaxed">
-                {testimonials[currentTestimonial].text}
-              </p>
-              <p className="font-semibold">
-                {testimonials[currentTestimonial].author}
-              </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              {getCurrentTestimonials().map((testimonial, index) => (
+                <div
+                  key={index}
+                  className="backdrop-blur-sm rounded-lg p-6 bg-white/10"
+                >
+                  <div className="text-4xl text-white/30 mb-4">"</div>
+                  <p className="text-base mb-4 italic leading-relaxed">
+                    {testimonial.text}
+                  </p>
+                  <p className="font-semibold text-sm">{testimonial.author}</p>
+                </div>
+              ))}
             </div>
 
             <div className="flex justify-center items-center space-x-4">
@@ -601,15 +619,20 @@ export default function Home() {
               </button>
 
               <div className="flex space-x-2">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentTestimonial(index)}
-                    className={`w-3 h-3 rounded-full transition-colors ${
-                      index === currentTestimonial ? "bg-white" : "bg-white/40"
-                    }`}
-                  />
-                ))}
+                {Array.from(
+                  { length: Math.ceil(testimonials.length / 3) },
+                  (_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentTestimonial(index * 3)}
+                      className={`w-3 h-3 rounded-full transition-colors ${
+                        Math.floor(currentTestimonial / 3) === index
+                          ? "bg-white"
+                          : "bg-white/40"
+                      }`}
+                    />
+                  )
+                )}
               </div>
 
               <button
@@ -664,19 +687,24 @@ export default function Home() {
 
       {/* Footer */}
       <footer
-        className="bg-black text-white py-12"
+        className="bg-black text-white pt-24"
         style={{
           backgroundImage: `url(${footer.src})`,
         }}
       >
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-[1240px]">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center space-x-2 mb-6">
-                <Star className="w-8 h-8 text-primary fill-primary" />
-                <span className="text-primary text-xl font-bold">GOLDSTAR</span>
+            <div className="max-w-[280px] flex flex-col justify-start items-start gap-5">
+              <div className="flex items-center">
+                <Image
+                  src={logo}
+                  alt="GoldStar Logo"
+                  width={280}
+                  height={95}
+                  priority
+                />
               </div>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">
+              <p className="text-gray-400 text-sm text-left leading-relaxed mb-4">
                 An executive car and chauffeur service covering Surrey, London
                 and the Home Counties.
               </p>
