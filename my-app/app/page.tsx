@@ -687,7 +687,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer
-        className="bg-black text-white pt-24"
+        className="bg-black text-white bg-cover bg-center pt-24"
         style={{
           backgroundImage: `url(${footer.src})`,
         }}
