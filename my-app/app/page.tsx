@@ -20,6 +20,13 @@ import rtl from "../public/assets1/rtl-line.png";
 import ltr from "../public/assets1/ltr-line.png";
 import logo from "../public/Logo.svg";
 import bmw from "../public/assets1/bmw.png";
+import airport from "../public/assets1/airport.png";
+import business from "../public/assets1/business.png"
+import travel from "../public/assets1/travel.png"
+import wedding from "../public/assets1/wedding.png"
+import comfortable from "../public/assets1/comfortable.png"
+import sls from "../public/assets1/sls.png"
+
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -259,7 +266,7 @@ export default function Home() {
         <div className="absolute -top-4 z-50">
           <Image src={ltr} alt="ltr" className="w-full" />
         </div>
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-[1440px]">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
               Executive Car
@@ -360,7 +367,7 @@ export default function Home() {
             </div>
           </div>
           <div className="text-center mt-12">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded font-semibold transition-colors">
+            <button className="bg-[#235e99] hover:bg-[#235e99] text-white px-8 py-3 rounded font-semibold transition-colors">
               Find out more
             </button>
           </div>
@@ -378,7 +385,7 @@ export default function Home() {
         <div className="absolute top-0 right-0 z-50">
           <Image src={rtl} alt="ltr" className="w-full" />
         </div>
-        <div className="container mx-auto px-4 text-center text-white">
+        <div className="container mx-auto px-4 text-center max-w-[1440px] text-white">
           <h2 className="text-4xl font-bold mb-4">
             Experience Premium Car Service
           </h2>
@@ -390,25 +397,22 @@ export default function Home() {
             <div className="text-center">
               <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <Clock className="w-10 h-10 text-black" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">We are</h3>
-              <p className="text-sm text-gray-300">available 24/7</p>
+              </div> 
+              <h3 className="text-lg font-bold max-w-[170px] mx-auto">We are available 24/7</h3>
             </div>
 
             <div className="text-center">
               <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <CreditCard className="w-10 h-10 text-black" />
               </div>
-              <h3 className="text-lg font-bold mb-2">Secure</h3>
-              <p className="text-sm text-gray-300">Payment methods</p>
+              <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">Secure Payment methods</h3>
             </div>
 
             <div className="text-center">
               <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <Coffee className="w-10 h-10 text-black" />
               </div>
-              <h3 className="text-lg font-bold mb-2">Bottled</h3>
-              <p className="text-sm text-gray-300">Water</p>
+              <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">Bottled Water</h3>
             </div>
 
             <div className="text-center">
@@ -416,15 +420,13 @@ export default function Home() {
                 <Wifi className="w-10 h-10 text-black" />
               </div>
               <h3 className="text-lg font-bold mb-2">Wi-fi</h3>
-              <p className="text-sm text-gray-300"></p>
             </div>
 
             <div className="text-center">
               <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <BookOpen className="w-10 h-10 text-black" />
               </div>
-              <h3 className="text-lg font-bold mb-2">Reading</h3>
-              <p className="text-sm text-gray-300">Materials</p>
+              <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">Reading Materials</h3>
             </div>
           </div>
         </div>
@@ -432,7 +434,7 @@ export default function Home() {
 
       {/* Luxury Travel Section */}
       <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-[1440px]">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
               Experience Luxury Travel
@@ -443,69 +445,63 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-white overflow-hidden">
               <div
-                className="h-64 bg-cover bg-center"
-                style={{
-                  backgroundImage:
-                    'url("https://images.pexels.com/photos/919073/pexels-photo-919073.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
-                }}
-              ></div>
+                className="h-64 flex items-center justify-center"
+              >
+                <Image src={sls} alt="sls"/>
+              </div>
               <div className="p-6">
-                <h3 className="text-2xl font-bold mb-4">Business Class</h3>
-                <p className="text-gray-600 mb-4">
+                <h3 className="text-2xl font-bold mb-4 text-gray-600">Business Class</h3>
+                <p className="text-gray-600 mb-8">
                   Ideal for the busy executive Punctual and professional
                 </p>
                 <div className="flex items-center space-x-4 mb-4">
-                  <span className="text-sm">max: 5</span>
-                  <span className="text-sm">max: X</span>
+                  <span className="text-sm text-gray-600">max: 5</span>
+                  <span className="text-sm text-gray-600">max: X</span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-white overflow-hidden">
               <div
-                className="h-64 bg-cover bg-center"
-                style={{
-                  backgroundImage:
-                    'url("https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
-                }}
-              ></div>
+                className="h-64 flex items-center justify-center"
+              >
+                <Image src={sls} alt="sls"/>
+              </div>
               <div className="p-6">
-                <h3 className="text-2xl font-bold mb-4">First Class</h3>
+                <h3 className="text-2xl font-bold mb-4 text-gray-600">First Class</h3>
                 <p className="text-gray-600 mb-4">
                   A truly prestige class. Travel in supreme luxury and comfort
                 </p>
                 <div className="flex items-center space-x-4 mb-4">
-                  <span className="text-sm">max: 4</span>
-                  <span className="text-sm">max: 2</span>
+                  <span className="text-sm text-gray-600">max: 4</span>
+                  <span className="text-sm text-gray-600">max: 2</span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-white overflow-hidden">
               <div
-                className="h-64 bg-cover bg-center"
-                style={{
-                  backgroundImage:
-                    'url("https://images.pexels.com/photos/1545902/pexels-photo-1545902.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
-                }}
-              ></div>
+                className="h-64 flex items-center justify-center"
+              >
+                <Image src={sls} alt="sls"/>
+              </div>
               <div className="p-6">
-                <h3 className="text-2xl font-bold mb-4">MPV Class</h3>
+                <h3 className="text-2xl font-bold mb-4 text-gray-600">MPV Class</h3>
                 <p className="text-gray-600 mb-4">
                   Travel as a group without compromising on luxury & comfort
                 </p>
                 <div className="flex items-center space-x-4 mb-4">
-                  <span className="text-sm">max: 7</span>
-                  <span className="text-sm">max: 7</span>
+                  <span className="text-sm text-gray-600">max: 7</span>
+                  <span className="text-sm text-gray-600">max: 7</span>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="text-center mt-12">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded font-semibold transition-colors">
+            <button className="bg-[#235e99] hover:bg-[#235e99] text-white px-8 py-3 rounded font-semibold transition-colors">
               Find out more
             </button>
           </div>
