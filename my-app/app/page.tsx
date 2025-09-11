@@ -1,7 +1,8 @@
 "use client";
 import Image from "next/image";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useGoogleMapsAutocomplete } from "../hooks/useGoogleMapsAutocomplete";
 import {
   Phone,
   Star,
@@ -19,19 +20,55 @@ import hero2 from "../public/assets1/hero-2.png";
 import rtl from "../public/assets1/rtl-line.png";
 import ltr from "../public/assets1/ltr-line.png";
 import logo from "../public/Logo.svg";
-import bmw from "../public/assets1/bmw.png";
 import airport from "../public/assets1/airport.png";
-import business from "../public/assets1/business.png"
-import travel from "../public/assets1/travel.png"
-import wedding from "../public/assets1/wedding.png"
-import comfortable from "../public/assets1/comfortable.png"
-import sls from "../public/assets1/sls.png"
-
+import business from "../public/assets1/business.png";
+import travel from "../public/assets1/travel.png";
+import wedding from "../public/assets1/wedding.png";
+import comfortable from "../public/assets1/comfortable.png";
+import sls from "../public/assets1/sls.png";
+import executiveCar from "../public/assets1/section2.jpg";
+import premium from "../public/assets1/section3.jpg";
+import banner from "../public/assets1/banner4.jpg";
+import testimonial from "../public/assets1/banner5.jpg";
+import mercedez from "../public/assets1/banner6.jpg";
+import footer from "../public/assets1/banner7.jpg"
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
 
+  // Refs for Google Maps autocomplete inputs
+  const pickupInputRef = useRef<any>(null);
+  const dropoffInputRef = useRef<any>(null);
+
+  // Google Maps autocomplete hooks
+  const { place: pickupPlace } = useGoogleMapsAutocomplete(pickupInputRef);
+  const { place: dropoffPlace } = useGoogleMapsAutocomplete(dropoffInputRef);
+
   const testimonials = [
+    {
+      text: "A big thanks to your Executive service and their high quality car service, I was very satisfied with your car service, very friendly, The drivers have been very courteous of my schedule time and did a great job overall.",
+      author: "Various Admire Customer, UK",
+    },
+    {
+      text: "We have been using Goldstar for about 12 months now on a weekly basis to get from office to the airport and also to get the central reservation out to very convenient and friendly staff.",
+      author: "Mr Parker Braking, UK",
+    },
+    {
+      text: "A big thanks to your Executive service and their high quality car journey has been excellent since our first telephone call and from our clients with your service, The drivers have been very punctual and reliable with a smart uniform that with their customer care and service.",
+      author: "Various Admire Customer, UK",
+    },
+    {
+      text: "A big thanks to your Executive service and their high quality car service, I was very satisfied with your car service, very friendly, The drivers have been very courteous of my schedule time and did a great job overall.",
+      author: "Various Admire Customer, UK",
+    },
+    {
+      text: "We have been using Goldstar for about 12 months now on a weekly basis to get from office to the airport and also to get the central reservation out to very convenient and friendly staff.",
+      author: "Mr Parker Braking, UK",
+    },
+    {
+      text: "A big thanks to your Executive service and their high quality car journey has been excellent since our first telephone call and from our clients with your service, The drivers have been very punctual and reliable with a smart uniform that with their customer care and service.",
+      author: "Various Admire Customer, UK",
+    },
     {
       text: "A big thanks to your Executive service and their high quality car service, I was very satisfied with your car service, very friendly, The drivers have been very courteous of my schedule time and did a great job overall.",
       author: "Various Admire Customer, UK",
@@ -199,11 +236,13 @@ export default function Home() {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                 <input
+                  ref={pickupInputRef}
                   type="text"
                   placeholder="Pick Up Location"
                   className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
                 />
                 <input
+                  ref={dropoffInputRef}
                   type="text"
                   placeholder="Drop Off Location"
                   className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
@@ -262,7 +301,12 @@ export default function Home() {
       </section>
 
       {/* Executive Car Services */}
-      <section className="py-20 bg-gray-50 relative">
+      <section
+        className="py-20 relative bg-cover bg-center"
+        style={{
+          backgroundImage: `url(${executiveCar.src})`,
+        }}
+      >
         <div className="absolute -top-4 z-50">
           <Image src={ltr} alt="ltr" className="w-full" />
         </div>
@@ -378,8 +422,7 @@ export default function Home() {
       <section
         className="py-20 bg-cover bg-center relative"
         style={{
-          backgroundImage:
-            'linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url("https://images.pexels.com/photos/1118448/pexels-photo-1118448.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
+          backgroundImage: `url(${premium.src})`,
         }}
       >
         <div className="absolute top-0 right-0 z-50">
@@ -397,22 +440,28 @@ export default function Home() {
             <div className="text-center">
               <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <Clock className="w-10 h-10 text-black" />
-              </div> 
-              <h3 className="text-lg font-bold max-w-[170px] mx-auto">We are available 24/7</h3>
+              </div>
+              <h3 className="text-lg font-bold max-w-[170px] mx-auto">
+                We are available 24/7
+              </h3>
             </div>
 
             <div className="text-center">
               <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <CreditCard className="w-10 h-10 text-black" />
               </div>
-              <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">Secure Payment methods</h3>
+              <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
+                Secure Payment methods
+              </h3>
             </div>
 
             <div className="text-center">
               <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <Coffee className="w-10 h-10 text-black" />
               </div>
-              <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">Bottled Water</h3>
+              <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
+                Bottled Water
+              </h3>
             </div>
 
             <div className="text-center">
@@ -426,14 +475,21 @@ export default function Home() {
               <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <BookOpen className="w-10 h-10 text-black" />
               </div>
-              <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">Reading Materials</h3>
+              <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
+                Reading Materials
+              </h3>
             </div>
           </div>
         </div>
       </section>
 
       {/* Luxury Travel Section */}
-      <section className="py-20 bg-gray-50">
+      <section
+        className="py-20 bg-gray-50"
+        style={{
+          backgroundImage: `url(${banner.src})`,
+        }}
+      >
         <div className="container mx-auto px-4 max-w-[1440px]">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
@@ -445,14 +501,14 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white overflow-hidden">
-              <div
-                className="h-64 flex items-center justify-center"
-              >
-                <Image src={sls} alt="sls"/>
+            <div className="overflow-hidden">
+              <div className="h-64 flex items-center justify-center">
+                <Image src={sls} alt="sls" />
               </div>
               <div className="p-6">
-                <h3 className="text-2xl font-bold mb-4 text-gray-600">Business Class</h3>
+                <h3 className="text-2xl font-bold mb-4 text-gray-600">
+                  Business Class
+                </h3>
                 <p className="text-gray-600 mb-8">
                   Ideal for the busy executive Punctual and professional
                 </p>
@@ -463,14 +519,14 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden">
-              <div
-                className="h-64 flex items-center justify-center"
-              >
-                <Image src={sls} alt="sls"/>
+            <div className="overflow-hidden">
+              <div className="h-64 flex items-center justify-center">
+                <Image src={sls} alt="sls" />
               </div>
               <div className="p-6">
-                <h3 className="text-2xl font-bold mb-4 text-gray-600">First Class</h3>
+                <h3 className="text-2xl font-bold mb-4 text-gray-600">
+                  First Class
+                </h3>
                 <p className="text-gray-600 mb-4">
                   A truly prestige class. Travel in supreme luxury and comfort
                 </p>
@@ -481,14 +537,14 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden">
-              <div
-                className="h-64 flex items-center justify-center"
-              >
-                <Image src={sls} alt="sls"/>
+            <div className="overflow-hidden">
+              <div className="h-64 flex items-center justify-center">
+                <Image src={sls} alt="sls" />
               </div>
               <div className="p-6">
-                <h3 className="text-2xl font-bold mb-4 text-gray-600">MPV Class</h3>
+                <h3 className="text-2xl font-bold mb-4 text-gray-600">
+                  MPV Class
+                </h3>
                 <p className="text-gray-600 mb-4">
                   Travel as a group without compromising on luxury & comfort
                 </p>
@@ -512,8 +568,7 @@ export default function Home() {
       <section
         className="py-20 bg-cover bg-center relative"
         style={{
-          backgroundImage:
-            'linear-gradient(rgba(139,116,81,0.9), rgba(139,116,81,0.9)), url("https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
+          backgroundImage: `url(${testimonial.src})`,
         }}
       >
         <div className="container mx-auto px-4 text-center text-white">
@@ -527,7 +582,7 @@ export default function Home() {
               form of advertisement and all our work based on it.
             </p>
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8 mb-8">
+            <div className="backdrop-blur-sm rounded-lg p-8 mb-8">
               <div className="text-6xl text-white/30 mb-4">"</div>
               <p className="text-lg mb-6 italic leading-relaxed">
                 {testimonials[currentTestimonial].text}
@@ -572,8 +627,7 @@ export default function Home() {
       <section
         className="py-20 bg-cover bg-center relative"
         style={{
-          backgroundImage:
-            'linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url("https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
+          backgroundImage: `url(${mercedez.src})`,
         }}
       >
         <div className="container mx-auto px-4">
@@ -586,12 +640,12 @@ export default function Home() {
               <input
                 type="text"
                 placeholder="Name"
-                className="bg-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                className="bg-white text-black px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-primary"
               />
               <input
                 type="email"
                 placeholder="Email"
-                className="bg-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                className="bg-white text-black px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
             <textarea
@@ -599,11 +653,6 @@ export default function Home() {
               rows={6}
               className="w-full bg-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-primary mb-6"
             ></textarea>
-            <div className="flex items-center justify-center mb-6">
-              <div className="bg-white p-4 rounded">
-                <span className="text-gray-600">I'm not a robot</span>
-              </div>
-            </div>
             <div className="text-center">
               <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded font-semibold transition-colors">
                 Send
@@ -614,7 +663,12 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-white py-12">
+      <footer
+        className="bg-black text-white py-12"
+        style={{
+          backgroundImage: `url(${footer.src})`,
+        }}
+      >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
