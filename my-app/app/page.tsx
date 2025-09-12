@@ -1,8 +1,12 @@
 "use client";
 import Image from "next/image";
 
-import { useState, useEffect, useRef } from "react";
-import { useGoogleMapsAutocomplete } from "../hooks/useGoogleMapsAutocomplete";
+import { useState, useEffect } from "react";
+import { AddressAutocomplete } from '../components/AddressAutocomplete';
+import { QuoteDisplay } from '../components/QuoteDisplay';
+import { AddressResult } from '../hooks/useAddressAutocomplete';
+import { QuoteService } from '../lib/quote-service';
+import { QuoteBreakdown } from '../lib/pricing-config';
 import {
   Phone,
   Star,
@@ -36,13 +40,19 @@ export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Refs for Google Maps autocomplete inputs
-  const pickupInputRef = useRef<any>(null);
-  const dropoffInputRef = useRef<any>(null);
+  // Form state
+  const [pickupAddress, setPickupAddress] = useState<AddressResult | null>(null);
+  const [dropoffAddress, setDropoffAddress] = useState<AddressResult | null>(null);
+  const [customerName, setCustomerName] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedTime, setSelectedTime] = useState('');
+  const [serviceType, setServiceType] = useState('Select Service');
 
-  // Google Maps autocomplete hooks
-  const { place: pickupPlace } = useGoogleMapsAutocomplete(pickupInputRef);
-  const { place: dropoffPlace } = useGoogleMapsAutocomplete(dropoffInputRef);
+  // Quote state
+  const [quote, setQuote] = useState<QuoteBreakdown | null>(null);
+  const [quoteLoading, setQuoteLoading] = useState(false);
+  const [showQuote, setShowQuote] = useState(false);
 
   const testimonials = [
     {
@@ -114,6 +124,52 @@ export default function Home() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const isFormValid = () => {
+    return (
+      pickupAddress &&
+      dropoffAddress &&
+      customerName.trim() &&
+      contactNumber.trim() &&
+      selectedDate &&
+      selectedTime &&
+      serviceType !== 'Select Service'
+    );
+  };
+
+  const handleGetQuote = async () => {
+    if (!isFormValid() || !pickupAddress || !dropoffAddress) return;
+
+    setQuoteLoading(true);
+    try {
+      const quoteDate = new Date(selectedDate);
+      const generatedQuote = await QuoteService.generateQuote(
+        pickupAddress,
+        dropoffAddress,
+        serviceType,
+        quoteDate,
+        selectedTime
+      );
+      setQuote(generatedQuote);
+      setShowQuote(true);
+    } catch (error) {
+      console.error('Error generating quote:', error);
+      alert('Failed to generate quote. Please try again.');
+    } finally {
+      setQuoteLoading(false);
+    }
+  };
+
+  const handleCloseQuote = () => {
+    setShowQuote(false);
+    setQuote(null);
+  };
+
+  const handleBookNow = () => {
+    // TODO: Implement booking functionality
+    alert('Booking functionality will be implemented next!');
+    handleCloseQuote();
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -248,47 +304,62 @@ export default function Home() {
                 QUOTE & BOOK A CAR
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <input
-                  ref={pickupInputRef}
-                  type="text"
+                <AddressAutocomplete
                   placeholder="Pick Up Location"
-                  className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
+                  className="bg-white/10 max-w-[200px] backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                  onAddressSelect={setPickupAddress}
                 />
-                <input
-                  ref={dropoffInputRef}
-                  type="text"
+                <AddressAutocomplete
                   placeholder="Drop Off Location"
-                  className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
+                  className="bg-white/10 max-w-[200px] backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                  onAddressSelect={setDropoffAddress}
                 />
                 <input
                   type="text"
                   placeholder="Name"
-                  className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
                 />
                 <input
                   type="text"
                   placeholder="Contact Number"
-                  className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
+                  value={contactNumber}
+                  onChange={(e) => setContactNumber(e.target.value)}
+                  className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <input
                   type="date"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
                   className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
                 />
                 <input
                   type="time"
+                  value={selectedTime}
+                  onChange={(e) => setSelectedTime(e.target.value)}
                   className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
                 />
-                <select className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20">
-                  <option>Select Service</option>
-                  <option>Airport Transfer</option>
-                  <option>Corporate Travel</option>
-                  <option>Wedding Cars</option>
+                <select 
+                  value={serviceType}
+                  onChange={(e) => setServiceType(e.target.value)}
+                  className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
+                >
+                  <option value="Select Service">Select Service</option>
+                  <option value="Airport Transfer">Airport Transfer</option>
+                  <option value="Corporate Travel">Corporate Travel</option>
+                  <option value="Wedding Cars">Wedding Cars</option>
+                  <option value="Business & Social Events">Business & Social Events</option>
                 </select>
               </div>
-              <button className="bg-[#235e99] text-white px-8 py-3 rounded font-semibold transition-colors">
-                Get Quote
+              <button 
+                onClick={handleGetQuote}
+                disabled={!isFormValid() || quoteLoading}
+                className="bg-[#235e99] text-white px-8 py-3 rounded font-semibold transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed"
+              >
+                {quoteLoading ? 'Getting Quote...' : 'Get Quote'}
               </button>
               <div className="flex flex-wrap justify-center gap-6 mt-6 text-sm">
                 <div className="flex items-center">
@@ -684,6 +755,18 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Quote Display Modal */}
+      {showQuote && (
+        <QuoteDisplay
+          quote={quote}
+          loading={quoteLoading}
+          pickup={pickupAddress}
+          dropoff={dropoffAddress}
+          onClose={handleCloseQuote}
+          onBook={handleBookNow}
+        />
+      )}
 
       {/* Footer */}
       <footer
