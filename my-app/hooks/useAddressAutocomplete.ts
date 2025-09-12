@@ -23,7 +23,7 @@ export const useAddressAutocomplete = (
   const [suggestions, setSuggestions] = useState<AddressResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<AddressResult | null>(null);
-  const debounceRef = useRef<NodeJS.Timeout>();
+  const debounceRef = useRef<NodeJS.Timeout>(null);
 
   const searchAddress = async (query: string) => {
     if (query.length < 3) {
