@@ -18,6 +18,8 @@ import {
   BookOpen,
   ChevronLeft,
   ChevronRight,
+  Menu,
+  X,
 } from "lucide-react";
 import hero1 from "../public/assets1/hero-11.png";
 import hero2 from "../public/assets1/hero-2.png";
@@ -40,6 +42,7 @@ import herobg from "../public/assets1/banner.jpg";
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Form state
   const [pickupAddress, setPickupAddress] = useState<AddressResult | null>(null);
@@ -120,11 +123,30 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+      // Close mobile menu on scroll
+      if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isMobileMenuOpen]);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isMobileMenuOpen) {
+        const target = event.target as HTMLElement;
+        if (!target.closest('header')) {
+          setIsMobileMenuOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isMobileMenuOpen]);
 
   const isFormValid = () => {
     return (
@@ -190,87 +212,156 @@ export default function Home() {
                 width={280}
                 height={95}
                 priority
+                className="max-w-[200px] md:max-w-[280px] h-auto"
               />
             </div>
             <div className="flex flex-col items-end gap-4">
-              <div className="flex items-center text-white text-base font-semibold">
+              <div className="hidden md:flex items-center text-white text-base font-semibold">
                 <Phone className="w-4 h-4 mr-2" />
                 +44 (0) 203 858 786
               </div>
-              <nav className="hidden md:flex items-center space-x-8">
+              <div className="flex items-center gap-4">
+                {/* Desktop Navigation */}
+                <nav className="hidden md:flex items-center space-x-8">
+                  <a
+                    href="#"
+                    className="text-white hover:text-primary transition-colors"
+                  >
+                    HOME
+                  </a>
+                  <a
+                    href="#"
+                    className="text-white hover:text-primary transition-colors"
+                  >
+                    SERVICES
+                  </a>
+                  <a
+                    href="#"
+                    className="text-white hover:text-primary transition-colors"
+                  >
+                    OUR FLEET
+                  </a>
+                  <a
+                    href="#"
+                    className="text-white hover:text-primary transition-colors"
+                  >
+                    FEEDBACK
+                  </a>
+                  <a
+                    href="#"
+                    className="text-white hover:text-primary transition-colors"
+                  >
+                    CORPORATE ACCOUNT
+                  </a>
+                  <a
+                    href="#"
+                    className="text-white hover:text-primary transition-colors"
+                  >
+                    CONTACT
+                  </a>
+                </nav>
+                
+                {/* Mobile Menu Button */}
+                <button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="md:hidden text-white hover:text-primary transition-colors p-2"
+                  aria-label="Toggle mobile menu"
+                >
+                  {isMobileMenuOpen ? (
+                    <X className="w-6 h-6" />
+                  ) : (
+                    <Menu className="w-6 h-6" />
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Mobile Navigation Dropdown */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-black/95 backdrop-blur-sm border-t border-white/10">
+            <nav className="container mx-auto px-4 py-4 max-w-[1440px]">
+              <div className="flex flex-col space-y-4">
                 <a
                   href="#"
-                  className="text-white hover:text-primary transition-colors"
+                  className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   HOME
                 </a>
                 <a
                   href="#"
-                  className="text-white hover:text-primary transition-colors"
+                  className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   SERVICES
                 </a>
                 <a
                   href="#"
-                  className="text-white hover:text-primary transition-colors"
+                  className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   OUR FLEET
                 </a>
                 <a
                   href="#"
-                  className="text-white hover:text-primary transition-colors"
+                  className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   FEEDBACK
                 </a>
                 <a
                   href="#"
-                  className="text-white hover:text-primary transition-colors"
+                  className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   CORPORATE ACCOUNT
                 </a>
                 <a
                   href="#"
-                  className="text-white hover:text-primary transition-colors"
+                  className="text-white hover:text-primary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   CONTACT
                 </a>
-              </nav>
-            </div>
+              </div>
+            </nav>
           </div>
-        </div>
+        )}
       </header>
 
       {/* Hero Section */}
-      <section className="relative h-screen bg-cover bg-center overflow-hidden" style={{
+      <section className=" h-screen bg-cover bg-center overflow-hidden px-4 md:px-0" style={{
         backgroundImage: `url(${herobg.src})`
       }}>
         {/* Background Images Div */}
 
-        <div className="absolute inset-0 flex items-center justify-center z-40">
+        <div className=" inset-0 flex items-center justify-center mt-[100px] lg:mt-[200px]">
           <div className="text-center text-white">
-            <h1 className="text-5xl md:text-6xl font-light mb-4">Welcome to</h1>
-            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-6">
+            <h1 className="text-3xl md:text-6xl font-light lg:mb-4">Welcome to</h1>
+            <h2 className="text-2xl md:text-5xl font-bold text-primary mb-6">
               Goldstar Executive
             </h2>
-            <p className="text-xl mb-12 max-w-2xl mx-auto">
+            <p className="md:text-xl text-base lg:mb-12 mb-4 max-w-2xl mx-auto">
               An executive car and chauffeur service covering Surrey, London and
               the Home Counties
             </p>
 
             {/* Booking Form */}
             <div className=" p-8 max-w-4xl mx-auto">
-              <h3 className="text-2xl font-bold text-primary mb-6">
+              <h3 className="text-xl font-bold text-primary mb-4">
                 QUOTE & BOOK A CAR
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                 <AddressAutocomplete
                   placeholder="Pick Up Location"
-                  className="bg-white/10 max-w-[200px] backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                  className="bg-white/10 w-full lg:max-w-[200px] backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
                   onAddressSelect={setPickupAddress}
                 />
                 <AddressAutocomplete
                   placeholder="Drop Off Location"
-                  className="bg-white/10 max-w-[200px] backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                  className="bg-white/10 w-full lg:max-w-[200px] backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
                   onAddressSelect={setDropoffAddress}
                 />
                 <input
@@ -278,14 +369,14 @@ export default function Home() {
                   placeholder="Name"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
                 />
                 <input
                   type="text"
                   placeholder="Contact Number"
                   value={contactNumber}
                   onChange={(e) => setContactNumber(e.target.value)}
-                  className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -293,18 +384,18 @@ export default function Home() {
                   type="date"
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
+                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
                 />
                 <input
                   type="time"
                   value={selectedTime}
                   onChange={(e) => setSelectedTime(e.target.value)}
-                  className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
+                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
                 />
                 <select 
                   value={serviceType}
                   onChange={(e) => setServiceType(e.target.value)}
-                  className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
+                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
                 >
                   <option value="Select Service" className='text-black'>Select Service</option>
                   <option value="Airport Transfer" className='text-black'>Airport Transfer</option>
@@ -316,7 +407,7 @@ export default function Home() {
               <button 
                 onClick={handleGetQuote}
                 disabled={!isFormValid() || quoteLoading}
-                className="bg-[#235e99] text-white px-8 py-3 rounded font-semibold transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed"
+                className="bg-[#235e99] text-white lg:px-8 lg:py-3 px-4 py-1.5 rounded lg:font-semibold transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed"
               >
                 {quoteLoading ? 'Getting Quote...' : 'Get Quote'}
               </button>
