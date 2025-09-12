@@ -39,6 +39,10 @@ import testimonial from "../public/assets1/banner5.jpg";
 import mercedez from "../public/assets1/banner6.jpg";
 import footer from "../public/assets1/banner7.jpg";
 import herobg from "../public/assets1/banner.jpg";
+import comm from "../public/assets1/MPV_2_Group.png"
+import dollor from "../public/assets1/MPV_3_Group.png"
+import caravan from "../public/assets1/caravan.png"
+import merc from "../public/assets1/merc.png";
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -353,7 +357,7 @@ export default function Home() {
               <h3 className="text-xl font-bold text-primary mb-4">
                 QUOTE & BOOK A CAR
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 md:mb-6">
                 <AddressAutocomplete
                   placeholder="Pick Up Location"
                   className="bg-white/10 w-full lg:max-w-[200px] backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
@@ -411,7 +415,7 @@ export default function Home() {
               >
                 {quoteLoading ? 'Getting Quote...' : 'Get Quote'}
               </button>
-              <div className="flex flex-wrap justify-center gap-6 mt-6 text-sm">
+              <div className="hidden md:flex flex-wrap justify-center gap-6 mt-6 text-sm">
                 <div className="flex items-center">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                   <span>Guaranteed Pick-Up</span>
@@ -647,15 +651,25 @@ export default function Home() {
                   Ideal for the busy executive Punctual and professional
                 </p>
                 <div className="flex items-center space-x-4 mb-4">
-                  <span className="text-sm text-gray-600">max: 5</span>
-                  <span className="text-sm text-gray-600">max: X</span>
+                  <div className="flex gap-2">
+                    <div>
+                      <Image src={comm} alt="comm" className="w-[20px] h-[20px]"/>
+                    </div>
+                  <span className="text-sm text-gray-600">max: 4</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <div>
+                      <Image src={dollor} alt="comm" className="w-[20px] h-[20px]"/>
+                    </div>
+                  <span className="text-sm text-gray-600">max: 2</span>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="overflow-hidden">
               <div className="h-64 flex items-center justify-center">
-                <Image src={sls} alt="sls" />
+                <Image src={caravan} alt="sls" />
               </div>
               <div className="p-6">
                 <h3 className="text-2xl font-bold mb-4 text-gray-600">
@@ -665,15 +679,25 @@ export default function Home() {
                   A truly prestige class. Travel in supreme luxury and comfort
                 </p>
                 <div className="flex items-center space-x-4 mb-4">
+                  <div className="flex gap-2">
+                    <div>
+                      <Image src={comm} alt="comm" className="w-[20px] h-[20px]"/>
+                    </div>
                   <span className="text-sm text-gray-600">max: 4</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <div>
+                      <Image src={dollor} alt="comm" className="w-[20px] h-[20px]"/>
+                    </div>
                   <span className="text-sm text-gray-600">max: 2</span>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="overflow-hidden">
               <div className="h-64 flex items-center justify-center">
-                <Image src={sls} alt="sls" />
+                <Image src={merc} alt="sls" />
               </div>
               <div className="p-6">
                 <h3 className="text-2xl font-bold mb-4 text-gray-600">
@@ -683,8 +707,18 @@ export default function Home() {
                   Travel as a group without compromising on luxury & comfort
                 </p>
                 <div className="flex items-center space-x-4 mb-4">
-                  <span className="text-sm text-gray-600">max: 7</span>
-                  <span className="text-sm text-gray-600">max: 7</span>
+                  <div className="flex gap-2">
+                    <div>
+                      <Image src={comm} alt="comm" className="w-[20px] h-[20px]"/>
+                    </div>
+                  <span className="text-sm text-gray-600">max: 4</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <div>
+                      <Image src={dollor} alt="comm" className="w-[20px] h-[20px]"/>
+                    </div>
+                  <span className="text-sm text-gray-600">max: 2</span>
+                  </div>
                 </div>
               </div>
             </div>
