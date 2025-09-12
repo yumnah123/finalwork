@@ -347,11 +347,11 @@ export default function Home() {
                   onChange={(e) => setServiceType(e.target.value)}
                   className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
                 >
-                  <option value="Select Service">Select Service</option>
-                  <option value="Airport Transfer">Airport Transfer</option>
-                  <option value="Corporate Travel">Corporate Travel</option>
-                  <option value="Wedding Cars">Wedding Cars</option>
-                  <option value="Business & Social Events">Business & Social Events</option>
+                  <option value="Select Service" className='text-black'>Select Service</option>
+                  <option value="Airport Transfer" className='text-black'>Airport Transfer</option>
+                  <option value="Corporate Travel" className='text-black'>Corporate Travel</option>
+                  <option value="Wedding Cars" className='text-black'>Wedding Cars</option>
+                  <option value="Business & Social Events" className='text-black'>Business & Social Events</option>
                 </select>
               </div>
               <button 
