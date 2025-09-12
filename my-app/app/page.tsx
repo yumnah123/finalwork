@@ -36,6 +36,7 @@ import banner from "../public/assets1/banner4.jpg";
 import testimonial from "../public/assets1/banner5.jpg";
 import mercedez from "../public/assets1/banner6.jpg";
 import footer from "../public/assets1/banner7.jpg";
+import herobg from "../public/assets1/banner.jpg";
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -240,53 +241,11 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative h-screen overflow-hidden bg-black">
+      <section className="relative h-screen bg-cover bg-center overflow-hidden" style={{
+        backgroundImage: `url(${herobg.src})`
+      }}>
         {/* Background Images Div */}
-        <div className="absolute inset-0">
-          <div className="relative w-full h-full">
-            {/* Hero2 Image with Diagonal Fade - Lower Layer */}
-            <div className="absolute top-0 right-0 w-4/5 h-full z-10">
-              <Image
-                src={hero2}
-                alt="Hero Background 2"
-                fill
-                className="object-cover"
-                priority
-              />
-              {/* Diagonal fade mask using clip-path with dynamic opacity */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  background: `linear-gradient(135deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.05) 80%, transparent 85%, transparent 95%)`,
-                }}
-              ></div>
-              {/* Additional fade for smoother blending */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  background: `linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 30%, transparent 50%)`,
-                }}
-              ></div>
-            </div>
 
-            {/* Hero1 Image - Higher Layer, Vertically Centered */}
-            <div className="absolute inset-0 flex items-center justify-start z-20">
-              <div className="relative">
-                <Image
-                  src={hero1}
-                  alt="Hero Background 1"
-                  className="object-cover opacity-40"
-                  priority
-                  height={505}
-                  width={920}
-                />
-              </div>
-            </div>
-
-            {/* Overall Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-30"></div>
-          </div>
-        </div>
         <div className="absolute inset-0 flex items-center justify-center z-40">
           <div className="text-center text-white">
             <h1 className="text-5xl md:text-6xl font-light mb-4">Welcome to</h1>
