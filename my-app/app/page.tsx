@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { AddressAutocomplete } from '../components/AddressAutocomplete';
 import { QuoteDisplay } from '../components/QuoteDisplay';
 import Footer from '../components/Footer';
+import Hero from '../components/Hero';
 import { AddressResult } from '../hooks/useAddressAutocomplete';
 import { QuoteService } from '../lib/quote-service';
 import { QuoteBreakdown } from '../lib/pricing-config';
@@ -38,7 +39,6 @@ import premium from "../public/assets1/section3.jpg";
 import banner from "../public/assets1/banner4.jpg";
 import testimonial from "../public/assets1/banner5.jpg";
 import mercedez from "../public/assets1/banner6.jpg";
-import herobg from "../public/assets1/banner.jpg";
 import comm from "../public/assets1/MPV_2_Group.png"
 import dollor from "../public/assets1/MPV_3_Group.png"
 import caravan from "../public/assets1/caravan.png"
@@ -344,109 +344,33 @@ export default function Home() {
         )}
       </header>
 
-      {/* Hero Section */}
-      <section className=" min-h-screen bg-cover bg-center overflow-hidden px-4 md:px-0" style={{
-        backgroundImage: `url(${herobg.src})`
-      }}>
-        {/* Background Images Div */}
+      <Hero 
+        title="Welcome to"
+        subtitle="Goldstar Executive"
+        description="An executive car and chauffeur service covering Surrey, London and the Home Counties"
+        showBookingForm={true}
+        bookingFormProps={{
+          AddressAutocomplete,
+          pickupAddress,
+          setPickupAddress,
+          dropoffAddress,
+          setDropoffAddress,
+          customerName,
+          setCustomerName,
+          contactNumber,
+          setContactNumber,
+          selectedDate,
+          setSelectedDate,
+          selectedTime,
+          setSelectedTime,
+          serviceType,
+          setServiceType,
+          handleGetQuote,
+          isFormValid,
+          quoteLoading
+        }}
+      />
 
-        <div className=" inset-0 flex items-center justify-center mt-[100px] md:mt-[170px] lg:mt-[200px] 2xl:mt-[400px]">
-          <div className="text-center text-white">
-            <h1 className="text-3xl md:text-6xl font-light lg:mb-4">Welcome to</h1>
-            <h2 className="text-2xl md:text-5xl font-bold text-primary mb-6">
-              Goldstar Executive
-            </h2>
-            <p className="md:text-xl text-base lg:mb-12 mb-4 max-w-2xl mx-auto">
-              An executive car and chauffeur service covering Surrey, London and
-              the Home Counties
-            </p>
-
-            {/* Booking Form */}
-            <div className=" p-8 max-w-4xl mx-auto">
-              <h3 className="text-xl font-bold text-primary mb-4">
-                QUOTE & BOOK A CAR
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 md:mb-6">
-                <AddressAutocomplete
-                  placeholder="Pick Up Location"
-                  className="bg-white/10 w-full lg:max-w-[200px] backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
-                  onAddressSelect={setPickupAddress}
-                />
-                <AddressAutocomplete
-                  placeholder="Drop Off Location"
-                  className="bg-white/10 w-full lg:max-w-[200px] backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
-                  onAddressSelect={setDropoffAddress}
-                />
-                <input
-                  type="text"
-                  placeholder="Name"
-                  value={customerName}
-                  onChange={(e) => setCustomerName(e.target.value)}
-                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
-                />
-                <input
-                  type="text"
-                  placeholder="Contact Number"
-                  value={contactNumber}
-                  onChange={(e) => setContactNumber(e.target.value)}
-                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
-                />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <input
-                  type="date"
-                  value={selectedDate}
-                  min={new Date().toISOString().split('T')[0]}
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                  className="bg-white/10 w-full md:w-auto backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
-                />
-                <input
-                  type="time"
-                  value={selectedTime}
-                  onChange={(e) => setSelectedTime(e.target.value)}
-                  className="bg-white/10 w-full md:w-auto backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
-                />
-                <select 
-                  value={serviceType}
-                  onChange={(e) => setServiceType(e.target.value)}
-                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
-                >
-                  <option value="Select Service" className='text-black'>Select Service</option>
-                  <option value="Airport Transfer" className='text-black'>Airport Transfer</option>
-                  <option value="Corporate Travel" className='text-black'>Corporate Travel</option>
-                  <option value="Wedding Cars" className='text-black'>Wedding Cars</option>
-                  <option value="Business & Social Events" className='text-black'>Business & Social Events</option>
-                </select>
-              </div>
-              <button 
-                onClick={handleGetQuote}
-                disabled={!isFormValid() || quoteLoading}
-                className="bg-[#235e99] text-white lg:px-8 lg:py-3 px-4 py-1.5 rounded lg:font-semibold transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed"
-              >
-                {quoteLoading ? 'Getting Quote...' : 'Get Quote'}
-              </button>
-              <div className="hidden md:flex flex-wrap justify-center gap-6 mt-6 text-sm">
-                <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span>Guaranteed Pick-Up</span>
-                </div>
-                <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span>100% Money Back</span>
-                </div>
-                <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span>Professional, Local Experts</span>
-                </div>
-                <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span>Free Cancellation</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Executive Car Services */}
       <section

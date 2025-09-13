@@ -13,7 +13,6 @@ import {
   Calendar,
 } from "lucide-react";
 import logo from "../../public/Logo.svg";
-import herobg from "../../public/assets1/banner.jpg";
 import banner from "../../public/assets1/banner4.jpg";
 import sls from "../../public/assets1/sls.png";
 import caravan from "../../public/assets1/caravan.png";
@@ -21,6 +20,7 @@ import merc from "../../public/assets1/merc.png";
 import comm from "../../public/assets1/MPV_2_Group.png";
 import dollor from "../../public/assets1/MPV_3_Group.png";
 import Footer from "../../components/Footer";
+import Hero from "../../components/Hero";
 
 export default function Fleet() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -202,22 +202,11 @@ export default function Fleet() {
         )}
       </header>
 
-      {/* Hero Section */}
-      <section className="min-h-screen bg-cover bg-center overflow-hidden px-4 md:px-0" style={{
-        backgroundImage: `url(${herobg.src})`
-      }}>
-        <div className="inset-0 flex items-center justify-center mt-[100px] md:mt-[170px] lg:mt-[200px] 2xl:mt-[400px]">
-          <div className="text-center text-white">
-            <h1 className="text-3xl md:text-6xl font-light lg:mb-4">Our Luxury</h1>
-            <h2 className="text-2xl md:text-5xl font-bold text-primary mb-6">
-              Fleet
-            </h2>
-            <p className="md:text-xl text-base lg:mb-12 mb-4 max-w-2xl mx-auto">
-              Experience ultimate comfort and elegance in our meticulously maintained fleet of premium vehicles
-            </p>
-          </div>
-        </div>
-      </section>
+      <Hero 
+        title="Our Luxury"
+        subtitle="Fleet"
+        description="Experience ultimate comfort and elegance in our meticulously maintained fleet of premium vehicles"
+      />
 
       {/* Fleet Overview */}
       <section className="py-20 bg-gray-50">
@@ -290,10 +279,10 @@ export default function Fleet() {
         }}
       >
         <div className="container mx-auto px-4 text-center max-w-[1440px] text-white">
-          <h2 className="text-4xl font-bold mb-4">
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">
             Why Choose Our Fleet?
           </h2>
-          <p className="text-xl mb-16 text-gray-300">
+          <p className="text-xl mb-16 text-primary">
             Premium vehicles with exceptional standards
           </p>
 
@@ -302,32 +291,32 @@ export default function Fleet() {
               <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <Star className="w-10 h-10 text-black" />
               </div>
-              <h3 className="text-lg font-bold mb-2">Luxury Standards</h3>
-              <p className="text-gray-300 text-sm">All vehicles maintained to the highest luxury standards</p>
+              <h3 className="text-lg text-gray-600 font-bold mb-2">Luxury Standards</h3>
+              <p className="text-gray-600 text-sm">All vehicles maintained to the highest luxury standards</p>
             </div>
 
             <div className="text-center">
               <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <Fuel className="w-10 h-10 text-black" />
               </div>
-              <h3 className="text-lg font-bold mb-2">Latest Models</h3>
-              <p className="text-gray-300 text-sm">Modern fleet with the latest safety and comfort features</p>
+              <h3 className="text-lg text-gray-600 font-bold mb-2">Latest Models</h3>
+              <p className="text-gray-600 text-sm">Modern fleet with the latest safety and comfort features</p>
             </div>
 
             <div className="text-center">
               <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="w-10 h-10 text-black" />
               </div>
-              <h3 className="text-lg font-bold mb-2">Fully Maintained</h3>
-              <p className="text-gray-300 text-sm">Regular servicing and cleaning for optimal performance</p>
+              <h3 className="text-lg text-gray-600 font-bold mb-2">Fully Maintained</h3>
+              <p className="text-gray-600 text-sm">Regular servicing and cleaning for optimal performance</p>
             </div>
 
             <div className="text-center">
               <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <Calendar className="w-10 h-10 text-black" />
               </div>
-              <h3 className="text-lg font-bold mb-2">Always Available</h3>
-              <p className="text-gray-300 text-sm">Fleet availability 24/7 for your transportation needs</p>
+              <h3 className="text-lg font-bold text-gray-600 mb-2">Always Available</h3>
+              <p className="text-gray-600 text-sm">Fleet availability 24/7 for your transportation needs</p>
             </div>
           </div>
         </div>
@@ -355,19 +344,19 @@ export default function Fleet() {
                   <div className="space-y-4">
                     <div className="flex items-center">
                       <Users className="w-5 h-5 text-primary mr-3" />
-                      <span>Maximum 4 passengers</span>
+                      <span className="text-gray-600">Maximum 4 passengers</span>
                     </div>
                     <div className="flex items-center">
                       <Briefcase className="w-5 h-5 text-primary mr-3" />
-                      <span>2 large suitcases + hand luggage</span>
+                      <span className="text-gray-600">2 large suitcases + hand luggage</span>
                     </div>
                     <div className="flex items-center">
                       <CheckCircle className="w-5 h-5 text-primary mr-3" />
-                      <span>Premium leather interior</span>
+                      <span className="text-gray-600">Premium leather interior</span>
                     </div>
                     <div className="flex items-center">
                       <CheckCircle className="w-5 h-5 text-primary mr-3" />
-                      <span>Climate control system</span>
+                      <span className="text-gray-600">Climate control system</span>
                     </div>
                   </div>
                 </div>
@@ -389,19 +378,19 @@ export default function Fleet() {
                   <div className="space-y-4">
                     <div className="flex items-center">
                       <Users className="w-5 h-5 text-primary mr-3" />
-                      <span>Maximum 6 passengers</span>
+                      <span className="text-gray-600">Maximum 6 passengers</span>
                     </div>
                     <div className="flex items-center">
                       <Briefcase className="w-5 h-5 text-primary mr-3" />
-                      <span>4 large suitcases + hand luggage</span>
+                      <span className="text-gray-600">4 large suitcases + hand luggage</span>
                     </div>
                     <div className="flex items-center">
                       <CheckCircle className="w-5 h-5 text-primary mr-3" />
-                      <span>Individual luxury seating</span>
+                      <span className="text-gray-600">Individual luxury seating</span>
                     </div>
                     <div className="flex items-center">
                       <CheckCircle className="w-5 h-5 text-primary mr-3" />
-                      <span>Entertainment system</span>
+                      <span className="text-gray-600">Entertainment system</span>
                     </div>
                   </div>
                 </div>
@@ -417,19 +406,19 @@ export default function Fleet() {
                   <div className="space-y-4">
                     <div className="flex items-center">
                       <Users className="w-5 h-5 text-primary mr-3" />
-                      <span>Maximum 8 passengers</span>
+                      <span className="text-gray-600">Maximum 8 passengers</span>
                     </div>
                     <div className="flex items-center">
                       <Briefcase className="w-5 h-5 text-primary mr-3" />
-                      <span>6 large suitcases + hand luggage</span>
+                      <span className="text-gray-600">6 large suitcases + hand luggage</span>
                     </div>
                     <div className="flex items-center">
                       <CheckCircle className="w-5 h-5 text-primary mr-3" />
-                      <span>Spacious group seating</span>
+                      <span className="text-gray-600">Spacious group seating</span>
                     </div>
                     <div className="flex items-center">
                       <CheckCircle className="w-5 h-5 text-primary mr-3" />
-                      <span>Large luggage compartment</span>
+                      <span className="text-gray-600">Large luggage compartment</span>
                     </div>
                   </div>
                 </div>

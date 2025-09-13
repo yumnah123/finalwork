@@ -15,9 +15,9 @@ import {
   Car,
 } from "lucide-react";
 import logo from "../../public/Logo.svg";
-import herobg from "../../public/assets1/banner.jpg";
 import mercedez from "../../public/assets1/banner6.jpg";
 import Footer from "../../components/Footer";
+import Hero from "../../components/Hero";
 
 export default function Contact() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -186,22 +186,11 @@ export default function Contact() {
         )}
       </header>
 
-      {/* Hero Section */}
-      <section className="min-h-screen bg-cover bg-center overflow-hidden px-4 md:px-0" style={{
-        backgroundImage: `url(${herobg.src})`
-      }}>
-        <div className="inset-0 flex items-center justify-center mt-[100px] md:mt-[170px] lg:mt-[200px] 2xl:mt-[400px]">
-          <div className="text-center text-white">
-            <h1 className="text-3xl md:text-6xl font-light lg:mb-4">Get In</h1>
-            <h2 className="text-2xl md:text-5xl font-bold text-primary mb-6">
-              Touch
-            </h2>
-            <p className="md:text-xl text-base lg:mb-12 mb-4 max-w-2xl mx-auto">
-              Contact our team for bookings, inquiries, or to discuss your transportation requirements
-            </p>
-          </div>
-        </div>
-      </section>
+      <Hero 
+        title="Get In"
+        subtitle="Touch"
+        description="Contact our team for bookings, inquiries, or to discuss your transportation requirements"
+      />
 
       {/* Contact Information */}
       <section className="py-20 bg-gray-50">

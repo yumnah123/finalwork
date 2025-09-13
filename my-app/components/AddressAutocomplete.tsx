@@ -10,6 +10,10 @@ interface AddressAutocompleteProps {
   onChange?: (value: string) => void;
 }
 
+const cleanDisplayName = (displayName: string): string => {
+  return displayName.replace(/^[?@]+/, '');
+};
+
 export const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
   placeholder,
   className = "",
@@ -37,7 +41,7 @@ export const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
 
   useEffect(() => {
     if (selectedAddress) {
-      setInputValue(selectedAddress.display_name);
+      setInputValue(cleanDisplayName(selectedAddress.display_name));
       setShowSuggestions(false);
       onAddressSelect(selectedAddress);
     }
@@ -108,10 +112,10 @@ export const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
               key={address.place_id}
               onClick={() => handleSuggestionClick(address)}
               className="w-full px-4 py-3 text-left hover:bg-gray-100 focus:bg-gray-100 focus:outline-none border-b border-gray-100 last:border-b-0"
-              title={address.display_name}
+              title={cleanDisplayName(address.display_name)}
             >
               <div className="text-sm text-gray-900 truncate">
-                {address.display_name}
+                {cleanDisplayName(address.display_name)}
               </div>
             </button>
           ))}

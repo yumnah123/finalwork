@@ -18,10 +18,10 @@ import {
   Shield,
 } from "lucide-react";
 import logo from "../../public/Logo.svg";
-import herobg from "../../public/assets1/banner.jpg";
 import executiveCar from "../../public/assets1/section2.jpg";
 import premium from "../../public/assets1/section3.jpg";
 import Footer from "../../components/Footer";
+import Hero from "../../components/Hero";
 
 export default function Services() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -167,22 +167,11 @@ export default function Services() {
         )}
       </header>
 
-      {/* Hero Section */}
-      <section className="min-h-screen bg-cover bg-center overflow-hidden px-4 md:px-0" style={{
-        backgroundImage: `url(${herobg.src})`
-      }}>
-        <div className="inset-0 flex items-center justify-center mt-[100px] md:mt-[170px] lg:mt-[200px] 2xl:mt-[400px]">
-          <div className="text-center text-white">
-            <h1 className="text-3xl md:text-6xl font-light lg:mb-4">Our Premium</h1>
-            <h2 className="text-2xl md:text-5xl font-bold text-primary mb-6">
-              Services
-            </h2>
-            <p className="md:text-xl text-base lg:mb-12 mb-4 max-w-2xl mx-auto">
-              Experience luxury and professionalism with our comprehensive range of executive transport services
-            </p>
-          </div>
-        </div>
-      </section>
+      <Hero 
+        title="Our Premium"
+        subtitle="Services"
+        description="Experience luxury and professionalism with our comprehensive range of executive transport services"
+      />
 
       {/* Services Overview */}
       <section

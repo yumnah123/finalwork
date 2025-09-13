@@ -18,10 +18,10 @@ import {
   Briefcase,
 } from "lucide-react";
 import logo from "../../public/Logo.svg";
-import herobg from "../../public/assets1/banner.jpg";
 import executiveCar from "../../public/assets1/section2.jpg";
 import premium from "../../public/assets1/section3.jpg";
 import Footer from "../../components/Footer";
+import Hero from "../../components/Hero";
 
 export default function Corporate() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -167,22 +167,11 @@ export default function Corporate() {
         )}
       </header>
 
-      {/* Hero Section */}
-      <section className="min-h-screen bg-cover bg-center overflow-hidden px-4 md:px-0" style={{
-        backgroundImage: `url(${herobg.src})`
-      }}>
-        <div className="inset-0 flex items-center justify-center mt-[100px] md:mt-[170px] lg:mt-[200px] 2xl:mt-[400px]">
-          <div className="text-center text-white">
-            <h1 className="text-3xl md:text-6xl font-light lg:mb-4">Corporate</h1>
-            <h2 className="text-2xl md:text-5xl font-bold text-primary mb-6">
-              Account Services
-            </h2>
-            <p className="md:text-xl text-base lg:mb-12 mb-4 max-w-2xl mx-auto">
-              Streamlined transportation solutions for businesses with dedicated account management and flexible billing
-            </p>
-          </div>
-        </div>
-      </section>
+      <Hero 
+        title="Corporate"
+        subtitle="Account Services"
+        description="Streamlined transportation solutions for businesses with dedicated account management and flexible billing"
+      />
 
       {/* Corporate Benefits */}
       <section
@@ -318,23 +307,23 @@ export default function Corporate() {
                 <ul className="space-y-4">
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Monthly invoicing</span>
+                    <span className="text-gray-600">Monthly invoicing</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Online booking system</span>
+                    <span className="text-gray-600">Online booking system</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Trip reports</span>
+                    <span className="text-gray-600">Trip reports</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Email support</span>
+                    <span className="text-gray-600">Email support</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>5% volume discount (20+ trips)</span>
+                    <span className="text-gray-600">5% volume discount (20+ trips)</span>
                   </li>
                 </ul>
                 <button className="w-full bg-gray-200 text-gray-800 py-3 rounded font-semibold mt-6 hover:bg-gray-300 transition-colors">
@@ -356,23 +345,23 @@ export default function Corporate() {
                 <ul className="space-y-4">
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Everything in Starter</span>
+                    <span className="text-gray-600">Everything in Starter</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Priority booking</span>
+                    <span className="text-gray-600">Priority booking</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Dedicated phone support</span>
+                    <span className="text-gray-600">Dedicated phone support</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Regular driver assignment</span>
+                    <span className="text-gray-600">Regular driver assignment</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>10% volume discount (50+ trips)</span>
+                    <span className="text-gray-600">10% volume discount (50+ trips)</span>
                   </li>
                 </ul>
                 <button className="w-full bg-[#235e99] text-white py-3 rounded font-semibold mt-6 hover:bg-[#1e4d82] transition-colors">
@@ -393,23 +382,23 @@ export default function Corporate() {
                 <ul className="space-y-4">
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Everything in Business</span>
+                    <span className="text-gray-600">Everything in Business</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Dedicated account manager</span>
+                    <span className="text-gray-600">Dedicated account manager</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>24/7 phone support</span>
+                    <span className="text-gray-600">24/7 phone support</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Custom reporting</span>
+                    <span className="text-gray-600">Custom reporting</span>
                   </li>
                   <li className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Up to 20% volume discount</span>
+                    <span className="text-gray-600">Up to 20% volume discount</span>
                   </li>
                 </ul>
                 <button className="w-full bg-gray-800 text-white py-3 rounded font-semibold mt-6 hover:bg-gray-700 transition-colors">
