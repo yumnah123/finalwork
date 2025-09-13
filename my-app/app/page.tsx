@@ -371,7 +371,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className=" h-screen bg-cover bg-center overflow-hidden px-4 md:px-0" style={{
+      <section className=" min-h-screen bg-cover bg-center overflow-hidden px-4 md:px-0" style={{
         backgroundImage: `url(${herobg.src})`
       }}>
         {/* Background Images Div */}
@@ -424,13 +424,13 @@ export default function Home() {
                   value={selectedDate}
                   min={new Date().toISOString().split('T')[0]}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
+                  className="bg-white/10 w-full md:w-auto backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
                 />
                 <input
                   type="time"
                   value={selectedTime}
                   onChange={(e) => setSelectedTime(e.target.value)}
-                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
+                  className="bg-white/10 w-full md:w-auto backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
                 />
                 <select 
                   value={serviceType}
