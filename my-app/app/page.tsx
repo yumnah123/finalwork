@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { AddressAutocomplete } from '../components/AddressAutocomplete';
 import { QuoteDisplay } from '../components/QuoteDisplay';
+import Footer from '../components/Footer';
 import { AddressResult } from '../hooks/useAddressAutocomplete';
 import { QuoteService } from '../lib/quote-service';
 import { QuoteBreakdown } from '../lib/pricing-config';
@@ -37,7 +38,6 @@ import premium from "../public/assets1/section3.jpg";
 import banner from "../public/assets1/banner4.jpg";
 import testimonial from "../public/assets1/banner5.jpg";
 import mercedez from "../public/assets1/banner6.jpg";
-import footer from "../public/assets1/banner7.jpg";
 import herobg from "../public/assets1/banner.jpg";
 import comm from "../public/assets1/MPV_2_Group.png"
 import dollor from "../public/assets1/MPV_3_Group.png"
@@ -233,8 +233,7 @@ export default function Home() {
                 {/* Desktop Navigation */}
                 <nav className="hidden lg:flex items-center space-x-8">
                   <a
-                    href="#"
-                    onClick={() => setActiveSection('HOME')}
+                    href="/"
                     className={`transition-colors ${
                       activeSection === 'HOME'
                         ? 'text-primary border-b-2 border-primary'
@@ -244,57 +243,32 @@ export default function Home() {
                     HOME
                   </a>
                   <a
-                    href="#"
-                    onClick={() => setActiveSection('SERVICES')}
-                    className={`transition-colors ${
-                      activeSection === 'SERVICES'
-                        ? 'text-primary border-b-2 border-primary'
-                        : 'text-white hover:text-primary'
-                    }`}
+                    href="/services"
+                    className="transition-colors text-white hover:text-primary"
                   >
                     SERVICES
                   </a>
                   <a
-                    href="#"
-                    onClick={() => setActiveSection('OUR FLEET')}
-                    className={`transition-colors ${
-                      activeSection === 'OUR FLEET'
-                        ? 'text-primary border-b-2 border-primary'
-                        : 'text-white hover:text-primary'
-                    }`}
+                    href="/fleet"
+                    className="transition-colors text-white hover:text-primary"
                   >
                     OUR FLEET
                   </a>
                   <a
-                    href="#"
-                    onClick={() => setActiveSection('FEEDBACK')}
-                    className={`transition-colors ${
-                      activeSection === 'FEEDBACK'
-                        ? 'text-primary border-b-2 border-primary'
-                        : 'text-white hover:text-primary'
-                    }`}
+                    href="/feedback"
+                    className="transition-colors text-white hover:text-primary"
                   >
                     FEEDBACK
                   </a>
                   <a
-                    href="#"
-                    onClick={() => setActiveSection('CORPORATE ACCOUNT')}
-                    className={`transition-colors ${
-                      activeSection === 'CORPORATE ACCOUNT'
-                        ? 'text-primary border-b-2 border-primary'
-                        : 'text-white hover:text-primary'
-                    }`}
+                    href="/corporate"
+                    className="transition-colors text-white hover:text-primary"
                   >
                     CORPORATE ACCOUNT
                   </a>
                   <a
-                    href="#"
-                    onClick={() => setActiveSection('CONTACT')}
-                    className={`transition-colors ${
-                      activeSection === 'CONTACT'
-                        ? 'text-primary border-b-2 border-primary'
-                        : 'text-white hover:text-primary'
-                    }`}
+                    href="/contact"
+                    className="transition-colors text-white hover:text-primary"
                   >
                     CONTACT
                   </a>
@@ -323,42 +297,42 @@ export default function Home() {
             <nav className="container mx-auto px-4 py-4 max-w-[1440px]">
               <div className="flex flex-col space-y-4">
                 <a
-                  href="#"
+                  href="/"
                   className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   HOME
                 </a>
                 <a
-                  href="#"
+                  href="/services"
                   className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   SERVICES
                 </a>
                 <a
-                  href="#"
+                  href="/fleet"
                   className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   OUR FLEET
                 </a>
                 <a
-                  href="#"
+                  href="/feedback"
                   className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   FEEDBACK
                 </a>
                 <a
-                  href="#"
+                  href="/corporate"
                   className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   CORPORATE ACCOUNT
                 </a>
                 <a
-                  href="#"
+                  href="/contact"
                   className="text-white hover:text-primary transition-colors py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -376,7 +350,7 @@ export default function Home() {
       }}>
         {/* Background Images Div */}
 
-        <div className=" inset-0 flex items-center justify-center mt-[100px] md:mt-[170px] lg:mt-[200px]">
+        <div className=" inset-0 flex items-center justify-center mt-[100px] md:mt-[170px] lg:mt-[200px] 2xl:mt-[400px]">
           <div className="text-center text-white">
             <h1 className="text-3xl md:text-6xl font-light lg:mb-4">Welcome to</h1>
             <h2 className="text-2xl md:text-5xl font-bold text-primary mb-6">
@@ -481,9 +455,9 @@ export default function Home() {
           backgroundImage: `url(${executiveCar.src})`,
         }}
       >
-        <div className="absolute -top-4 z-50">
+        {/* <div className="absolute -top-4 z-50">
           <Image src={ltr} alt="ltr" className="w-full" />
-        </div>
+        </div> */}
         <div className="container mx-auto px-4 max-w-[1440px]">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
@@ -888,98 +862,7 @@ export default function Home() {
         />
       )}
 
-      {/* Footer */}
-      <footer
-        className="bg-black text-white bg-cover bg-center pt-24"
-        style={{
-          backgroundImage: `url(${footer.src})`,
-        }}
-      >
-        <div className="container mx-auto px-4 max-w-[1240px]">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="max-w-[280px] flex flex-col justify-start items-start gap-5">
-              <div className="flex items-center">
-                <Image
-                  src={logo}
-                  alt="GoldStar Logo"
-                  width={280}
-                  height={95}
-                  priority
-                />
-              </div>
-              <p className="text-gray-400 text-sm text-left leading-relaxed mb-4">
-                An executive car and chauffeur service covering Surrey, London
-                and the Home Counties.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold mb-4 text-primary">LINKS</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Services
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Our Fleet
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Feedback
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Corporate Account
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Contact
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold mb-4 text-primary">ADDRESS</h3>
-              <div className="text-sm text-gray-400 space-y-2">
-                <p>Goldstar Executive Ltd</p>
-                <p>2000 Cathedral Hill</p>
-                <p>Guildford</p>
-                <p>Surrey</p>
-                <p>United Kingdom</p>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold mb-4 text-primary">CONTACT US</h3>
-              <div className="text-sm text-gray-400 space-y-2">
-                <p>+44 (0) 203 858 786</p>
-                <p>booking@goldstarexecutive.com</p>
-                <p>www.goldstarexecutive.com</p>
-                <div className="mt-4">
-                  <p>Terms & Conditions</p>
-                  <p>Privacy Policy</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-sm text-gray-400">
-            <p>Copyright © 2023 Gold Star Executive. All Rights Reserved.</p>
-            <p className="mt-2">Web Design UK by myteamscot.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
