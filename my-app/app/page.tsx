@@ -47,6 +47,7 @@ export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('HOME');
 
   // Form state
   const [pickupAddress, setPickupAddress] = useState<AddressResult | null>(null);
@@ -64,40 +65,40 @@ export default function Home() {
 
   const testimonials = [
     {
-      text: "A big thanks to your Executive service and their high quality car service, I was very satisfied with your car service, very friendly, The drivers have been very courteous of my schedule time and did a great job overall.",
-      author: "Various Admire Customer, UK",
+      text: "Exceptional service from start to finish! The driver was punctual, professional, and the vehicle was immaculate. Will definitely use Goldstar again for future business trips.",
+      author: "Sarah Mitchell, London",
     },
     {
       text: "We have been using Goldstar for about 12 months now on a weekly basis to get from office to the airport and also to get the central reservation out to very convenient and friendly staff.",
       author: "Mr Parker Braking, UK",
     },
     {
-      text: "A big thanks to your Executive service and their high quality car journey has been excellent since our first telephone call and from our clients with your service, The drivers have been very punctual and reliable with a smart uniform that with their customer care and service.",
-      author: "Various Admire Customer, UK",
+      text: "Outstanding chauffeur service! The booking process was seamless, and our driver went above and beyond to ensure we arrived on time for our important meeting. Highly recommended!",
+      author: "David Thompson, Manchester",
     },
     {
-      text: "A big thanks to your Executive service and their high quality car service, I was very satisfied with your car service, very friendly, The drivers have been very courteous of my schedule time and did a great job overall.",
-      author: "Various Admire Customer, UK",
+      text: "Perfect for corporate events. Our clients were impressed with the luxury vehicles and professional service. The drivers are always smartly dressed and courteous.",
+      author: "Emma Richardson, Birmingham",
     },
     {
-      text: "We have been using Goldstar for about 12 months now on a weekly basis to get from office to the airport and also to get the central reservation out to very convenient and friendly staff.",
-      author: "Mr Parker Braking, UK",
+      text: "Reliable and luxurious! I've used Goldstar multiple times for airport transfers and they never disappoint. Clean cars, friendly drivers, and always on time.",
+      author: "James Wilson, Leeds",
     },
     {
-      text: "A big thanks to your Executive service and their high quality car journey has been excellent since our first telephone call and from our clients with your service, The drivers have been very punctual and reliable with a smart uniform that with their customer care and service.",
-      author: "Various Admire Customer, UK",
+      text: "First-class service at competitive prices. The Mercedes was spotless and the driver was knowledgeable about the best routes. Made our wedding day even more special.",
+      author: "Lisa & Mark Johnson, Liverpool",
     },
     {
-      text: "A big thanks to your Executive service and their high quality car service, I was very satisfied with your car service, very friendly, The drivers have been very courteous of my schedule time and did a great job overall.",
-      author: "Various Admire Customer, UK",
+      text: "Excellent customer service and attention to detail. From the initial booking to the final destination, everything was handled professionally. Will use again.",
+      author: "Robert Chen, Bristol",
     },
     {
-      text: "We have been using Goldstar for about 12 months now on a weekly basis to get from office to the airport and also to get the central reservation out to very convenient and friendly staff.",
-      author: "Mr Parker Braking, UK",
+      text: "Goldstar exceeded our expectations! The driver was patient with our elderly parents and helped with luggage. A truly caring and professional service.",
+      author: "Michelle Adams, Glasgow",
     },
     {
-      text: "A big thanks to your Executive service and their high quality car journey has been excellent since our first telephone call and from our clients with your service, The drivers have been very punctual and reliable with a smart uniform that with their customer care and service.",
-      author: "Various Admire Customer, UK",
+      text: "Top-notch executive travel service. The vehicles are luxurious, drivers are professional, and the booking system is user-friendly. Perfect for business travel.",
+      author: "Andrew Foster, Edinburgh",
     },
   ];
 
@@ -110,8 +111,12 @@ export default function Home() {
 
   const prevTestimonial = () => {
     setCurrentTestimonial((prev) => {
-      const prevIndex = prev - 3;
-      return prevIndex < 0 ? Math.max(0, testimonials.length - 3) : prevIndex;
+      if (prev === 0) {
+        // Go to the last complete set of 3 testimonials
+        const lastCompleteSet = Math.floor((testimonials.length - 1) / 3) * 3;
+        return lastCompleteSet;
+      }
+      return prev - 3;
     });
   };
 
@@ -226,40 +231,70 @@ export default function Home() {
               </div>
               <div className="flex items-center gap-4">
                 {/* Desktop Navigation */}
-                <nav className="hidden md:flex items-center space-x-8">
+                <nav className="hidden lg:flex items-center space-x-8">
                   <a
                     href="#"
-                    className="text-white hover:text-primary transition-colors"
+                    onClick={() => setActiveSection('HOME')}
+                    className={`transition-colors ${
+                      activeSection === 'HOME'
+                        ? 'text-primary border-b-2 border-primary'
+                        : 'text-white hover:text-primary'
+                    }`}
                   >
                     HOME
                   </a>
                   <a
                     href="#"
-                    className="text-white hover:text-primary transition-colors"
+                    onClick={() => setActiveSection('SERVICES')}
+                    className={`transition-colors ${
+                      activeSection === 'SERVICES'
+                        ? 'text-primary border-b-2 border-primary'
+                        : 'text-white hover:text-primary'
+                    }`}
                   >
                     SERVICES
                   </a>
                   <a
                     href="#"
-                    className="text-white hover:text-primary transition-colors"
+                    onClick={() => setActiveSection('OUR FLEET')}
+                    className={`transition-colors ${
+                      activeSection === 'OUR FLEET'
+                        ? 'text-primary border-b-2 border-primary'
+                        : 'text-white hover:text-primary'
+                    }`}
                   >
                     OUR FLEET
                   </a>
                   <a
                     href="#"
-                    className="text-white hover:text-primary transition-colors"
+                    onClick={() => setActiveSection('FEEDBACK')}
+                    className={`transition-colors ${
+                      activeSection === 'FEEDBACK'
+                        ? 'text-primary border-b-2 border-primary'
+                        : 'text-white hover:text-primary'
+                    }`}
                   >
                     FEEDBACK
                   </a>
                   <a
                     href="#"
-                    className="text-white hover:text-primary transition-colors"
+                    onClick={() => setActiveSection('CORPORATE ACCOUNT')}
+                    className={`transition-colors ${
+                      activeSection === 'CORPORATE ACCOUNT'
+                        ? 'text-primary border-b-2 border-primary'
+                        : 'text-white hover:text-primary'
+                    }`}
                   >
                     CORPORATE ACCOUNT
                   </a>
                   <a
                     href="#"
-                    className="text-white hover:text-primary transition-colors"
+                    onClick={() => setActiveSection('CONTACT')}
+                    className={`transition-colors ${
+                      activeSection === 'CONTACT'
+                        ? 'text-primary border-b-2 border-primary'
+                        : 'text-white hover:text-primary'
+                    }`}
                   >
                     CONTACT
                   </a>
@@ -268,7 +303,7 @@ export default function Home() {
                 {/* Mobile Menu Button */}
                 <button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="md:hidden text-white hover:text-primary transition-colors p-2"
+                  className="lg:hidden text-white hover:text-primary transition-colors p-2"
                   aria-label="Toggle mobile menu"
                 >
                   {isMobileMenuOpen ? (
@@ -341,7 +376,7 @@ export default function Home() {
       }}>
         {/* Background Images Div */}
 
-        <div className=" inset-0 flex items-center justify-center mt-[100px] lg:mt-[200px]">
+        <div className=" inset-0 flex items-center justify-center mt-[100px] md:mt-[170px] lg:mt-[200px]">
           <div className="text-center text-white">
             <h1 className="text-3xl md:text-6xl font-light lg:mb-4">Welcome to</h1>
             <h2 className="text-2xl md:text-5xl font-bold text-primary mb-6">
@@ -387,6 +422,7 @@ export default function Home() {
                 <input
                   type="date"
                   value={selectedDate}
+                  min={new Date().toISOString().split('T')[0]}
                   onChange={(e) => setSelectedDate(e.target.value)}
                   className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
                 />
@@ -829,10 +865,10 @@ export default function Home() {
             <textarea
               placeholder="How can we help you?"
               rows={6}
-              className="w-full bg-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-primary mb-6"
+              className="w-full text-black bg-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-primary mb-6"
             ></textarea>
             <div className="text-center">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded font-semibold transition-colors">
+              <button className="bg-[#235e99] hover:bg-[#235e99] text-white px-8 py-3 rounded font-semibold transition-colors">
                 Send
               </button>
             </div>
@@ -878,7 +914,7 @@ export default function Home() {
             </div>
 
             <div>
-              <h3 className="text-lg font-bold mb-4">LINKS</h3>
+              <h3 className="text-lg font-bold mb-4 text-primary">LINKS</h3>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li>
                   <a href="#" className="hover:text-white transition-colors">
@@ -914,7 +950,7 @@ export default function Home() {
             </div>
 
             <div>
-              <h3 className="text-lg font-bold mb-4">ADDRESS</h3>
+              <h3 className="text-lg font-bold mb-4 text-primary">ADDRESS</h3>
               <div className="text-sm text-gray-400 space-y-2">
                 <p>Goldstar Executive Ltd</p>
                 <p>2000 Cathedral Hill</p>
@@ -925,7 +961,7 @@ export default function Home() {
             </div>
 
             <div>
-              <h3 className="text-lg font-bold mb-4">CONTACT US</h3>
+              <h3 className="text-lg font-bold mb-4 text-primary">CONTACT US</h3>
               <div className="text-sm text-gray-400 space-y-2">
                 <p>+44 (0) 203 858 786</p>
                 <p>booking@goldstarexecutive.com</p>

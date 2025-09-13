@@ -108,6 +108,7 @@ export const AddressAutocomplete: React.FC<AddressAutocompleteProps> = ({
               key={address.place_id}
               onClick={() => handleSuggestionClick(address)}
               className="w-full px-4 py-3 text-left hover:bg-gray-100 focus:bg-gray-100 focus:outline-none border-b border-gray-100 last:border-b-0"
+              title={address.display_name}
             >
               <div className="text-sm text-gray-900 truncate">
                 {address.display_name}
