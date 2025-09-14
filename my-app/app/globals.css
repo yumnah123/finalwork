@@ -9,8 +9,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: #9D8556;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-archivo);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,7 +22,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-archivo), sans-serif;
 }
 
 /* Hide default placeholders for date and time inputs on mobile only */

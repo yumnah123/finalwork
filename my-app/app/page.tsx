@@ -14,12 +14,7 @@ import Hero from "../components/Hero";
 import { AddressResult } from "../hooks/useAddressAutocomplete";
 import { QuoteService } from "../lib/quote-service";
 import { QuoteBreakdown } from "../lib/pricing-config";
-import {
-  Star,
-  CheckCircle,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { Star, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import hero1 from "../public/assets1/hero-11.png";
 import hero2 from "../public/assets1/hero-2.png";
 import rtl from "../public/assets1/rtl-line.png";
@@ -45,8 +40,15 @@ import reading from "../public/assets1/reading.png";
 import bottle from "../public/assets1/bottle.png";
 import contact from "../public/assets1/contact.png";
 import wifi from "../public/assets1/wifi.png";
+import test from "../public/assets1/test.png"
 // Animation components
-const FadeInWhenVisible = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
+const FadeInWhenVisible = ({
+  children,
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 60 }}
@@ -59,25 +61,85 @@ const FadeInWhenVisible = ({ children, delay = 0 }: { children: React.ReactNode;
   );
 };
 
-
 export default function Home() {
   const router = useRouter();
 
   // Testimonials carousel setup
+  const [vehicleEmblaRef, vehicleEmblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "start",
+      skipSnaps: false,
+      dragFree: false,
+    },
+    [
+      Autoplay({
+        delay: 3000,
+        stopOnInteraction: false,
+        stopOnMouseEnter: false,
+      }),
+    ]
+  );
+
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
-      align: 'start',
+      align: "start",
       slidesToScroll: 1,
-      containScroll: 'trimSnaps',
-      dragFree: false
+      containScroll: "trimSnaps",
+      dragFree: false,
     },
     [Autoplay({ delay: 4000, stopOnInteraction: false })]
   );
 
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
-  
+  const vehicles = [
+    {
+      name: "Business Class",
+      description: "Ideal for the busy executive. Punctual and professional",
+      image: sls,
+      passengers: 4,
+      luggage: 2,
+    },
+    {
+      name: "First Class",
+      description:
+        "A truly prestige class. Travel in supreme luxury and comfort",
+      image: caravan,
+      passengers: 4,
+      luggage: 2,
+    },
+    {
+      name: "MPV Class",
+      description: "Travel as a group without compromising on luxury & comfort",
+      image: merc,
+      passengers: 6,
+      luggage: 4,
+    },
+    {
+      name: "Executive Class",
+      description: "Premium comfort for discerning travelers with style",
+      image: sls,
+      passengers: 4,
+      luggage: 3,
+    },
+    {
+      name: "Luxury Sedan",
+      description: "Sophisticated transport for special occasions and events",
+      image: caravan,
+      passengers: 4,
+      luggage: 2,
+    },
+    {
+      name: "Premium SUV",
+      description: "Spacious luxury for family trips and group transportation",
+      image: merc,
+      passengers: 7,
+      luggage: 5,
+    },
+  ];
+
   const testimonials = [
     {
       text: "Exceptional service from start to finish! The driver was punctual, professional, and the vehicle was immaculate. Will definitely use Goldstar again for future business trips.",
@@ -137,8 +199,14 @@ export default function Home() {
     // Start at the middle set of testimonials to ensure smooth infinite scrolling
     emblaApi.scrollTo(testimonials.length, true);
     onSelect();
-    emblaApi.on('select', onSelect);
+    emblaApi.on("select", onSelect);
   }, [emblaApi, onSelect, testimonials.length]);
+
+  useEffect(() => {
+    if (!vehicleEmblaApi) return;
+    // Start at the middle set of vehicles to ensure smooth infinite scrolling
+    vehicleEmblaApi.scrollTo(vehicles.length, true);
+  }, [vehicleEmblaApi, vehicles.length]);
 
   // Form state
   const [pickupAddress, setPickupAddress] = useState<AddressResult | null>(
@@ -150,7 +218,6 @@ export default function Home() {
   const [customerName, setCustomerName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
-  const [selectedTime, setSelectedTime] = useState("");
   const [serviceType, setServiceType] = useState("Select Service");
 
   // Quote state
@@ -160,15 +227,13 @@ export default function Home() {
 
   // Contact form state
   const [contactForm, setContactForm] = useState({
-    name: '',
-    email: '',
-    message: ''
+    name: "",
+    email: "",
+    message: "",
   });
   const [contactLoading, setContactLoading] = useState(false);
   const [contactSuccess, setContactSuccess] = useState(false);
-  const [contactError, setContactError] = useState('');
-
-
+  const [contactError, setContactError] = useState("");
 
   const isFormValid = () => {
     return (
@@ -177,7 +242,6 @@ export default function Home() {
       customerName.trim() &&
       contactNumber.trim() &&
       selectedDate &&
-      selectedTime &&
       serviceType !== "Select Service"
     );
   };
@@ -192,8 +256,7 @@ export default function Home() {
         pickupAddress,
         dropoffAddress,
         serviceType,
-        quoteDate,
-        selectedTime
+        quoteDate
       );
       setQuote(generatedQuote);
       setShowQuote(true);
@@ -218,27 +281,27 @@ export default function Home() {
 
   // Contact form handlers
   const handleContactInputChange = (field: string, value: string) => {
-    setContactForm(prev => ({ ...prev, [field]: value }));
+    setContactForm((prev) => ({ ...prev, [field]: value }));
     // Clear errors when user starts typing
-    if (contactError) setContactError('');
+    if (contactError) setContactError("");
     if (contactSuccess) setContactSuccess(false);
   };
 
   const validateContactForm = () => {
     if (!contactForm.name.trim()) {
-      setContactError('Name is required');
+      setContactError("Name is required");
       return false;
     }
     if (!contactForm.email.trim()) {
-      setContactError('Email is required');
+      setContactError("Email is required");
       return false;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactForm.email)) {
-      setContactError('Please enter a valid email address');
+      setContactError("Please enter a valid email address");
       return false;
     }
     if (!contactForm.message.trim()) {
-      setContactError('Message is required');
+      setContactError("Message is required");
       return false;
     }
     return true;
@@ -250,13 +313,13 @@ export default function Home() {
     if (!validateContactForm()) return;
 
     setContactLoading(true);
-    setContactError('');
+    setContactError("");
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
+      const response = await fetch("/api/contact", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(contactForm),
       });
@@ -265,15 +328,19 @@ export default function Home() {
 
       if (response.ok) {
         setContactSuccess(true);
-        setContactForm({ name: '', email: '', message: '' });
+        setContactForm({ name: "", email: "", message: "" });
         // Auto-hide success message after 5 seconds
         setTimeout(() => setContactSuccess(false), 5000);
       } else {
-        setContactError(data.error || 'Failed to send message. Please try again.');
+        setContactError(
+          data.error || "Failed to send message. Please try again."
+        );
       }
     } catch (error) {
-      console.error('Contact form error:', error);
-      setContactError('Network error. Please check your connection and try again.');
+      console.error("Contact form error:", error);
+      setContactError(
+        "Network error. Please check your connection and try again."
+      );
     } finally {
       setContactLoading(false);
     }
@@ -300,8 +367,6 @@ export default function Home() {
           setContactNumber,
           selectedDate,
           setSelectedDate,
-          selectedTime,
-          setSelectedTime,
           serviceType,
           setServiceType,
           handleGetQuote,
@@ -320,137 +385,115 @@ export default function Home() {
         <div className="container mx-auto px-4 max-w-[1440px]">
           <FadeInWhenVisible>
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-800 mb-4">
+              <h2 className="text-4xl font-bold text-gray-800 mb-1">
                 Executive Car
               </h2>
-              <p className="text-primary text-xl">Services</p>
+              <p className="text-primary text-3xl">Services</p>
             </div>
           </FadeInWhenVisible>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <FadeInWhenVisible delay={0.1}>
-              <motion.div
-                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2"
-                whileHover={{
-                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-                  transition: { duration: 0.3 }
-                }}
-              >
+              <motion.div className="bg-white overflow-hidden  transition-all duration-300 transform">
                 <div
-                  className="h-48 bg-cover bg-center relative overflow-hidden"
+                  className="h-48 bg-cover bg-center relative rounded-xl overflow-hidden"
                   style={{
                     backgroundImage: `url(${airport.src})`,
                   }}
                 >
-                  <motion.div
-                    className="bg-black/60 h-full flex items-end p-6"
-                  >
+                  <motion.div className="bg-gradient-to-b from-transparent to-black/80 h-full flex items-center justify-center p-6">
                     <div className="text-white">
-                      <h3 className="text-xl font-bold mb-2">Airport</h3>
-                      <p className="text-sm">Transfer</p>
+                      <h3 className="text-2xl font-bold text-center">
+                        Airport
+                      </h3>
+                      <p className="text-2xl font-bold text-center">Transfer</p>
                     </div>
                   </motion.div>
                 </div>
-                <div className="p-6">
-                  <p className="text-gray-600 text-sm leading-relaxed">
+                <div className="p-6 !pl-0">
+                  <p className="text-gray-600 lg:text-lg text-base leading-relaxed">
                     We provide a professional door to door Airport transfer
-                    service to Gatwick, including all surrounding areas
+                    service in Surrey, covering all UK Airports.
                   </p>
                 </div>
               </motion.div>
             </FadeInWhenVisible>
 
             <FadeInWhenVisible delay={0.2}>
-              <motion.div
-                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2"
-                whileHover={{
-                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-                  transition: { duration: 0.3 }
-                }}
-              >
+              <motion.div className="bg-white overflow-hidden transition-all duration-300 transform">
                 <div
-                  className="h-48 bg-cover bg-center relative overflow-hidden"
+                  className="h-48 bg-cover bg-center relative overflow-hidden rounded-xl"
                   style={{
                     backgroundImage: `url(${business.src})`,
                   }}
                 >
-                  <motion.div
-                    className="bg-black/60 h-full flex items-end p-6"
-                  >
+                  <motion.div className="bg-gradient-to-b from-transparent to-black/80 h-full flex items-center justify-center p-6">
                     <div className="text-white">
-                      <h3 className="text-xl font-bold mb-2">Business &</h3>
-                      <p className="text-sm">Social Events</p>
+                      <h3 className="text-2xl font-bold text-center">
+                        Business &
+                      </h3>
+                      <p className="text-2xl font-bold text-center">
+                        Social Events
+                      </p>
                     </div>
                   </motion.div>
                 </div>
-                <div className="p-6">
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    Whatever the event, big or small we will meticulously plan the
-                    itinerary to ensure a seamless experience for all
+                <div className="p-6 !pl-0">
+                  <p className="text-gray-600 lg:text-lg text-base leading-relaxed">
+                    Whatever the event, big or small we will meticulously plan
+                    the itinerary to ensure a seamless experience for all
                   </p>
                 </div>
               </motion.div>
             </FadeInWhenVisible>
 
             <FadeInWhenVisible delay={0.3}>
-              <motion.div
-                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2"
-                whileHover={{
-                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-                  transition: { duration: 0.3 }
-                }}
-              >
+              <motion.div className="bg-white overflow-hidden transition-all duration-300 transform">
                 <div
-                  className="h-48 bg-cover bg-center relative overflow-hidden"
+                  className="h-48 bg-cover bg-center relative overflow-hidden rounded-xl"
                   style={{
                     backgroundImage: `url(${travel.src})`,
                   }}
                 >
-                  <motion.div
-                    className="bg-black/60 h-full flex items-end p-6"
-                  >
+                  <motion.div className="bg-gradient-to-b from-transparent to-black/80 h-full flex items-center justify-center p-6">
                     <div className="text-white">
-                      <h3 className="text-xl font-bold mb-2">Corporate</h3>
-                      <p className="text-sm">Travel</p>
+                      <h3 className="text-2xl font-bold text-center">
+                        Corporate
+                      </h3>
+                      <p className="text-2xl font-bold text-center">Travel</p>
                     </div>
                   </motion.div>
                 </div>
-                <div className="p-6">
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    Goldstar Executive is the perfect partner for Businesses. Find
-                    out more on the Corporate Accounts page
+                <div className="p-6 !pl-0">
+                  <p className="text-gray-600 lg:text-lg text-base leading-relaxed">
+                    Goldstar Executive is the perfect partner for Businesses.
+                    Find out more on the Corporate Accounts page
                   </p>
                 </div>
               </motion.div>
             </FadeInWhenVisible>
 
             <FadeInWhenVisible delay={0.4}>
-              <motion.div
-                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2"
-                whileHover={{
-                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-                  transition: { duration: 0.3 }
-                }}
-              >
+              <motion.div className="bg-white overflow-hidden transition-all duration-300 transform">
                 <div
-                  className="h-48 bg-cover bg-center relative overflow-hidden"
+                  className="h-48 bg-cover bg-center rounded-xl relative overflow-hidden"
                   style={{
                     backgroundImage: `url(${wedding.src})`,
                   }}
                 >
-                  <motion.div
-                    className="bg-black/60 h-full flex items-end p-6"
-                  >
+                  <motion.div className="bg-gradient-to-b from-transparent to-black/80 h-full flex items-center justify-center p-6">
                     <div className="text-white">
-                      <h3 className="text-xl font-bold mb-2">Wedding</h3>
-                      <p className="text-sm">Cars</p>
+                      <h3 className="text-2xl font-bold text-center">
+                        Wedding
+                      </h3>
+                      <p className="text-2xl font-bold text-center">Cars</p>
                     </div>
                   </motion.div>
                 </div>
-                <div className="p-6">
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    For the special occasion we can supply the perfect car. Speak
-                    to us now about your wedding requirements
+                <div className="p-6 !pl-0">
+                  <p className="text-gray-600 lg:text-lg text-base leading-relaxed">
+                    For the special occasion we can supply the special car.
+                    Speak to us now about your wedding packages
                   </p>
                 </div>
               </motion.div>
@@ -460,12 +503,12 @@ export default function Home() {
           <FadeInWhenVisible delay={0.5}>
             <div className="text-center mt-12">
               <motion.button
-                onClick={() => router.push('/services')}
+                onClick={() => router.push("/services")}
                 className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl border border-white/20 cursor-pointer"
                 whileHover={{
                   scale: 1.05,
                   boxShadow: "0 20px 40px -12px rgba(35, 94, 153, 0.4)",
-                  backdropFilter: "blur(16px)"
+                  backdropFilter: "blur(16px)",
                 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -620,125 +663,72 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="overflow-hidden">
-              <div className="h-64 flex items-center justify-center">
-                <Image src={sls} alt="sls" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-2xl font-bold mb-4 text-gray-600">
-                  Business Class
-                </h3>
-                <p className="text-gray-600 mb-8">
-                  Ideal for the busy executive Punctual and professional
-                </p>
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="flex gap-2">
-                    <div>
-                      <Image
-                        src={comm}
-                        alt="comm"
-                        className="w-[20px] h-[20px]"
-                      />
+          <div className="embla overflow-hidden" ref={vehicleEmblaRef}>
+            <div className="embla__container flex">
+              {[...vehicles, ...vehicles, ...vehicles].map((vehicle, index) => (
+                <motion.div
+                  key={`vehicle-${index}`}
+                  className="embla__slide min-w-0"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: (index % vehicles.length) * 0.1,
+                  }}
+                >
+                  <div className="overflow-hidden">
+                    <div className="h-64 flex items-center justify-center">
+                      <Image src={vehicle.image} alt={vehicle.name} />
                     </div>
-                    <span className="text-sm text-gray-600">max: 4</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <div>
-                      <Image
-                        src={dollor}
-                        alt="comm"
-                        className="w-[20px] h-[20px]"
-                      />
+                    <div className="p-6">
+                      <h3 className="text-2xl font-bold mb-4 text-gray-600">
+                        {vehicle.name}
+                      </h3>
+                      <p className="text-gray-600 mb-8">
+                        {vehicle.description}
+                      </p>
+                      <div className="flex items-center space-x-4 mb-4">
+                        <div className="flex gap-2">
+                          <div>
+                            <Image
+                              src={comm}
+                              alt="passengers"
+                              className="w-[20px] h-[20px]"
+                            />
+                          </div>
+                          <span className="text-sm text-gray-600">
+                            max: {vehicle.passengers}
+                          </span>
+                        </div>
+                        <div className="flex gap-2">
+                          <div>
+                            <Image
+                              src={dollor}
+                              alt="luggage"
+                              className="w-[20px] h-[20px]"
+                            />
+                          </div>
+                          <span className="text-sm text-gray-600">
+                            max: {vehicle.luggage}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <span className="text-sm text-gray-600">max: 2</span>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="overflow-hidden">
-              <div className="h-64 flex items-center justify-center">
-                <Image src={caravan} alt="sls" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-2xl font-bold mb-4 text-gray-600">
-                  First Class
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  A truly prestige class. Travel in supreme luxury and comfort
-                </p>
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="flex gap-2">
-                    <div>
-                      <Image
-                        src={comm}
-                        alt="comm"
-                        className="w-[20px] h-[20px]"
-                      />
-                    </div>
-                    <span className="text-sm text-gray-600">max: 4</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <div>
-                      <Image
-                        src={dollor}
-                        alt="comm"
-                        className="w-[20px] h-[20px]"
-                      />
-                    </div>
-                    <span className="text-sm text-gray-600">max: 2</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="overflow-hidden">
-              <div className="h-64 flex items-center justify-center">
-                <Image src={merc} alt="sls" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-2xl font-bold mb-4 text-gray-600">
-                  MPV Class
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Travel as a group without compromising on luxury & comfort
-                </p>
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="flex gap-2">
-                    <div>
-                      <Image
-                        src={comm}
-                        alt="comm"
-                        className="w-[20px] h-[20px]"
-                      />
-                    </div>
-                    <span className="text-sm text-gray-600">max: 4</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <div>
-                      <Image
-                        src={dollor}
-                        alt="comm"
-                        className="w-[20px] h-[20px]"
-                      />
-                    </div>
-                    <span className="text-sm text-gray-600">max: 2</span>
-                  </div>
-                </div>
-              </div>
+                </motion.div>
+              ))}
             </div>
           </div>
 
           <FadeInWhenVisible delay={0.3}>
             <div className="text-center mt-12">
               <motion.button
-                onClick={() => router.push('/fleet')}
+                onClick={() => router.push("/fleet")}
                 className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl border border-white/20 cursor-pointer"
                 whileHover={{
                   scale: 1.05,
                   boxShadow: "0 20px 40px -12px rgba(35, 94, 153, 0.4)",
-                  backdropFilter: "blur(16px)"
+                  backdropFilter: "blur(16px)",
                 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -759,15 +749,17 @@ export default function Home() {
         <div className="container mx-auto px-4 text-center text-white">
           <FadeInWhenVisible>
             <h2 className="text-4xl font-bold mb-4">We Want To Hear</h2>
-            <p className="text-xl mb-16">Your Opinion</p>
+            <p className="text-3xl mb-6">Your Opinion</p>
           </FadeInWhenVisible>
 
           <div className="max-w-6xl mx-auto">
             <FadeInWhenVisible delay={0.2}>
-              <p className="text-lg mb-8 leading-relaxed">
-                It is important to us that our customers are 100% satisfied - that
-                is why we are great service. Every single customer is the future
-                form of advertisement and all our work based on it.
+              <p className="text-lg leading-relaxed">
+                It is our clients feedback and opinions which allow us to
+                provide a truly great service.
+              </p>
+              <p className="text-lg mb-12 leading-relaxed">
+                Every good review is the finest form of appreciation of our work imagination
               </p>
             </FadeInWhenVisible>
 
@@ -775,61 +767,62 @@ export default function Home() {
               <div className="embla overflow-hidden" ref={emblaRef}>
                 <div className="embla__container flex">
                   {/* Duplicate testimonials for seamless infinite loop */}
-                  {[...testimonials, ...testimonials, ...testimonials].map((testimonial, index) => (
-                    <motion.div
-                      key={`testimonial-${index}`}
-                      className="embla__slide min-w-0"
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.5, delay: (index % testimonials.length) * 0.1 }}
-                    >
+                  {[...testimonials, ...testimonials, ...testimonials].map(
+                    (testimonial, index) => (
                       <motion.div
-                        className="backdrop-blur-md rounded-lg p-6 bg-white/15 border border-white/20 h-full"
-                        whileHover={{
-                          y: -5,
-                          scale: 1.02,
-                          backdropFilter: "blur(20px)",
-                          backgroundColor: "rgba(255, 255, 255, 0.2)"
+                        key={`testimonial-${index}`}
+                        className="embla__slide min-w-0"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{
+                          duration: 0.5,
+                          delay: (index % testimonials.length) * 0.1,
                         }}
-                        transition={{ duration: 0.3 }}
                       >
                         <motion.div
-                          className="text-4xl text-white/40 mb-4"
-                          animate={{ rotate: [0, 5, -5, 0] }}
-                          transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                          className=" rounded-lg p-6 h-full"
+                          whileHover={{
+                            y: -5,
+                            scale: 1.02,
+                          }}
+                          transition={{ duration: 0.3 }}
                         >
-                          "
+                          <div
+                            className="text-4xl flex justify-center text-white/40 mb-4"
+                          >
+                            <Image src={test} alt="test"/>
+                          </div>
+                          <p className="text-base mb-4 italic leading-relaxed text-white/90">
+                            {testimonial.text}
+                          </p>
+                          <motion.p
+                            className="font-semibold"
+                            whileHover={{ scale: 1.05 }}
+                          >
+                            {testimonial.author}
+                          </motion.p>
                         </motion.div>
-                        <p className="text-base mb-4 italic leading-relaxed text-white/90">
-                          {testimonial.text}
-                        </p>
-                        <motion.p
-                          className="font-semibold text-sm text-yellow-300"
-                          whileHover={{ scale: 1.05 }}
-                        >
-                          {testimonial.author}
-                        </motion.p>
                       </motion.div>
-                    </motion.div>
-                  ))}
+                    )
+                  )}
                 </div>
               </div>
             </FadeInWhenVisible>
 
             <FadeInWhenVisible delay={0.6}>
               <div className="flex justify-center items-center space-x-4 mt-8">
-                <motion.button
+                {/* <motion.button
                   onClick={scrollPrev}
                   className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 border border-white/20"
                   whileHover={{
                     scale: 1.1,
                     backdropFilter: "blur(16px)",
-                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.3)"
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.3)",
                   }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <ChevronLeft className="w-6 h-6" />
-                </motion.button>
+                </motion.button> */}
 
                 <div className="flex space-x-2">
                   {testimonials.map((_, index) => (
@@ -845,7 +838,7 @@ export default function Home() {
                       className={`w-3 h-3 rounded-full transition-all duration-300 ${
                         index === currentTestimonial
                           ? "bg-white scale-125"
-                          : "bg-white/40 hover:bg-white/60"
+                          : "bg-black hover:bg-white/60"
                       }`}
                       whileHover={{ scale: 1.2 }}
                       whileTap={{ scale: 0.9 }}
@@ -853,18 +846,18 @@ export default function Home() {
                   ))}
                 </div>
 
-                <motion.button
+                {/* <motion.button
                   onClick={scrollNext}
                   className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 border border-white/20"
                   whileHover={{
                     scale: 1.1,
                     backdropFilter: "blur(16px)",
-                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.3)"
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.3)",
                   }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <ChevronRight className="w-6 h-6" />
-                </motion.button>
+                </motion.button> */}
               </div>
             </FadeInWhenVisible>
           </div>
@@ -893,15 +886,17 @@ export default function Home() {
                     type="text"
                     placeholder="Name"
                     value={contactForm.name}
-                    onChange={(e) => handleContactInputChange('name', e.target.value)}
+                    onChange={(e) =>
+                      handleContactInputChange("name", e.target.value)
+                    }
                     className={`bg-white/90 backdrop-blur-sm text-black px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:bg-white transition-all duration-300 border ${
                       contactError && !contactForm.name.trim()
-                        ? 'border-red-500 focus:ring-red-500'
-                        : 'border-white/20 focus:ring-[#235e99]'
+                        ? "border-red-500 focus:ring-red-500"
+                        : "border-white/20 focus:ring-[#235e99]"
                     }`}
                     whileFocus={{
                       scale: 1.02,
-                      boxShadow: "0 8px 25px rgba(35, 94, 153, 0.2)"
+                      boxShadow: "0 8px 25px rgba(35, 94, 153, 0.2)",
                     }}
                     disabled={contactLoading}
                     required
@@ -910,15 +905,19 @@ export default function Home() {
                     type="email"
                     placeholder="Email"
                     value={contactForm.email}
-                    onChange={(e) => handleContactInputChange('email', e.target.value)}
+                    onChange={(e) =>
+                      handleContactInputChange("email", e.target.value)
+                    }
                     className={`bg-white/90 backdrop-blur-sm text-black px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:bg-white transition-all duration-300 border ${
-                      contactError && (!contactForm.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactForm.email))
-                        ? 'border-red-500 focus:ring-red-500'
-                        : 'border-white/20 focus:ring-[#235e99]'
+                      contactError &&
+                      (!contactForm.email.trim() ||
+                        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactForm.email))
+                        ? "border-red-500 focus:ring-red-500"
+                        : "border-white/20 focus:ring-[#235e99]"
                     }`}
                     whileFocus={{
                       scale: 1.02,
-                      boxShadow: "0 8px 25px rgba(35, 94, 153, 0.2)"
+                      boxShadow: "0 8px 25px rgba(35, 94, 153, 0.2)",
                     }}
                     disabled={contactLoading}
                     required
@@ -931,15 +930,17 @@ export default function Home() {
                   placeholder="How can we help you?"
                   rows={6}
                   value={contactForm.message}
-                  onChange={(e) => handleContactInputChange('message', e.target.value)}
+                  onChange={(e) =>
+                    handleContactInputChange("message", e.target.value)
+                  }
                   className={`w-full text-black bg-white/90 backdrop-blur-sm px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:bg-white mb-6 transition-all duration-300 border ${
                     contactError && !contactForm.message.trim()
-                      ? 'border-red-500 focus:ring-red-500'
-                      : 'border-white/20 focus:ring-[#235e99]'
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-white/20 focus:ring-[#235e99]"
                   }`}
                   whileFocus={{
                     scale: 1.01,
-                    boxShadow: "0 8px 25px rgba(35, 94, 153, 0.2)"
+                    boxShadow: "0 8px 25px rgba(35, 94, 153, 0.2)",
                   }}
                   disabled={contactLoading}
                   required
@@ -966,7 +967,10 @@ export default function Home() {
                 >
                   <div className="flex items-center justify-center space-x-2">
                     <CheckCircle className="w-5 h-5" />
-                    <span>Thank you! Your message has been sent successfully. We'll get back to you soon!</span>
+                    <span>
+                      Thank you! Your message has been sent successfully. We'll
+                      get back to you soon!
+                    </span>
                   </div>
                 </motion.div>
               )}
@@ -978,15 +982,22 @@ export default function Home() {
                     disabled={contactLoading || contactSuccess}
                     className={`backdrop-blur-md text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl border border-white/20 ${
                       contactLoading || contactSuccess
-                        ? 'bg-gray-500 cursor-not-allowed'
-                        : 'bg-[#235e99] hover:bg-[#1a4773]'
+                        ? "bg-gray-500 cursor-not-allowed"
+                        : "bg-[#235e99] hover:bg-[#1a4773]"
                     }`}
-                    whileHover={!contactLoading && !contactSuccess ? {
-                      scale: 1.05,
-                      boxShadow: "0 20px 40px -12px rgba(35, 94, 153, 0.4)",
-                      backdropFilter: "blur(16px)"
-                    } : {}}
-                    whileTap={!contactLoading && !contactSuccess ? { scale: 0.98 } : {}}
+                    whileHover={
+                      !contactLoading && !contactSuccess
+                        ? {
+                            scale: 1.05,
+                            boxShadow:
+                              "0 20px 40px -12px rgba(35, 94, 153, 0.4)",
+                            backdropFilter: "blur(16px)",
+                          }
+                        : {}
+                    }
+                    whileTap={
+                      !contactLoading && !contactSuccess ? { scale: 0.98 } : {}
+                    }
                   >
                     {contactLoading ? (
                       <div className="flex items-center space-x-2">
@@ -999,7 +1010,7 @@ export default function Home() {
                         <span>Sent!</span>
                       </div>
                     ) : (
-                      'Send Message'
+                      "Send Message"
                     )}
                   </motion.button>
                 </div>

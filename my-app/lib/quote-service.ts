@@ -83,7 +83,6 @@ export class QuoteService {
     routeData: RouteData,
     serviceType: string,
     selectedDate: Date,
-    selectedTime: string
   ): QuoteBreakdown {
     const baseFare = pricingConfig.baseFare[serviceType] || pricingConfig.baseFare["Select Service"];
     const distanceCost = routeData.distance * pricingConfig.costPerMile * 0.621371; // Convert km to miles
@@ -93,7 +92,7 @@ export class QuoteService {
     const waitingTimeCost = estimatedWaitingTime * pricingConfig.costPerMinuteWaiting;
 
     // Calculate surge multiplier
-    const surgeMultiplier = this.calculateSurgeMultiplier(selectedDate, selectedTime);
+    const surgeMultiplier = this.calculateSurgeMultiplier(selectedDate);
     const subtotal = baseFare + distanceCost + waitingTimeCost;
     const surgeAmount = subtotal * (surgeMultiplier / 100);
     const total = subtotal + surgeAmount;
@@ -128,9 +127,9 @@ export class QuoteService {
     return waitingTimes[serviceType] || waitingTimes["Select Service"];
   }
 
-  private static calculateSurgeMultiplier(selectedDate: Date, selectedTime: string): number {
+  private static calculateSurgeMultiplier(selectedDate: Date): number {
     const dayOfWeek = selectedDate.getDay(); // 0 = Sunday, 1 = Monday, etc.
-    const hour = parseInt(selectedTime.split(':')[0]);
+    // const hour = parseInt(selectedTime.split(':')[0]);
 
     // Sunday surge
     if (dayOfWeek === 0) {
@@ -144,13 +143,13 @@ export class QuoteService {
 
     // Weekday peak hours surge (Monday to Friday)
     if (dayOfWeek >= 1 && dayOfWeek <= 5) {
-      const isPeakHour =
-        (hour >= pricingConfig.peakHours.start && hour < pricingConfig.peakHours.end) ||
-        (hour >= pricingConfig.peakHours.eveningStart && hour < pricingConfig.peakHours.eveningEnd);
+      // const isPeakHour =
+      //   (hour >= pricingConfig.peakHours.start && hour < pricingConfig.peakHours.end) ||
+      //   (hour >= pricingConfig.peakHours.eveningStart && hour < pricingConfig.peakHours.eveningEnd);
 
-      if (isPeakHour) {
+      // if (isPeakHour) {
         return pricingConfig.surgeRules.weekdayPeakPercentage;
-      }
+      // }
     }
 
     return 0; // No surge
@@ -161,9 +160,8 @@ export class QuoteService {
     dropoff: AddressResult,
     serviceType: string,
     selectedDate: Date,
-    selectedTime: string
   ): Promise<QuoteBreakdown> {
     const routeData = await this.getRouteData(pickup, dropoff);
-    return this.calculateQuote(pickup, dropoff, routeData, serviceType, selectedDate, selectedTime);
+    return this.calculateQuote(pickup, dropoff, routeData, serviceType, selectedDate);
   }
 }
