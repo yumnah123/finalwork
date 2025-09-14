@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { AddressAutocomplete } from "../components/AddressAutocomplete";
@@ -60,6 +61,8 @@ const FadeInWhenVisible = ({ children, delay = 0 }: { children: React.ReactNode;
 
 
 export default function Home() {
+  const router = useRouter();
+
   // Testimonials carousel setup
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -457,7 +460,8 @@ export default function Home() {
           <FadeInWhenVisible delay={0.5}>
             <div className="text-center mt-12">
               <motion.button
-                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl border border-white/20"
+                onClick={() => router.push('/services')}
+                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl border border-white/20 cursor-pointer"
                 whileHover={{
                   scale: 1.05,
                   boxShadow: "0 20px 40px -12px rgba(35, 94, 153, 0.4)",
@@ -729,7 +733,8 @@ export default function Home() {
           <FadeInWhenVisible delay={0.3}>
             <div className="text-center mt-12">
               <motion.button
-                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl border border-white/20"
+                onClick={() => router.push('/fleet')}
+                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl border border-white/20 cursor-pointer"
                 whileHover={{
                   scale: 1.05,
                   boxShadow: "0 20px 40px -12px rgba(35, 94, 153, 0.4)",
