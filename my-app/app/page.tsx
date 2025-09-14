@@ -2,7 +2,7 @@
 import Image from "next/image";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { motion, useAnimation, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { AddressAutocomplete } from "../components/AddressAutocomplete";
@@ -46,139 +46,35 @@ import contact from "../public/assets1/contact.png";
 import wifi from "../public/assets1/wifi.png";
 // Animation components
 const FadeInWhenVisible = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
-  const controls = useAnimation();
-  const ref = React.useRef(null);
-  const inView = useInView(ref, { triggerOnce: true, threshold: 0.1 });
-
-  React.useEffect(() => {
-    if (inView) {
-      controls.start({
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.6, delay }
-      });
-    }
-  }, [controls, inView, delay]);
-
   return (
     <motion.div
-      ref={ref}
-      animate={controls}
       initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay }}
+      viewport={{ once: true, amount: 0.1 }}
     >
       {children}
     </motion.div>
   );
 };
 
-const SlideInLeft = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
-  const controls = useAnimation();
-  const ref = React.useRef(null);
-  const inView = useInView(ref, { triggerOnce: true, threshold: 0.1 });
-
-  React.useEffect(() => {
-    if (inView) {
-      controls.start({
-        opacity: 1,
-        x: 0,
-        transition: { duration: 0.8, delay }
-      });
-    }
-  }, [controls, inView, delay]);
-
-  return (
-    <motion.div
-      ref={ref}
-      animate={controls}
-      initial={{ opacity: 0, x: -60 }}
-    >
-      {children}
-    </motion.div>
-  );
-};
-
-const SlideInRight = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
-  const controls = useAnimation();
-  const ref = React.useRef(null);
-  const inView = useInView(ref, { triggerOnce: true, threshold: 0.1 });
-
-  React.useEffect(() => {
-    if (inView) {
-      controls.start({
-        opacity: 1,
-        x: 0,
-        transition: { duration: 0.8, delay }
-      });
-    }
-  }, [controls, inView, delay]);
-
-  return (
-    <motion.div
-      ref={ref}
-      animate={controls}
-      initial={{ opacity: 0, x: 60 }}
-    >
-      {children}
-    </motion.div>
-  );
-};
 
 export default function Home() {
   // Testimonials carousel setup
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    { loop: true, align: 'start' },
+    {
+      loop: true,
+      align: 'start',
+      slidesToScroll: 1,
+      containScroll: 'trimSnaps',
+      dragFree: false
+    },
     [Autoplay({ delay: 4000, stopOnInteraction: false })]
   );
 
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setCurrentTestimonial(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on('select', onSelect);
-  }, [emblaApi, onSelect]);
-
-  // Form state
-  const [pickupAddress, setPickupAddress] = useState<AddressResult | null>(
-    null
-  );
-  const [dropoffAddress, setDropoffAddress] = useState<AddressResult | null>(
-    null
-  );
-  const [customerName, setCustomerName] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
-  const [selectedTime, setSelectedTime] = useState("");
-  const [serviceType, setServiceType] = useState("Select Service");
-
-  // Quote state
-  const [quote, setQuote] = useState<QuoteBreakdown | null>(null);
-  const [quoteLoading, setQuoteLoading] = useState(false);
-  const [showQuote, setShowQuote] = useState(false);
-
-  // Contact form state
-  const [contactForm, setContactForm] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-  const [contactLoading, setContactLoading] = useState(false);
-  const [contactSuccess, setContactSuccess] = useState(false);
-  const [contactError, setContactError] = useState('');
-
+  
   const testimonials = [
     {
       text: "Exceptional service from start to finish! The driver was punctual, professional, and the vehicle was immaculate. Will definitely use Goldstar again for future business trips.",
@@ -217,6 +113,57 @@ export default function Home() {
       author: "Andrew Foster, Edinburgh",
     },
   ];
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    // Get the actual index within the original testimonials array
+    const selectedIndex = emblaApi.selectedScrollSnap();
+    setCurrentTestimonial(selectedIndex % testimonials.length);
+  }, [emblaApi, testimonials.length]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    // Start at the middle set of testimonials to ensure smooth infinite scrolling
+    emblaApi.scrollTo(testimonials.length, true);
+    onSelect();
+    emblaApi.on('select', onSelect);
+  }, [emblaApi, onSelect, testimonials.length]);
+
+  // Form state
+  const [pickupAddress, setPickupAddress] = useState<AddressResult | null>(
+    null
+  );
+  const [dropoffAddress, setDropoffAddress] = useState<AddressResult | null>(
+    null
+  );
+  const [customerName, setCustomerName] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
+  const [serviceType, setServiceType] = useState("Select Service");
+
+  // Quote state
+  const [quote, setQuote] = useState<QuoteBreakdown | null>(null);
+  const [quoteLoading, setQuoteLoading] = useState(false);
+  const [showQuote, setShowQuote] = useState(false);
+
+  // Contact form state
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [contactLoading, setContactLoading] = useState(false);
+  const [contactSuccess, setContactSuccess] = useState(false);
+  const [contactError, setContactError] = useState('');
 
 
 
@@ -819,16 +766,17 @@ export default function Home() {
               </p>
             </FadeInWhenVisible>
 
-            <FadeInWhenVisible delay={0.4}>
+            <FadeInWhenVisible delay={0.2}>
               <div className="embla overflow-hidden" ref={emblaRef}>
                 <div className="embla__container flex">
-                  {testimonials.map((testimonial, index) => (
+                  {/* Duplicate testimonials for seamless infinite loop */}
+                  {[...testimonials, ...testimonials, ...testimonials].map((testimonial, index) => (
                     <motion.div
-                      key={index}
-                      className="embla__slide flex-[0_0_33.333%] min-w-0 px-3"
+                      key={`testimonial-${index}`}
+                      className="embla__slide min-w-0"
                       initial={{ opacity: 0, scale: 0.9 }}
                       whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      transition={{ duration: 0.5, delay: (index % testimonials.length) * 0.1 }}
                     >
                       <motion.div
                         className="backdrop-blur-md rounded-lg p-6 bg-white/15 border border-white/20 h-full"
@@ -882,6 +830,13 @@ export default function Home() {
                   {testimonials.map((_, index) => (
                     <motion.button
                       key={index}
+                      onClick={() => {
+                        if (emblaApi) {
+                          // Navigate to the middle set to avoid edge cases
+                          const targetIndex = testimonials.length + index;
+                          emblaApi.scrollTo(targetIndex);
+                        }
+                      }}
                       className={`w-3 h-3 rounded-full transition-all duration-300 ${
                         index === currentTestimonial
                           ? "bg-white scale-125"

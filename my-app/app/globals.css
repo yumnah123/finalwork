@@ -82,6 +82,7 @@ body {
 .embla__container {
   display: flex;
   touch-action: pan-y;
+  backface-visibility: hidden;
 }
 
 .embla__slide {
@@ -89,15 +90,27 @@ body {
   min-width: 0;
 }
 
-@media (max-width: 768px) {
+/* Desktop: 3 testimonials per slide */
+@media (min-width: 1024px) {
   .embla__slide {
-    flex: 0 0 100%;
+    flex: 0 0 33.333%;
+    padding: 0 12px;
   }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
+/* Tablet: 2 testimonials per slide */
+@media (min-width: 768px) and (max-width: 1023px) {
   .embla__slide {
     flex: 0 0 50%;
+    padding: 0 12px;
+  }
+}
+
+/* Mobile: 1 testimonial per slide */
+@media (max-width: 767px) {
+  .embla__slide {
+    flex: 0 0 100%;
+    padding: 0 8px;
   }
 }
 
