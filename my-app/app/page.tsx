@@ -2,32 +2,24 @@
 import Image from "next/image";
 
 import { useState, useEffect } from "react";
-import { AddressAutocomplete } from '../components/AddressAutocomplete';
-import { QuoteDisplay } from '../components/QuoteDisplay';
-import Footer from '../components/Footer';
-import Hero from '../components/Hero';
-import { AddressResult } from '../hooks/useAddressAutocomplete';
-import { QuoteService } from '../lib/quote-service';
-import { QuoteBreakdown } from '../lib/pricing-config';
+import { AddressAutocomplete } from "../components/AddressAutocomplete";
+import { QuoteDisplay } from "../components/QuoteDisplay";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Hero from "../components/Hero";
+import { AddressResult } from "../hooks/useAddressAutocomplete";
+import { QuoteService } from "../lib/quote-service";
+import { QuoteBreakdown } from "../lib/pricing-config";
 import {
-  Phone,
   Star,
   CheckCircle,
-  Clock,
-  CreditCard,
-  Coffee,
-  Wifi,
-  BookOpen,
   ChevronLeft,
   ChevronRight,
-  Menu,
-  X,
 } from "lucide-react";
 import hero1 from "../public/assets1/hero-11.png";
 import hero2 from "../public/assets1/hero-2.png";
 import rtl from "../public/assets1/rtl-line.png";
 import ltr from "../public/assets1/ltr-line.png";
-import logo from "../public/Logo.svg";
 import airport from "../public/assets1/airport.png";
 import business from "../public/assets1/business.png";
 import travel from "../public/assets1/travel.png";
@@ -39,24 +31,31 @@ import premium from "../public/assets1/section3.jpg";
 import banner from "../public/assets1/banner4.jpg";
 import testimonial from "../public/assets1/banner5.jpg";
 import mercedez from "../public/assets1/banner6.jpg";
-import comm from "../public/assets1/MPV_2_Group.png"
-import dollor from "../public/assets1/MPV_3_Group.png"
-import caravan from "../public/assets1/caravan.png"
+import comm from "../public/assets1/MPV_2_Group.png";
+import dollor from "../public/assets1/MPV_3_Group.png";
+import caravan from "../public/assets1/caravan.png";
 import merc from "../public/assets1/merc.png";
+import payment from "../public/assets1/payment.png";
+import time from "../public/assets1/time.png";
+import reading from "../public/assets1/reading.png";
+import bottle from "../public/assets1/bottle.png";
+import contact from "../public/assets1/contact.png";
+import wifi from "../public/assets1/wifi.png";
 export default function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('HOME');
 
   // Form state
-  const [pickupAddress, setPickupAddress] = useState<AddressResult | null>(null);
-  const [dropoffAddress, setDropoffAddress] = useState<AddressResult | null>(null);
-  const [customerName, setCustomerName] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-  const [serviceType, setServiceType] = useState('Select Service');
+  const [pickupAddress, setPickupAddress] = useState<AddressResult | null>(
+    null
+  );
+  const [dropoffAddress, setDropoffAddress] = useState<AddressResult | null>(
+    null
+  );
+  const [customerName, setCustomerName] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
+  const [serviceType, setServiceType] = useState("Select Service");
 
   // Quote state
   const [quote, setQuote] = useState<QuoteBreakdown | null>(null);
@@ -129,33 +128,6 @@ export default function Home() {
     return result;
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-      // Close mobile menu on scroll
-      if (isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isMobileMenuOpen]);
-
-  // Close mobile menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (isMobileMenuOpen) {
-        const target = event.target as HTMLElement;
-        if (!target.closest('header')) {
-          setIsMobileMenuOpen(false);
-        }
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, [isMobileMenuOpen]);
 
   const isFormValid = () => {
     return (
@@ -165,7 +137,7 @@ export default function Home() {
       contactNumber.trim() &&
       selectedDate &&
       selectedTime &&
-      serviceType !== 'Select Service'
+      serviceType !== "Select Service"
     );
   };
 
@@ -185,8 +157,8 @@ export default function Home() {
       setQuote(generatedQuote);
       setShowQuote(true);
     } catch (error) {
-      console.error('Error generating quote:', error);
-      alert('Failed to generate quote. Please try again.');
+      console.error("Error generating quote:", error);
+      alert("Failed to generate quote. Please try again.");
     } finally {
       setQuoteLoading(false);
     }
@@ -199,152 +171,15 @@ export default function Home() {
 
   const handleBookNow = () => {
     // TODO: Implement booking functionality
-    alert('Booking functionality will be implemented next!');
+    alert("Booking functionality will be implemented next!");
     handleCloseQuote();
   };
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "bg-black/80 backdrop-blur-sm" : "bg-transparent"
-        }`}
-      >
-        <div className="container mx-auto px-4 max-w-[1440px]">
-          {/* Logo and Navigation - Bottom Row */}
-          <div className="flex items-center justify-between pb-4">
-            <div className="flex items-center">
-              <Image
-                src={logo}
-                alt="GoldStar Logo"
-                width={280}
-                height={95}
-                priority
-                className="max-w-[200px] md:max-w-[280px] h-auto"
-              />
-            </div>
-            <div className="flex flex-col items-end gap-4">
-              <div className="hidden md:flex items-center text-white text-base font-semibold">
-                <Phone className="w-4 h-4 mr-2" />
-                +44 (0) 203 858 786
-              </div>
-              <div className="flex items-center gap-4">
-                {/* Desktop Navigation */}
-                <nav className="hidden lg:flex items-center space-x-8">
-                  <a
-                    href="/"
-                    className={`transition-colors ${
-                      activeSection === 'HOME'
-                        ? 'text-primary border-b-2 border-primary'
-                        : 'text-white hover:text-primary'
-                    }`}
-                  >
-                    HOME
-                  </a>
-                  <a
-                    href="/services"
-                    className="transition-colors text-white hover:text-primary"
-                  >
-                    SERVICES
-                  </a>
-                  <a
-                    href="/fleet"
-                    className="transition-colors text-white hover:text-primary"
-                  >
-                    OUR FLEET
-                  </a>
-                  <a
-                    href="/feedback"
-                    className="transition-colors text-white hover:text-primary"
-                  >
-                    FEEDBACK
-                  </a>
-                  <a
-                    href="/corporate"
-                    className="transition-colors text-white hover:text-primary"
-                  >
-                    CORPORATE ACCOUNT
-                  </a>
-                  <a
-                    href="/contact"
-                    className="transition-colors text-white hover:text-primary"
-                  >
-                    CONTACT
-                  </a>
-                </nav>
-                
-                {/* Mobile Menu Button */}
-                <button
-                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="lg:hidden text-white hover:text-primary transition-colors p-2"
-                  aria-label="Toggle mobile menu"
-                >
-                  {isMobileMenuOpen ? (
-                    <X className="w-6 h-6" />
-                  ) : (
-                    <Menu className="w-6 h-6" />
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Mobile Navigation Dropdown */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-black/95 backdrop-blur-sm border-t border-white/10">
-            <nav className="container mx-auto px-4 py-4 max-w-[1440px]">
-              <div className="flex flex-col space-y-4">
-                <a
-                  href="/"
-                  className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  HOME
-                </a>
-                <a
-                  href="/services"
-                  className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  SERVICES
-                </a>
-                <a
-                  href="/fleet"
-                  className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  OUR FLEET
-                </a>
-                <a
-                  href="/feedback"
-                  className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  FEEDBACK
-                </a>
-                <a
-                  href="/corporate"
-                  className="text-white hover:text-primary transition-colors py-2 border-b border-white/10"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  CORPORATE ACCOUNT
-                </a>
-                <a
-                  href="/contact"
-                  className="text-white hover:text-primary transition-colors py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  CONTACT
-                </a>
-              </div>
-            </nav>
-          </div>
-        )}
-      </header>
+      <Header activeSection="HOME" />
 
-      <Hero 
+      <Hero
         title="Welcome to"
         subtitle="Goldstar Executive"
         description="An executive car and chauffeur service covering Surrey, London and the Home Counties"
@@ -367,10 +202,9 @@ export default function Home() {
           setServiceType,
           handleGetQuote,
           isFormValid,
-          quoteLoading
+          quoteLoading,
         }}
       />
-
 
       {/* Executive Car Services */}
       <section
@@ -394,8 +228,7 @@ export default function Home() {
               <div
                 className="h-48 bg-cover bg-center"
                 style={{
-                  backgroundImage:
-                    'url("https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
+                  backgroundImage: `url(${airport.src})`,
                 }}
               >
                 <div className="bg-black/60 h-full flex items-end p-6">
@@ -417,8 +250,7 @@ export default function Home() {
               <div
                 className="h-48 bg-cover bg-center"
                 style={{
-                  backgroundImage:
-                    'url("https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
+                  backgroundImage: `url(${business.src})`,
                 }}
               >
                 <div className="bg-black/60 h-full flex items-end p-6">
@@ -440,8 +272,7 @@ export default function Home() {
               <div
                 className="h-48 bg-cover bg-center"
                 style={{
-                  backgroundImage:
-                    'url("https://images.pexels.com/photos/1108100/pexels-photo-1108100.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
+                  backgroundImage: `url(${travel.src})`,
                 }}
               >
                 <div className="bg-black/60 h-full flex items-end p-6">
@@ -463,8 +294,7 @@ export default function Home() {
               <div
                 className="h-48 bg-cover bg-center"
                 style={{
-                  backgroundImage:
-                    'url("https://images.pexels.com/photos/1444442/pexels-photo-1444442.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
+                  backgroundImage: `url(${wedding.src})`,
                 }}
               >
                 <div className="bg-black/60 h-full flex items-end p-6">
@@ -510,8 +340,8 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
             <div className="text-center">
-              <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="w-10 h-10 text-black" />
+              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 ">
+                <Image src={time} alt="time" />
               </div>
               <h3 className="text-lg font-bold max-w-[170px] mx-auto">
                 We are available 24/7
@@ -519,8 +349,8 @@ export default function Home() {
             </div>
 
             <div className="text-center">
-              <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <CreditCard className="w-10 h-10 text-black" />
+              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 ">
+                <Image src={payment} alt="time" />
               </div>
               <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
                 Secure Payment methods
@@ -528,8 +358,8 @@ export default function Home() {
             </div>
 
             <div className="text-center">
-              <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Coffee className="w-10 h-10 text-black" />
+              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 ">
+                <Image src={bottle} alt="time" />
               </div>
               <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
                 Bottled Water
@@ -537,15 +367,16 @@ export default function Home() {
             </div>
 
             <div className="text-center">
-              <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Wifi className="w-10 h-10 text-black" />
+              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 ">
+                <Image src={wifi} alt="time" />
               </div>
+
               <h3 className="text-lg font-bold mb-2">Wi-fi</h3>
             </div>
 
             <div className="text-center">
-              <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <BookOpen className="w-10 h-10 text-black" />
+              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 ">
+                <Image src={reading} alt="time" />
               </div>
               <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
                 Reading Materials
@@ -587,15 +418,23 @@ export default function Home() {
                 <div className="flex items-center space-x-4 mb-4">
                   <div className="flex gap-2">
                     <div>
-                      <Image src={comm} alt="comm" className="w-[20px] h-[20px]"/>
+                      <Image
+                        src={comm}
+                        alt="comm"
+                        className="w-[20px] h-[20px]"
+                      />
                     </div>
-                  <span className="text-sm text-gray-600">max: 4</span>
+                    <span className="text-sm text-gray-600">max: 4</span>
                   </div>
                   <div className="flex gap-2">
                     <div>
-                      <Image src={dollor} alt="comm" className="w-[20px] h-[20px]"/>
+                      <Image
+                        src={dollor}
+                        alt="comm"
+                        className="w-[20px] h-[20px]"
+                      />
                     </div>
-                  <span className="text-sm text-gray-600">max: 2</span>
+                    <span className="text-sm text-gray-600">max: 2</span>
                   </div>
                 </div>
               </div>
@@ -615,15 +454,23 @@ export default function Home() {
                 <div className="flex items-center space-x-4 mb-4">
                   <div className="flex gap-2">
                     <div>
-                      <Image src={comm} alt="comm" className="w-[20px] h-[20px]"/>
+                      <Image
+                        src={comm}
+                        alt="comm"
+                        className="w-[20px] h-[20px]"
+                      />
                     </div>
-                  <span className="text-sm text-gray-600">max: 4</span>
+                    <span className="text-sm text-gray-600">max: 4</span>
                   </div>
                   <div className="flex gap-2">
                     <div>
-                      <Image src={dollor} alt="comm" className="w-[20px] h-[20px]"/>
+                      <Image
+                        src={dollor}
+                        alt="comm"
+                        className="w-[20px] h-[20px]"
+                      />
                     </div>
-                  <span className="text-sm text-gray-600">max: 2</span>
+                    <span className="text-sm text-gray-600">max: 2</span>
                   </div>
                 </div>
               </div>
@@ -643,15 +490,23 @@ export default function Home() {
                 <div className="flex items-center space-x-4 mb-4">
                   <div className="flex gap-2">
                     <div>
-                      <Image src={comm} alt="comm" className="w-[20px] h-[20px]"/>
+                      <Image
+                        src={comm}
+                        alt="comm"
+                        className="w-[20px] h-[20px]"
+                      />
                     </div>
-                  <span className="text-sm text-gray-600">max: 4</span>
+                    <span className="text-sm text-gray-600">max: 4</span>
                   </div>
                   <div className="flex gap-2">
                     <div>
-                      <Image src={dollor} alt="comm" className="w-[20px] h-[20px]"/>
+                      <Image
+                        src={dollor}
+                        alt="comm"
+                        className="w-[20px] h-[20px]"
+                      />
                     </div>
-                  <span className="text-sm text-gray-600">max: 2</span>
+                    <span className="text-sm text-gray-600">max: 2</span>
                   </div>
                 </div>
               </div>

@@ -1,171 +1,23 @@
 "use client";
-import Image from "next/image";
-import { useState, useEffect } from "react";
 import {
-  Phone,
-  Star,
   CheckCircle,
   Clock,
-  CreditCard,
-  Coffee,
-  Wifi,
-  BookOpen,
-  Menu,
-  X,
   MapPin,
   Users,
   Calendar,
   Shield,
 } from "lucide-react";
-import logo from "../../public/Logo.svg";
 import executiveCar from "../../public/assets1/section2.jpg";
 import premium from "../../public/assets1/section3.jpg";
 import Footer from "../../components/Footer";
+import Header from "../../components/Header";
 import Hero from "../../components/Hero";
 
 export default function Services() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('SERVICES');
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-      if (isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isMobileMenuOpen]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (isMobileMenuOpen) {
-        const target = event.target as HTMLElement;
-        if (!target.closest('header')) {
-          setIsMobileMenuOpen(false);
-        }
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, [isMobileMenuOpen]);
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "bg-black/80 backdrop-blur-sm" : "bg-transparent"
-        }`}
-      >
-        <div className="container mx-auto px-4 max-w-[1440px]">
-          <div className="flex items-center justify-between pb-4">
-            <div className="flex items-center">
-              <Image
-                src={logo}
-                alt="GoldStar Logo"
-                width={280}
-                height={95}
-                priority
-                className="max-w-[200px] md:max-w-[280px] h-auto"
-              />
-            </div>
-            <div className="flex flex-col items-end gap-4">
-              <div className="hidden md:flex items-center text-white text-base font-semibold">
-                <Phone className="w-4 h-4 mr-2" />
-                +44 (0) 203 858 786
-              </div>
-              <div className="flex items-center gap-4">
-                <nav className="hidden lg:flex items-center space-x-8">
-                  <a
-                    href="/"
-                    className="transition-colors text-white hover:text-primary"
-                  >
-                    HOME
-                  </a>
-                  <a
-                    href="/services"
-                    className={`transition-colors ${
-                      activeSection === 'SERVICES'
-                        ? 'text-primary border-b-2 border-primary'
-                        : 'text-white hover:text-primary'
-                    }`}
-                  >
-                    SERVICES
-                  </a>
-                  <a
-                    href="/fleet"
-                    className="transition-colors text-white hover:text-primary"
-                  >
-                    OUR FLEET
-                  </a>
-                  <a
-                    href="/feedback"
-                    className="transition-colors text-white hover:text-primary"
-                  >
-                    FEEDBACK
-                  </a>
-                  <a
-                    href="/corporate"
-                    className="transition-colors text-white hover:text-primary"
-                  >
-                    CORPORATE ACCOUNT
-                  </a>
-                  <a
-                    href="/contact"
-                    className="transition-colors text-white hover:text-primary"
-                  >
-                    CONTACT
-                  </a>
-                </nav>
-                
-                <button
-                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="lg:hidden text-white hover:text-primary transition-colors p-2"
-                  aria-label="Toggle mobile menu"
-                >
-                  {isMobileMenuOpen ? (
-                    <X className="w-6 h-6" />
-                  ) : (
-                    <Menu className="w-6 h-6" />
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-black/95 backdrop-blur-sm border-t border-white/10">
-            <nav className="container mx-auto px-4 py-4 max-w-[1440px]">
-              <div className="flex flex-col space-y-4">
-                <a href="/" className="text-white hover:text-primary transition-colors py-2 border-b border-white/10">
-                  HOME
-                </a>
-                <a href="/services" className="text-white hover:text-primary transition-colors py-2 border-b border-white/10">
-                  SERVICES
-                </a>
-                <a href="/fleet" className="text-white hover:text-primary transition-colors py-2 border-b border-white/10">
-                  OUR FLEET
-                </a>
-                <a href="/feedback" className="text-white hover:text-primary transition-colors py-2 border-b border-white/10">
-                  FEEDBACK
-                </a>
-                <a href="/corporate" className="text-white hover:text-primary transition-colors py-2 border-b border-white/10">
-                  CORPORATE ACCOUNT
-                </a>
-                <a href="/contact" className="text-white hover:text-primary transition-colors py-2">
-                  CONTACT
-                </a>
-              </div>
-            </nav>
-          </div>
-        )}
-      </header>
+      <Header activeSection="SERVICES" />
 
       <Hero 
         title="Our Premium"

@@ -2,7 +2,7 @@ import herobg from "../public/assets1/banner.jpg";
 import { CheckCircle } from "lucide-react";
 
 interface HeroProps {
-  title: string;
+  title: string | null;
   subtitle: string;
   description: string;
   showBookingForm?: boolean;
@@ -35,7 +35,7 @@ export default function Hero({ title, subtitle, description, showBookingForm = f
     }}>
       <div className="inset-0 flex items-center justify-center mt-[120px] md:mt-[170px] lg:mt-[200px] 2xl:mt-[400px]">
         <div className="text-center text-white">
-          <h1 className="text-3xl md:text-6xl font-light lg:mb-4">{title}</h1>
+          {title && <h1 className="text-3xl md:text-6xl font-light lg:mb-4">{title}</h1>}
           <h2 className="text-2xl md:text-5xl font-bold text-primary mb-6">
             {subtitle}
           </h2>

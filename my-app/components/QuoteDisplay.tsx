@@ -21,6 +21,7 @@ interface QuoteDisplayProps {
   dropoff: AddressResult | null;
   onClose: () => void;
   onBook?: () => void;
+  bookButtonText?: string;
 }
 
 export const QuoteDisplay: React.FC<QuoteDisplayProps> = ({
@@ -30,6 +31,7 @@ export const QuoteDisplay: React.FC<QuoteDisplayProps> = ({
   dropoff,
   onClose,
   onBook,
+  bookButtonText = "Book Now",
 }) => {
   if (!quote && !loading) return null;
 
@@ -202,7 +204,7 @@ export const QuoteDisplay: React.FC<QuoteDisplayProps> = ({
                     onClick={onBook}
                     className="flex-1 px-4 py-3 bg-[#235e99] text-white rounded-lg hover:bg-[#1e4f82] transition-colors font-medium"
                   >
-                    Book Now
+                    {bookButtonText}
                   </button>
                 )}
               </div>
