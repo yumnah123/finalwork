@@ -75,19 +75,35 @@ export default function Hero({ title, subtitle, description, showBookingForm = f
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <input
-                  type="date"
-                  value={bookingFormProps.selectedDate}
-                  min={new Date().toISOString().split('T')[0]}
-                  onChange={(e) => bookingFormProps.setSelectedDate(e.target.value)}
-                  className="bg-white/10 w-full md:w-auto backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
-                />
-                <input
-                  type="time"
-                  value={bookingFormProps.selectedTime}
-                  onChange={(e) => bookingFormProps.setSelectedTime(e.target.value)}
-                  className="bg-white/10 w-full md:w-auto backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
-                />
+                <div className="relative w-full md:w-auto">
+                  <input
+                    type="date"
+                    value={bookingFormProps.selectedDate}
+                    min={new Date().toISOString().split('T')[0]}
+                    onChange={(e) => bookingFormProps.setSelectedDate(e.target.value)}
+                    className="bg-white/10 w-full backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
+                    style={{ colorScheme: 'dark' }}
+                  />
+                  {!bookingFormProps.selectedDate && (
+                    <span className="absolute left-2 lg:left-4 top-1/2 transform -translate-y-1/2 text-white/70 pointer-events-none text-sm lg:text-base md:hidden">
+                      Select Date
+                    </span>
+                  )}
+                </div>
+                <div className="relative w-full md:w-auto">
+                  <input
+                    type="time"
+                    value={bookingFormProps.selectedTime}
+                    onChange={(e) => bookingFormProps.setSelectedTime(e.target.value)}
+                    className="bg-white/10 w-full backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
+                    style={{ colorScheme: 'dark' }}
+                  />
+                  {!bookingFormProps.selectedTime && (
+                    <span className="absolute left-2 lg:left-4 top-1/2 transform -translate-y-1/2 text-white/70 pointer-events-none text-sm lg:text-base md:hidden">
+                      Select Time
+                    </span>
+                  )}
+                </div>
                 <select 
                   value={bookingFormProps.serviceType}
                   onChange={(e) => bookingFormProps.setServiceType(e.target.value)}

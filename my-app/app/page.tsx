@@ -1,7 +1,10 @@
 "use client";
 import Image from "next/image";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { motion, useAnimation, useInView } from "framer-motion";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import { AddressAutocomplete } from "../components/AddressAutocomplete";
 import { QuoteDisplay } from "../components/QuoteDisplay";
 import Footer from "../components/Footer";
@@ -41,8 +44,112 @@ import reading from "../public/assets1/reading.png";
 import bottle from "../public/assets1/bottle.png";
 import contact from "../public/assets1/contact.png";
 import wifi from "../public/assets1/wifi.png";
+// Animation components
+const FadeInWhenVisible = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
+  const controls = useAnimation();
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { triggerOnce: true, threshold: 0.1 });
+
+  React.useEffect(() => {
+    if (inView) {
+      controls.start({
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6, delay }
+      });
+    }
+  }, [controls, inView, delay]);
+
+  return (
+    <motion.div
+      ref={ref}
+      animate={controls}
+      initial={{ opacity: 0, y: 60 }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+const SlideInLeft = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
+  const controls = useAnimation();
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { triggerOnce: true, threshold: 0.1 });
+
+  React.useEffect(() => {
+    if (inView) {
+      controls.start({
+        opacity: 1,
+        x: 0,
+        transition: { duration: 0.8, delay }
+      });
+    }
+  }, [controls, inView, delay]);
+
+  return (
+    <motion.div
+      ref={ref}
+      animate={controls}
+      initial={{ opacity: 0, x: -60 }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+const SlideInRight = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
+  const controls = useAnimation();
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { triggerOnce: true, threshold: 0.1 });
+
+  React.useEffect(() => {
+    if (inView) {
+      controls.start({
+        opacity: 1,
+        x: 0,
+        transition: { duration: 0.8, delay }
+      });
+    }
+  }, [controls, inView, delay]);
+
+  return (
+    <motion.div
+      ref={ref}
+      animate={controls}
+      initial={{ opacity: 0, x: 60 }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 export default function Home() {
+  // Testimonials carousel setup
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, align: 'start' },
+    [Autoplay({ delay: 4000, stopOnInteraction: false })]
+  );
+
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setCurrentTestimonial(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+  }, [emblaApi, onSelect]);
 
   // Form state
   const [pickupAddress, setPickupAddress] = useState<AddressResult | null>(
@@ -61,6 +168,16 @@ export default function Home() {
   const [quote, setQuote] = useState<QuoteBreakdown | null>(null);
   const [quoteLoading, setQuoteLoading] = useState(false);
   const [showQuote, setShowQuote] = useState(false);
+
+  // Contact form state
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [contactLoading, setContactLoading] = useState(false);
+  const [contactSuccess, setContactSuccess] = useState(false);
+  const [contactError, setContactError] = useState('');
 
   const testimonials = [
     {
@@ -101,32 +218,6 @@ export default function Home() {
     },
   ];
 
-  const nextTestimonial = () => {
-    setCurrentTestimonial((prev) => {
-      const nextIndex = prev + 3;
-      return nextIndex >= testimonials.length ? 0 : nextIndex;
-    });
-  };
-
-  const prevTestimonial = () => {
-    setCurrentTestimonial((prev) => {
-      if (prev === 0) {
-        // Go to the last complete set of 3 testimonials
-        const lastCompleteSet = Math.floor((testimonials.length - 1) / 3) * 3;
-        return lastCompleteSet;
-      }
-      return prev - 3;
-    });
-  };
-
-  // Get current three testimonials
-  const getCurrentTestimonials = () => {
-    const result = [];
-    for (let i = 0; i < 3; i++) {
-      result.push(testimonials[(currentTestimonial + i) % testimonials.length]);
-    }
-    return result;
-  };
 
 
   const isFormValid = () => {
@@ -175,6 +266,69 @@ export default function Home() {
     handleCloseQuote();
   };
 
+  // Contact form handlers
+  const handleContactInputChange = (field: string, value: string) => {
+    setContactForm(prev => ({ ...prev, [field]: value }));
+    // Clear errors when user starts typing
+    if (contactError) setContactError('');
+    if (contactSuccess) setContactSuccess(false);
+  };
+
+  const validateContactForm = () => {
+    if (!contactForm.name.trim()) {
+      setContactError('Name is required');
+      return false;
+    }
+    if (!contactForm.email.trim()) {
+      setContactError('Email is required');
+      return false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactForm.email)) {
+      setContactError('Please enter a valid email address');
+      return false;
+    }
+    if (!contactForm.message.trim()) {
+      setContactError('Message is required');
+      return false;
+    }
+    return true;
+  };
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateContactForm()) return;
+
+    setContactLoading(true);
+    setContactError('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(contactForm),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setContactSuccess(true);
+        setContactForm({ name: '', email: '', message: '' });
+        // Auto-hide success message after 5 seconds
+        setTimeout(() => setContactSuccess(false), 5000);
+      } else {
+        setContactError(data.error || 'Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Contact form error:', error);
+      setContactError('Network error. Please check your connection and try again.');
+    } finally {
+      setContactLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header activeSection="HOME" />
@@ -213,110 +367,161 @@ export default function Home() {
           backgroundImage: `url(${executiveCar.src})`,
         }}
       >
-        {/* <div className="absolute -top-4 z-50">
-          <Image src={ltr} alt="ltr" className="w-full" />
-        </div> */}
         <div className="container mx-auto px-4 max-w-[1440px]">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Executive Car
-            </h2>
-            <p className="text-primary text-xl">Services</p>
-          </div>
+          <FadeInWhenVisible>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-800 mb-4">
+                Executive Car
+              </h2>
+              <p className="text-primary text-xl">Services</p>
+            </div>
+          </FadeInWhenVisible>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-              <div
-                className="h-48 bg-cover bg-center"
-                style={{
-                  backgroundImage: `url(${airport.src})`,
+            <FadeInWhenVisible delay={0.1}>
+              <motion.div
+                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2"
+                whileHover={{
+                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+                  transition: { duration: 0.3 }
                 }}
               >
-                <div className="bg-black/60 h-full flex items-end p-6">
-                  <div className="text-white">
-                    <h3 className="text-xl font-bold mb-2">Airport</h3>
-                    <p className="text-sm">Transfer</p>
-                  </div>
+                <div
+                  className="h-48 bg-cover bg-center relative overflow-hidden"
+                  style={{
+                    backgroundImage: `url(${airport.src})`,
+                  }}
+                >
+                  <motion.div
+                    className="bg-black/60 h-full flex items-end p-6"
+                  >
+                    <div className="text-white">
+                      <h3 className="text-xl font-bold mb-2">Airport</h3>
+                      <p className="text-sm">Transfer</p>
+                    </div>
+                  </motion.div>
                 </div>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  We provide a professional door to door Airport transfer
-                  service to Gatwick, including all surrounding areas
-                </p>
-              </div>
-            </div>
+                <div className="p-6">
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    We provide a professional door to door Airport transfer
+                    service to Gatwick, including all surrounding areas
+                  </p>
+                </div>
+              </motion.div>
+            </FadeInWhenVisible>
 
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-              <div
-                className="h-48 bg-cover bg-center"
-                style={{
-                  backgroundImage: `url(${business.src})`,
+            <FadeInWhenVisible delay={0.2}>
+              <motion.div
+                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2"
+                whileHover={{
+                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+                  transition: { duration: 0.3 }
                 }}
               >
-                <div className="bg-black/60 h-full flex items-end p-6">
-                  <div className="text-white">
-                    <h3 className="text-xl font-bold mb-2">Business &</h3>
-                    <p className="text-sm">Social Events</p>
-                  </div>
+                <div
+                  className="h-48 bg-cover bg-center relative overflow-hidden"
+                  style={{
+                    backgroundImage: `url(${business.src})`,
+                  }}
+                >
+                  <motion.div
+                    className="bg-black/60 h-full flex items-end p-6"
+                  >
+                    <div className="text-white">
+                      <h3 className="text-xl font-bold mb-2">Business &</h3>
+                      <p className="text-sm">Social Events</p>
+                    </div>
+                  </motion.div>
                 </div>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Whatever the event, big or small we will meticulously plan the
-                  itinerary to ensure a seamless experience for all
-                </p>
-              </div>
-            </div>
+                <div className="p-6">
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    Whatever the event, big or small we will meticulously plan the
+                    itinerary to ensure a seamless experience for all
+                  </p>
+                </div>
+              </motion.div>
+            </FadeInWhenVisible>
 
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-              <div
-                className="h-48 bg-cover bg-center"
-                style={{
-                  backgroundImage: `url(${travel.src})`,
+            <FadeInWhenVisible delay={0.3}>
+              <motion.div
+                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2"
+                whileHover={{
+                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+                  transition: { duration: 0.3 }
                 }}
               >
-                <div className="bg-black/60 h-full flex items-end p-6">
-                  <div className="text-white">
-                    <h3 className="text-xl font-bold mb-2">Corporate</h3>
-                    <p className="text-sm">Travel</p>
-                  </div>
+                <div
+                  className="h-48 bg-cover bg-center relative overflow-hidden"
+                  style={{
+                    backgroundImage: `url(${travel.src})`,
+                  }}
+                >
+                  <motion.div
+                    className="bg-black/60 h-full flex items-end p-6"
+                  >
+                    <div className="text-white">
+                      <h3 className="text-xl font-bold mb-2">Corporate</h3>
+                      <p className="text-sm">Travel</p>
+                    </div>
+                  </motion.div>
                 </div>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Goldstar Executive is the perfect partner for Businesses. Find
-                  out more on the Corporate Accounts page
-                </p>
-              </div>
-            </div>
+                <div className="p-6">
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    Goldstar Executive is the perfect partner for Businesses. Find
+                    out more on the Corporate Accounts page
+                  </p>
+                </div>
+              </motion.div>
+            </FadeInWhenVisible>
 
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-              <div
-                className="h-48 bg-cover bg-center"
-                style={{
-                  backgroundImage: `url(${wedding.src})`,
+            <FadeInWhenVisible delay={0.4}>
+              <motion.div
+                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2"
+                whileHover={{
+                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+                  transition: { duration: 0.3 }
                 }}
               >
-                <div className="bg-black/60 h-full flex items-end p-6">
-                  <div className="text-white">
-                    <h3 className="text-xl font-bold mb-2">Wedding</h3>
-                    <p className="text-sm">Cars</p>
-                  </div>
+                <div
+                  className="h-48 bg-cover bg-center relative overflow-hidden"
+                  style={{
+                    backgroundImage: `url(${wedding.src})`,
+                  }}
+                >
+                  <motion.div
+                    className="bg-black/60 h-full flex items-end p-6"
+                  >
+                    <div className="text-white">
+                      <h3 className="text-xl font-bold mb-2">Wedding</h3>
+                      <p className="text-sm">Cars</p>
+                    </div>
+                  </motion.div>
                 </div>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  For the special occasion we can supply the perfect car. Speak
-                  to us now about your wedding requirements
-                </p>
-              </div>
-            </div>
+                <div className="p-6">
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    For the special occasion we can supply the perfect car. Speak
+                    to us now about your wedding requirements
+                  </p>
+                </div>
+              </motion.div>
+            </FadeInWhenVisible>
           </div>
-          <div className="text-center mt-12">
-            <button className="bg-[#235e99] hover:bg-[#235e99] text-white px-8 py-3 rounded font-semibold transition-colors">
-              Find out more
-            </button>
-          </div>
+
+          <FadeInWhenVisible delay={0.5}>
+            <div className="text-center mt-12">
+              <motion.button
+                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl border border-white/20"
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 20px 40px -12px rgba(35, 94, 153, 0.4)",
+                  backdropFilter: "blur(16px)"
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Find out more
+              </motion.button>
+            </div>
+          </FadeInWhenVisible>
         </div>
       </section>
 
@@ -331,57 +536,118 @@ export default function Home() {
           <Image src={rtl} alt="ltr" className="w-full" />
         </div>
         <div className="container mx-auto px-4 text-center max-w-[1440px] text-white">
-          <h2 className="text-4xl font-bold mb-4">
-            Experience Premium Car Service
-          </h2>
-          <p className="text-xl mb-16 text-gray-300">
-            For those who value high quality
-          </p>
+          <FadeInWhenVisible>
+            <h2 className="text-4xl font-bold mb-4">
+              Experience Premium Car Service
+            </h2>
+            <p className="text-xl mb-16 text-gray-300">
+              For those who value high quality
+            </p>
+          </FadeInWhenVisible>
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-            <div className="text-center">
-              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 ">
-                <Image src={time} alt="time" />
-              </div>
-              <h3 className="text-lg font-bold max-w-[170px] mx-auto">
-                We are available 24/7
-              </h3>
-            </div>
+            <FadeInWhenVisible delay={0.1}>
+              <motion.div
+                className="text-center group"
+                whileHover={{ y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.div
+                  className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"
+                  whileHover={{
+                    scale: 1.1,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Image src={time} alt="time" />
+                </motion.div>
+                <h3 className="text-lg font-bold max-w-[170px] mx-auto">
+                  We are available 24/7
+                </h3>
+              </motion.div>
+            </FadeInWhenVisible>
 
-            <div className="text-center">
-              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 ">
-                <Image src={payment} alt="time" />
-              </div>
-              <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
-                Secure Payment methods
-              </h3>
-            </div>
+            <FadeInWhenVisible delay={0.2}>
+              <motion.div
+                className="text-center group"
+                whileHover={{ y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.div
+                  className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"
+                  whileHover={{
+                    scale: 1.1,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Image src={payment} alt="payment" />
+                </motion.div>
+                <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
+                  Secure Payment methods
+                </h3>
+              </motion.div>
+            </FadeInWhenVisible>
 
-            <div className="text-center">
-              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 ">
-                <Image src={bottle} alt="time" />
-              </div>
-              <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
-                Bottled Water
-              </h3>
-            </div>
+            <FadeInWhenVisible delay={0.3}>
+              <motion.div
+                className="text-center group"
+                whileHover={{ y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.div
+                  className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"
+                  whileHover={{
+                    scale: 1.1,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Image src={bottle} alt="bottle" />
+                </motion.div>
+                <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
+                  Bottled Water
+                </h3>
+              </motion.div>
+            </FadeInWhenVisible>
 
-            <div className="text-center">
-              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 ">
-                <Image src={wifi} alt="time" />
-              </div>
+            <FadeInWhenVisible delay={0.4}>
+              <motion.div
+                className="text-center group"
+                whileHover={{ y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.div
+                  className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"
+                  whileHover={{
+                    scale: 1.1,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Image src={wifi} alt="wifi" />
+                </motion.div>
+                <h3 className="text-lg font-bold mb-2">Wi-fi</h3>
+              </motion.div>
+            </FadeInWhenVisible>
 
-              <h3 className="text-lg font-bold mb-2">Wi-fi</h3>
-            </div>
-
-            <div className="text-center">
-              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 ">
-                <Image src={reading} alt="time" />
-              </div>
-              <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
-                Reading Materials
-              </h3>
-            </div>
+            <FadeInWhenVisible delay={0.5}>
+              <motion.div
+                className="text-center group"
+                whileHover={{ y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.div
+                  className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"
+                  whileHover={{
+                    scale: 1.1,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Image src={reading} alt="reading" />
+                </motion.div>
+                <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
+                  Reading Materials
+                </h3>
+              </motion.div>
+            </FadeInWhenVisible>
           </div>
         </div>
       </section>
@@ -513,11 +779,21 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="text-center mt-12">
-            <button className="bg-[#235e99] hover:bg-[#235e99] text-white px-8 py-3 rounded font-semibold transition-colors">
-              Find out more
-            </button>
-          </div>
+          <FadeInWhenVisible delay={0.3}>
+            <div className="text-center mt-12">
+              <motion.button
+                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl border border-white/20"
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 20px 40px -12px rgba(35, 94, 153, 0.4)",
+                  backdropFilter: "blur(16px)"
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Find out more
+              </motion.button>
+            </div>
+          </FadeInWhenVisible>
         </div>
       </section>
 
@@ -529,63 +805,108 @@ export default function Home() {
         }}
       >
         <div className="container mx-auto px-4 text-center text-white">
-          <h2 className="text-4xl font-bold mb-4">We Want To Hear</h2>
-          <p className="text-xl mb-16">Your Opinion</p>
+          <FadeInWhenVisible>
+            <h2 className="text-4xl font-bold mb-4">We Want To Hear</h2>
+            <p className="text-xl mb-16">Your Opinion</p>
+          </FadeInWhenVisible>
 
-          <div className="max-w-4xl mx-auto">
-            <p className="text-lg mb-8 leading-relaxed">
-              It is important to us that our customers are 100% satisfied - that
-              is why we are great service. Every single customer is the future
-              form of advertisement and all our work based on it.
-            </p>
+          <div className="max-w-6xl mx-auto">
+            <FadeInWhenVisible delay={0.2}>
+              <p className="text-lg mb-8 leading-relaxed">
+                It is important to us that our customers are 100% satisfied - that
+                is why we are great service. Every single customer is the future
+                form of advertisement and all our work based on it.
+              </p>
+            </FadeInWhenVisible>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              {getCurrentTestimonials().map((testimonial, index) => (
-                <div
-                  key={index}
-                  className="backdrop-blur-sm rounded-lg p-6 bg-white/10"
-                >
-                  <div className="text-4xl text-white/30 mb-4">"</div>
-                  <p className="text-base mb-4 italic leading-relaxed">
-                    {testimonial.text}
-                  </p>
-                  <p className="font-semibold text-sm">{testimonial.author}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex justify-center items-center space-x-4">
-              <button
-                onClick={prevTestimonial}
-                className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-
-              <div className="flex space-x-2">
-                {Array.from(
-                  { length: Math.ceil(testimonials.length / 3) },
-                  (_, index) => (
-                    <button
+            <FadeInWhenVisible delay={0.4}>
+              <div className="embla overflow-hidden" ref={emblaRef}>
+                <div className="embla__container flex">
+                  {testimonials.map((testimonial, index) => (
+                    <motion.div
                       key={index}
-                      onClick={() => setCurrentTestimonial(index * 3)}
-                      className={`w-3 h-3 rounded-full transition-colors ${
-                        Math.floor(currentTestimonial / 3) === index
-                          ? "bg-white"
-                          : "bg-white/40"
-                      }`}
-                    />
-                  )
-                )}
+                      className="embla__slide flex-[0_0_33.333%] min-w-0 px-3"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                    >
+                      <motion.div
+                        className="backdrop-blur-md rounded-lg p-6 bg-white/15 border border-white/20 h-full"
+                        whileHover={{
+                          y: -5,
+                          scale: 1.02,
+                          backdropFilter: "blur(20px)",
+                          backgroundColor: "rgba(255, 255, 255, 0.2)"
+                        }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <motion.div
+                          className="text-4xl text-white/40 mb-4"
+                          animate={{ rotate: [0, 5, -5, 0] }}
+                          transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                        >
+                          "
+                        </motion.div>
+                        <p className="text-base mb-4 italic leading-relaxed text-white/90">
+                          {testimonial.text}
+                        </p>
+                        <motion.p
+                          className="font-semibold text-sm text-yellow-300"
+                          whileHover={{ scale: 1.05 }}
+                        >
+                          {testimonial.author}
+                        </motion.p>
+                      </motion.div>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
+            </FadeInWhenVisible>
 
-              <button
-                onClick={nextTestimonial}
-                className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
-            </div>
+            <FadeInWhenVisible delay={0.6}>
+              <div className="flex justify-center items-center space-x-4 mt-8">
+                <motion.button
+                  onClick={scrollPrev}
+                  className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 border border-white/20"
+                  whileHover={{
+                    scale: 1.1,
+                    backdropFilter: "blur(16px)",
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.3)"
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </motion.button>
+
+                <div className="flex space-x-2">
+                  {testimonials.map((_, index) => (
+                    <motion.button
+                      key={index}
+                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                        index === currentTestimonial
+                          ? "bg-white scale-125"
+                          : "bg-white/40 hover:bg-white/60"
+                      }`}
+                      whileHover={{ scale: 1.2 }}
+                      whileTap={{ scale: 0.9 }}
+                    />
+                  ))}
+                </div>
+
+                <motion.button
+                  onClick={scrollNext}
+                  className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 border border-white/20"
+                  whileHover={{
+                    scale: 1.1,
+                    backdropFilter: "blur(16px)",
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.3)"
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </motion.button>
+              </div>
+            </FadeInWhenVisible>
           </div>
         </div>
       </section>
@@ -598,33 +919,132 @@ export default function Home() {
         }}
       >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-white mb-4">Talk To Us</h2>
-          </div>
+          <FadeInWhenVisible>
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-white mb-4">Talk To Us</h2>
+            </div>
+          </FadeInWhenVisible>
 
           <div className="max-w-2xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <input
-                type="text"
-                placeholder="Name"
-                className="bg-white text-black px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                className="bg-white text-black px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-            </div>
-            <textarea
-              placeholder="How can we help you?"
-              rows={6}
-              className="w-full text-black bg-white px-4 py-3 rounded focus:outline-none focus:ring-2 focus:ring-primary mb-6"
-            ></textarea>
-            <div className="text-center">
-              <button className="bg-[#235e99] hover:bg-[#235e99] text-white px-8 py-3 rounded font-semibold transition-colors">
-                Send
-              </button>
-            </div>
+            <form onSubmit={handleContactSubmit}>
+              <FadeInWhenVisible delay={0.2}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <motion.input
+                    type="text"
+                    placeholder="Name"
+                    value={contactForm.name}
+                    onChange={(e) => handleContactInputChange('name', e.target.value)}
+                    className={`bg-white/90 backdrop-blur-sm text-black px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:bg-white transition-all duration-300 border ${
+                      contactError && !contactForm.name.trim()
+                        ? 'border-red-500 focus:ring-red-500'
+                        : 'border-white/20 focus:ring-[#235e99]'
+                    }`}
+                    whileFocus={{
+                      scale: 1.02,
+                      boxShadow: "0 8px 25px rgba(35, 94, 153, 0.2)"
+                    }}
+                    disabled={contactLoading}
+                    required
+                  />
+                  <motion.input
+                    type="email"
+                    placeholder="Email"
+                    value={contactForm.email}
+                    onChange={(e) => handleContactInputChange('email', e.target.value)}
+                    className={`bg-white/90 backdrop-blur-sm text-black px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:bg-white transition-all duration-300 border ${
+                      contactError && (!contactForm.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactForm.email))
+                        ? 'border-red-500 focus:ring-red-500'
+                        : 'border-white/20 focus:ring-[#235e99]'
+                    }`}
+                    whileFocus={{
+                      scale: 1.02,
+                      boxShadow: "0 8px 25px rgba(35, 94, 153, 0.2)"
+                    }}
+                    disabled={contactLoading}
+                    required
+                  />
+                </div>
+              </FadeInWhenVisible>
+
+              <FadeInWhenVisible delay={0.3}>
+                <motion.textarea
+                  placeholder="How can we help you?"
+                  rows={6}
+                  value={contactForm.message}
+                  onChange={(e) => handleContactInputChange('message', e.target.value)}
+                  className={`w-full text-black bg-white/90 backdrop-blur-sm px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:bg-white mb-6 transition-all duration-300 border ${
+                    contactError && !contactForm.message.trim()
+                      ? 'border-red-500 focus:ring-red-500'
+                      : 'border-white/20 focus:ring-[#235e99]'
+                  }`}
+                  whileFocus={{
+                    scale: 1.01,
+                    boxShadow: "0 8px 25px rgba(35, 94, 153, 0.2)"
+                  }}
+                  disabled={contactLoading}
+                  required
+                ></motion.textarea>
+              </FadeInWhenVisible>
+
+              {/* Error Message */}
+              {contactError && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-4 p-3 bg-red-500/20 backdrop-blur-sm border border-red-500/50 rounded-lg text-red-100 text-center"
+                >
+                  {contactError}
+                </motion.div>
+              )}
+
+              {/* Success Message */}
+              {contactSuccess && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-4 p-4 bg-green-500/20 backdrop-blur-sm border border-green-500/50 rounded-lg text-green-100 text-center"
+                >
+                  <div className="flex items-center justify-center space-x-2">
+                    <CheckCircle className="w-5 h-5" />
+                    <span>Thank you! Your message has been sent successfully. We'll get back to you soon!</span>
+                  </div>
+                </motion.div>
+              )}
+
+              <FadeInWhenVisible delay={0.4}>
+                <div className="text-center">
+                  <motion.button
+                    type="submit"
+                    disabled={contactLoading || contactSuccess}
+                    className={`backdrop-blur-md text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl border border-white/20 ${
+                      contactLoading || contactSuccess
+                        ? 'bg-gray-500 cursor-not-allowed'
+                        : 'bg-[#235e99] hover:bg-[#1a4773]'
+                    }`}
+                    whileHover={!contactLoading && !contactSuccess ? {
+                      scale: 1.05,
+                      boxShadow: "0 20px 40px -12px rgba(35, 94, 153, 0.4)",
+                      backdropFilter: "blur(16px)"
+                    } : {}}
+                    whileTap={!contactLoading && !contactSuccess ? { scale: 0.98 } : {}}
+                  >
+                    {contactLoading ? (
+                      <div className="flex items-center space-x-2">
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Sending...</span>
+                      </div>
+                    ) : contactSuccess ? (
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-5 h-5" />
+                        <span>Sent!</span>
+                      </div>
+                    ) : (
+                      'Send Message'
+                    )}
+                  </motion.button>
+                </div>
+              </FadeInWhenVisible>
+            </form>
           </div>
         </div>
       </section>

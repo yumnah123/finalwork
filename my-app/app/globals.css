@@ -25,3 +25,83 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Hide default placeholders for date and time inputs on mobile only */
+@media (max-width: 768px) {
+  input[type="date"]:invalid {
+    color: transparent;
+  }
+
+  input[type="time"]:invalid {
+    color: transparent;
+  }
+
+  input[type="date"]:focus,
+  input[type="date"]:not(:placeholder-shown) {
+    color: white !important;
+  }
+
+  input[type="time"]:focus,
+  input[type="time"]:not(:placeholder-shown) {
+    color: white !important;
+  }
+
+  /* Alternative approach - hide webkit calendar and clock icons when empty */
+  input[type="date"]::-webkit-datetime-edit-text,
+  input[type="date"]::-webkit-datetime-edit-month-field,
+  input[type="date"]::-webkit-datetime-edit-day-field,
+  input[type="date"]::-webkit-datetime-edit-year-field {
+    color: transparent;
+  }
+
+  input[type="time"]::-webkit-datetime-edit-text,
+  input[type="time"]::-webkit-datetime-edit-hour-field,
+  input[type="time"]::-webkit-datetime-edit-minute-field,
+  input[type="time"]::-webkit-datetime-edit-ampm-field {
+    color: transparent;
+  }
+
+  /* Show text when focused or has value */
+  input[type="date"]:focus::-webkit-datetime-edit-text,
+  input[type="date"]:focus::-webkit-datetime-edit-month-field,
+  input[type="date"]:focus::-webkit-datetime-edit-day-field,
+  input[type="date"]:focus::-webkit-datetime-edit-year-field,
+  input[type="time"]:focus::-webkit-datetime-edit-text,
+  input[type="time"]:focus::-webkit-datetime-edit-hour-field,
+  input[type="time"]:focus::-webkit-datetime-edit-minute-field,
+  input[type="time"]:focus::-webkit-datetime-edit-ampm-field {
+    color: white;
+  }
+}
+
+/* Embla Carousel Styles */
+.embla {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+  touch-action: pan-y;
+}
+
+.embla__slide {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .embla__slide {
+    flex: 0 0 100%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .embla__slide {
+    flex: 0 0 50%;
+  }
+}
+
+/* Smooth scrolling animations */
+html {
+  scroll-behavior: smooth;
+}
