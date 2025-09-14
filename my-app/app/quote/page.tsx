@@ -61,7 +61,6 @@ export default function QuotePage() {
         dropoffAddress,
         serviceType,
         quoteDate,
-        selectedTime
       );
       setQuote(generatedQuote);
       setShowQuote(true);
