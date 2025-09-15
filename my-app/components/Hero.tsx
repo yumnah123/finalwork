@@ -36,41 +36,41 @@ export default function Hero({
   return (
     <section
       className={`${
-        showBookingForm ? "min-h-screen" : "min-h-[350px] lg:min-h-[900px]"
+        showBookingForm ? "2xl:min-h-[1080px] xl:min-h-[800px]" : "min-h-[350px] lg:min-h-[900px]"
       } bg-cover bg-center overflow-hidden px-4 md:px-0`}
       style={{
         backgroundImage: `url(${herobg.src})`,
       }}
     >
-      <div className="inset-0 flex items-center justify-center mt-[120px] md:mt-[170px] lg:mt-[200px] 2xl:mt-[400px]">
+      <div className="inset-0 flex items-center justify-center mt-[120px] md:mt-[120px] lg:mt-[200px] 2xl:mt-[280px]">
         <div className="text-center text-white">
           {title && (
-            <h1 className="text-3xl md:text-6xl font-light lg:mb-4">{title}</h1>
+            <h1 className="text-3xl lg:text-4xl xl:text-6xl font-light lg:mb-2 xl:mb-4">{title}</h1>
           )}
-          <h2 className="text-2xl md:text-5xl font-bold text-primary mb-6">
+          <h2 className="text-4xl lg:text-5xl xl:text-7xl font-bold lg:mb-4 xl:mb-6">
             {subtitle}
           </h2>
-          <p className="md:text-xl text-base lg:mb-12 mb-4 max-w-2xl mx-auto">
+          <p className="lg:text-xl text-base 2xl:mb-12 mb-4 mx-auto md:max-w-2xl lg:max-w-none">
             {description}
           </p>
 
           {showBookingForm && bookingFormProps && (
-            <div className="p-8 max-w-4xl mx-auto">
-              <h3 className="text-xl font-bold text-primary mb-4">
+            <div className="p-8 !pt-6 max-w-5xl mx-auto">
+              <h3 className="text-2xl lg:text-3xl xl:text-4xl text-primary mb-4">
                 QUOTE & BOOK A CAR
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 md:mb-6">
-                <div className="lg:col-span-2 ">
+                <div className="md:col-span-2 ">
                   <bookingFormProps.AddressAutocomplete
                     placeholder="Pick Up Location"
-                    className="bg-white/10 w-full backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                    className="bg-white/10 w-full backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
                     onAddressSelect={bookingFormProps.setPickupAddress}
                   />
                 </div>
-                <div className="lg:col-span-2">
+                <div className="md:col-span-2">
                   <bookingFormProps.AddressAutocomplete
                     placeholder="Drop Off Location"
-                    className="bg-white/10 w-full backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                    className="bg-white/10 w-full backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
                     onAddressSelect={bookingFormProps.setDropoffAddress}
                   />
                 </div>
@@ -83,7 +83,7 @@ export default function Hero({
                   onChange={(e) =>
                     bookingFormProps.setCustomerName(e.target.value)
                   }
-                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
                 />
                 <input
                   type="text"
@@ -92,7 +92,7 @@ export default function Hero({
                   onChange={(e) =>
                     bookingFormProps.setContactNumber(e.target.value)
                   }
-                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
                 />
                 <div className="relative w-full md:w-auto">
                   <input
@@ -102,7 +102,7 @@ export default function Hero({
                     onChange={(e) =>
                       bookingFormProps.setSelectedDate(e.target.value)
                     }
-                    className="bg-white/10 w-full backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
+                    className="bg-white/10 w-full backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
                     style={{ colorScheme: "dark" }}
                   />
                   {!bookingFormProps.selectedDate && (
@@ -130,7 +130,7 @@ export default function Hero({
                   onChange={(e) =>
                     bookingFormProps.setServiceType(e.target.value)
                   }
-                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 rounded border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
+                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
                 >
                   <option value="Select Service" className="text-black">
                     Select Service
@@ -158,28 +158,28 @@ export default function Hero({
                   !bookingFormProps.isFormValid() ||
                   bookingFormProps.quoteLoading
                 }
-                className="bg-[#235e99] text-white lg:px-8 lg:py-3 px-4 py-1.5 rounded lg:font-semibold transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed"
+                className="bg-[#235e99]/80 backdrop-blur-sm drop-shadow-lg lg:text-lg font-light text-white lg:px-12 lg:py-4 rounded-lg px-4 py-2 transition-colors disabled:cursor-not-allowed"
               >
                 {bookingFormProps.quoteLoading
                   ? "Getting Quote..."
                   : "Get Quote"}
               </button>
-              <div className="hidden md:flex flex-wrap justify-center gap-6 mt-6 text-sm">
+              <div className="hidden md:flex flex-wrap justify-center gap-6 mt-8 md:mt-6 md:mb-2 lg:mb-4 2xl:mb-0 xl:mt-12 text-sm">
                 <div className="flex items-center">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span>Guaranteed Pick-Up</span>
+                  <span className="lg:text-xl text-sm">Guaranteed Pick-Up</span>
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span>100% Money Back</span>
+                  <span className="lg:text-xl text-sm">100% Money Back</span>
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span>Professional, Local Experts</span>
+                  <span className="lg:text-xl text-sm">Professional, Local Experts</span>
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span>Free Cancellation</span>
+                  <span className="lg:text-xl text-sm">Free Cancellation</span>
                 </div>
               </div>
             </div>

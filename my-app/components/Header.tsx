@@ -80,17 +80,17 @@ export default function Header({ activeSection = '' }: HeaderProps) {
               width={280}
               height={95}
               priority
-              className="max-w-[200px] md:max-w-[280px] h-auto"
+              className="max-w-[200px] md:max-w-[280px] xl:mt-6 h-auto"
             />
           </div>
           <div className="flex flex-col items-end gap-4">
-            <div className="hidden md:flex items-center text-white text-base font-semibold">
+            <div className="hidden md:flex items-center text-white text-base xl:text-lg font-semibold">
               <Image src={contact} alt="contact" className="mr-2" />
               +44 (0) 203 858 786
             </div>
             <div className="flex items-center gap-4">
               {/* Desktop Navigation */}
-              <nav className="hidden lg:flex items-center space-x-8">
+              <nav className="hidden lg:flex items-center text-base xl:text-lg space-x-8">
                 {navigationItems.map((item) => (
                   <a
                     key={item.name}

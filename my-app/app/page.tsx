@@ -15,6 +15,7 @@ import { AddressResult } from "../hooks/useAddressAutocomplete";
 import { QuoteService } from "../lib/quote-service";
 import { QuoteBreakdown } from "../lib/pricing-config";
 import { Star, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import ReCAPTCHA from "react-google-recaptcha";
 import hero1 from "../public/assets1/hero-11.png";
 import hero2 from "../public/assets1/hero-2.png";
 import rtl from "../public/assets1/rtl-line.png";
@@ -234,6 +235,7 @@ export default function Home() {
   const [contactLoading, setContactLoading] = useState(false);
   const [contactSuccess, setContactSuccess] = useState(false);
   const [contactError, setContactError] = useState("");
+  const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
 
   const isFormValid = () => {
     return (
@@ -312,6 +314,11 @@ export default function Home() {
 
     if (!validateContactForm()) return;
 
+    if (!recaptchaValue) {
+      setContactError("Please complete the reCAPTCHA verification.");
+      return;
+    }
+
     setContactLoading(true);
     setContactError("");
 
@@ -321,7 +328,10 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(contactForm),
+        body: JSON.stringify({
+          ...contactForm,
+          recaptchaToken: recaptchaValue,
+        }),
       });
 
       const data = await response.json();
@@ -329,6 +339,7 @@ export default function Home() {
       if (response.ok) {
         setContactSuccess(true);
         setContactForm({ name: "", email: "", message: "" });
+        setRecaptchaValue(null);
         // Auto-hide success message after 5 seconds
         setTimeout(() => setContactSuccess(false), 5000);
       } else {
@@ -382,21 +393,21 @@ export default function Home() {
           backgroundImage: `url(${executiveCar.src})`,
         }}
       >
-        <div className="container mx-auto px-4 max-w-[1440px]">
+        <div className="container mx-auto px-4 max-w-[1170px]">
           <FadeInWhenVisible>
-            <div className="text-center mb-16">
+            <div className="text-center mb-10">
               <h2 className="text-4xl font-bold text-gray-800 mb-1">
                 Executive Car
               </h2>
-              <p className="text-primary text-3xl">Services</p>
+              <p className="text-primary font-light text-3xl">Services</p>
             </div>
           </FadeInWhenVisible>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <FadeInWhenVisible delay={0.1}>
-              <motion.div className="bg-white overflow-hidden  transition-all duration-300 transform">
+              <motion.div className="overflow-hidden transition-all duration-300 transform p-2">
                 <div
-                  className="h-48 bg-cover bg-center relative rounded-xl overflow-hidden"
+                  className="h-[170px]  bg-cover border-[3px] border-white bg-center relative rounded-2xl overflow-hidden shadow-[0_0_10px_rgba(0,0,0,0.2)]"
                   style={{
                     backgroundImage: `url(${airport.src})`,
                   }}
@@ -411,7 +422,7 @@ export default function Home() {
                   </motion.div>
                 </div>
                 <div className="p-6 !pl-0">
-                  <p className="text-gray-600 lg:text-lg text-base leading-relaxed">
+                  <p className="text-black font-medium text-base leading-relaxed">
                     We provide a professional door to door Airport transfer
                     service in Surrey, covering all UK Airports.
                   </p>
@@ -420,9 +431,9 @@ export default function Home() {
             </FadeInWhenVisible>
 
             <FadeInWhenVisible delay={0.2}>
-              <motion.div className="bg-white overflow-hidden transition-all duration-300 transform">
+              <motion.div className="bg-white overflow-hidden transition-all duration-300 transform p-2">
                 <div
-                  className="h-48 bg-cover bg-center relative overflow-hidden rounded-xl"
+                  className="h-[170px] bg-cover border-[3px] border-white bg-center relative rounded-2xl overflow-hidden shadow-[0_0_4px_rgba(0,0,0,0.2)]"
                   style={{
                     backgroundImage: `url(${business.src})`,
                   }}
@@ -439,7 +450,7 @@ export default function Home() {
                   </motion.div>
                 </div>
                 <div className="p-6 !pl-0">
-                  <p className="text-gray-600 lg:text-lg text-base leading-relaxed">
+                  <p className="text-black font-medium text-base leading-relaxed">
                     Whatever the event, big or small we will meticulously plan
                     the itinerary to ensure a seamless experience for all
                   </p>
@@ -448,9 +459,9 @@ export default function Home() {
             </FadeInWhenVisible>
 
             <FadeInWhenVisible delay={0.3}>
-              <motion.div className="bg-white overflow-hidden transition-all duration-300 transform">
+              <motion.div className="bg-white overflow-hidden transition-all duration-300 transform p-2">
                 <div
-                  className="h-48 bg-cover bg-center relative overflow-hidden rounded-xl"
+                  className="h-[170px]  bg-cover border-[3px] border-white bg-center relative rounded-2xl overflow-hidden shadow-[0_0_10px_rgba(0,0,0,0.2)]"
                   style={{
                     backgroundImage: `url(${travel.src})`,
                   }}
@@ -465,7 +476,7 @@ export default function Home() {
                   </motion.div>
                 </div>
                 <div className="p-6 !pl-0">
-                  <p className="text-gray-600 lg:text-lg text-base leading-relaxed">
+                  <p className="text-black font-medium text-base leading-relaxed">
                     Goldstar Executive is the perfect partner for Businesses.
                     Find out more on the Corporate Accounts page
                   </p>
@@ -474,9 +485,9 @@ export default function Home() {
             </FadeInWhenVisible>
 
             <FadeInWhenVisible delay={0.4}>
-              <motion.div className="bg-white overflow-hidden transition-all duration-300 transform">
+              <motion.div className="bg-white overflow-hidden transition-all duration-300 transform p-2">
                 <div
-                  className="h-48 bg-cover bg-center rounded-xl relative overflow-hidden"
+                  className="h-[170px]  bg-cover border-[3px] border-white bg-center relative rounded-2xl overflow-hidden shadow-[0_0_10px_rgba(0,0,0,0.2)]"
                   style={{
                     backgroundImage: `url(${wedding.src})`,
                   }}
@@ -491,7 +502,7 @@ export default function Home() {
                   </motion.div>
                 </div>
                 <div className="p-6 !pl-0">
-                  <p className="text-gray-600 lg:text-lg text-base leading-relaxed">
+                  <p className="text-black font-medium text-base leading-relaxed">
                     For the special occasion we can supply the special car.
                     Speak to us now about your wedding packages
                   </p>
@@ -501,19 +512,13 @@ export default function Home() {
           </div>
 
           <FadeInWhenVisible delay={0.5}>
-            <div className="text-center mt-12">
-              <motion.button
+            <div className="text-center mt-6">
+              <button
                 onClick={() => router.push("/services")}
-                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl border border-white/20 cursor-pointer"
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 20px 40px -12px rgba(35, 94, 153, 0.4)",
-                  backdropFilter: "blur(16px)",
-                }}
-                whileTap={{ scale: 0.98 }}
+                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] text-white px-10 py-4 shadow-xl/30 rounded-lg font-semibold transition-all duration-300 hover:shadow-2xl border border-white/20 cursor-pointer"
               >
                 Find out more
-              </motion.button>
+              </button>
             </div>
           </FadeInWhenVisible>
         </div>
@@ -529,12 +534,12 @@ export default function Home() {
         <div className="absolute top-0 right-0 z-50">
           <Image src={rtl} alt="ltr" className="w-full" />
         </div>
-        <div className="container mx-auto px-4 text-center max-w-[1440px] text-white">
+        <div className="container mx-auto px-4 text-center max-w-[1170px] text-white">
           <FadeInWhenVisible>
-            <h2 className="text-4xl font-bold mb-4">
+            <h2 className="text-4xl font-semibold mb-2">
               Experience Premium Car Service
             </h2>
-            <p className="text-xl mb-16 text-gray-300">
+            <p className="text-2xl font-light mb-16 text-primary">
               For those who value high quality
             </p>
           </FadeInWhenVisible>
@@ -543,19 +548,15 @@ export default function Home() {
             <FadeInWhenVisible delay={0.1}>
               <motion.div
                 className="text-center group"
-                whileHover={{ y: -10 }}
                 transition={{ duration: 0.3 }}
               >
                 <motion.div
-                  className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"
-                  whileHover={{
-                    scale: 1.1,
-                  }}
+                  className="w-20 h-20 rounded-full flex items-end justify-center mx-auto mb-8"
                   transition={{ duration: 0.3 }}
                 >
                   <Image src={time} alt="time" />
                 </motion.div>
-                <h3 className="text-lg font-bold max-w-[170px] mx-auto">
+                <h3 className="text-lg font-semibold max-w-[170px] mx-auto">
                   We are available 24/7
                 </h3>
               </motion.div>
@@ -564,19 +565,16 @@ export default function Home() {
             <FadeInWhenVisible delay={0.2}>
               <motion.div
                 className="text-center group"
-                whileHover={{ y: -10 }}
+
                 transition={{ duration: 0.3 }}
               >
                 <motion.div
-                  className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"
-                  whileHover={{
-                    scale: 1.1,
-                  }}
+                  className="w-20 h-20 rounded-full flex items-end justify-center mx-auto mb-8"
                   transition={{ duration: 0.3 }}
                 >
                   <Image src={payment} alt="payment" />
                 </motion.div>
-                <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
+                <h3 className="text-lg font-semibold mb-2 max-w-[170px] mx-auto">
                   Secure Payment methods
                 </h3>
               </motion.div>
@@ -585,19 +583,15 @@ export default function Home() {
             <FadeInWhenVisible delay={0.3}>
               <motion.div
                 className="text-center group"
-                whileHover={{ y: -10 }}
                 transition={{ duration: 0.3 }}
               >
                 <motion.div
-                  className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"
-                  whileHover={{
-                    scale: 1.1,
-                  }}
+                  className="w-20 h-20 rounded-full flex items-end justify-center mx-auto mb-8"
                   transition={{ duration: 0.3 }}
                 >
                   <Image src={bottle} alt="bottle" />
                 </motion.div>
-                <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
+                <h3 className="text-lg font-semibold mb-2 max-w-[170px] mx-auto">
                   Bottled Water
                 </h3>
               </motion.div>
@@ -606,38 +600,30 @@ export default function Home() {
             <FadeInWhenVisible delay={0.4}>
               <motion.div
                 className="text-center group"
-                whileHover={{ y: -10 }}
                 transition={{ duration: 0.3 }}
               >
                 <motion.div
-                  className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"
-                  whileHover={{
-                    scale: 1.1,
-                  }}
+                  className="w-20 h-20 rounded-full flex items-end justify-center mx-auto mb-8"
                   transition={{ duration: 0.3 }}
                 >
                   <Image src={wifi} alt="wifi" />
                 </motion.div>
-                <h3 className="text-lg font-bold mb-2">Wi-fi</h3>
+                <h3 className="text-lg font-semibold mb-2">Wi-fi</h3>
               </motion.div>
             </FadeInWhenVisible>
 
             <FadeInWhenVisible delay={0.5}>
               <motion.div
                 className="text-center group"
-                whileHover={{ y: -10 }}
                 transition={{ duration: 0.3 }}
               >
                 <motion.div
-                  className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"
-                  whileHover={{
-                    scale: 1.1,
-                  }}
+                  className="w-20 h-20 rounded-full flex items-end justify-center mx-auto mb-8"
                   transition={{ duration: 0.3 }}
                 >
                   <Image src={reading} alt="reading" />
                 </motion.div>
-                <h3 className="text-lg font-bold mb-2 max-w-[170px] mx-auto">
+                <h3 className="text-lg font-semibold mb-2 max-w-[170px] mx-auto">
                   Reading Materials
                 </h3>
               </motion.div>
@@ -653,12 +639,12 @@ export default function Home() {
           backgroundImage: `url(${banner.src})`,
         }}
       >
-        <div className="container mx-auto px-4 max-w-[1440px]">
+        <div className="container mx-auto px-4 max-w-[1170px]">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">
+            <h2 className="text-4xl font-semibold text-gray-800 mb-2">
               Experience Luxury Travel
             </h2>
-            <p className="text-primary text-xl">
+            <p className="text-primary text-[27px] font-light">
               in Chauffeur-Driven Executive Cars
             </p>
           </div>
@@ -681,34 +667,35 @@ export default function Home() {
                       <Image src={vehicle.image} alt={vehicle.name} />
                     </div>
                     <div className="p-6">
-                      <h3 className="text-2xl font-bold mb-4 text-gray-600">
+                      <h3 className="text-2xl font-bold mb-2 text-black">
                         {vehicle.name}
                       </h3>
-                      <p className="text-gray-600 mb-8">
+                      <p className="text-black text-lg h-[56px] mb-6">
                         {vehicle.description}
                       </p>
                       <div className="flex items-center space-x-4 mb-4">
                         <div className="flex gap-2">
                           <div>
                             <Image
-                              src={comm}
+                              src={dollor}
                               alt="passengers"
                               className="w-[20px] h-[20px]"
                             />
                           </div>
-                          <span className="text-sm text-gray-600">
+                          <span className="text-base font-medium text-black">
                             max: {vehicle.passengers}
                           </span>
                         </div>
+                        <div className="h-6 w-px bg-black"></div>
                         <div className="flex gap-2">
                           <div>
                             <Image
-                              src={dollor}
+                              src={comm}
                               alt="luggage"
                               className="w-[20px] h-[20px]"
                             />
                           </div>
-                          <span className="text-sm text-gray-600">
+                          <span className="text-base font-medium text-black">
                             max: {vehicle.luggage}
                           </span>
                         </div>
@@ -722,18 +709,12 @@ export default function Home() {
 
           <FadeInWhenVisible delay={0.3}>
             <div className="text-center mt-12">
-              <motion.button
+              <button
                 onClick={() => router.push("/fleet")}
-                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl border border-white/20 cursor-pointer"
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 20px 40px -12px rgba(35, 94, 153, 0.4)",
-                  backdropFilter: "blur(16px)",
-                }}
-                whileTap={{ scale: 0.98 }}
+                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] shadow-xl/30 text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-2xl border border-white/20 cursor-pointer"
               >
                 Find out more
-              </motion.button>
+              </button>
             </div>
           </FadeInWhenVisible>
         </div>
@@ -975,18 +956,29 @@ export default function Home() {
                 </motion.div>
               )}
 
+              <FadeInWhenVisible delay={0.3}>
+                <div className="flex justify-center mb-6">
+                  <ReCAPTCHA
+                    sitekey="6LeyWcorAAAAALgWWsSI5XbaMwDFD2Ne2F0g29g1"
+                    onChange={(value) => setRecaptchaValue(value)}
+                    onExpired={() => setRecaptchaValue(null)}
+                    theme="dark"
+                  />
+                </div>
+              </FadeInWhenVisible>
+
               <FadeInWhenVisible delay={0.4}>
                 <div className="text-center">
                   <motion.button
                     type="submit"
-                    disabled={contactLoading || contactSuccess}
+                    disabled={contactLoading || contactSuccess || !recaptchaValue}
                     className={`backdrop-blur-md text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl border border-white/20 ${
-                      contactLoading || contactSuccess
+                      contactLoading || contactSuccess || !recaptchaValue
                         ? "bg-gray-500 cursor-not-allowed"
                         : "bg-[#235e99] hover:bg-[#1a4773]"
                     }`}
                     whileHover={
-                      !contactLoading && !contactSuccess
+                      !contactLoading && !contactSuccess && recaptchaValue
                         ? {
                             scale: 1.05,
                             boxShadow:
@@ -996,7 +988,7 @@ export default function Home() {
                         : {}
                     }
                     whileTap={
-                      !contactLoading && !contactSuccess ? { scale: 0.98 } : {}
+                      !contactLoading && !contactSuccess && recaptchaValue ? { scale: 0.98 } : {}
                     }
                   >
                     {contactLoading ? (
