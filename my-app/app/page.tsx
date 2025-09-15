@@ -993,7 +993,7 @@ export default function Home() {
 
               <FadeInWhenVisible delay={0.3}>
                 <div className="flex justify-center mb-6">
-                  {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
+                  
                     <ReCAPTCHA
                       sitekey="6LfcgMorAAAAAEwEYVQROOhQ7UvedHoyHlJcg_aa"
                       onChange={(value) => setRecaptchaValue(value)}
@@ -1001,11 +1001,7 @@ export default function Home() {
                       onError={() => setRecaptchaValue(null)}
                       theme="dark"
                     />
-                  ) : (
-                    <div className="bg-red-500/20 backdrop-blur-sm border border-red-500/50 rounded-lg p-4 text-red-100 text-center">
-                      <p>reCAPTCHA configuration missing. Please add NEXT_PUBLIC_RECAPTCHA_SITE_KEY to your environment variables.</p>
-                    </div>
-                  )}
+                  
                 </div>
               </FadeInWhenVisible>
 
