@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: `secret=6LeyWcorAAAAAEDT__yMHDMUG-vf1BQTrSN6yUYj&response=${recaptchaToken}`,
+      body: `secret=6LfcgMorAAAAAD65GgopSw7YFpgvwjDrxWHJQuaF&response=${recaptchaToken}`,
     });
 
     const recaptchaData = await recaptchaResponse.json();
