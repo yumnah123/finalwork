@@ -20,7 +20,6 @@ export default function QuotePage() {
   const [contactNumber, setContactNumber] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
-  const [serviceType, setServiceType] = useState('Select Service');
   const [waitingTime, setWaitingTime] = useState<number>(0); // Optional waiting time input
   const [additionalNotes, setAdditionalNotes] = useState('');
 
@@ -28,14 +27,6 @@ export default function QuotePage() {
   const [quote, setQuote] = useState<QuoteBreakdown | null>(null);
   const [quoteLoading, setQuoteLoading] = useState(false);
   const [showQuote, setShowQuote] = useState(false);
-
-  const serviceOptions = [
-    'Select Service',
-    'Airport Transfer',
-    'Corporate Travel',
-    'Wedding Cars',
-    'Business & Social Events'
-  ];
 
   const isFormValid = () => {
     return (
@@ -45,8 +36,7 @@ export default function QuotePage() {
       customerEmail.trim() &&
       contactNumber.trim() &&
       selectedDate &&
-      selectedTime &&
-      serviceType !== 'Select Service'
+      selectedTime
     );
   };
 
@@ -59,7 +49,6 @@ export default function QuotePage() {
       const generatedQuote = await QuoteService.generateQuote(
         pickupAddress,
         dropoffAddress,
-        serviceType,
         quoteDate,
       );
       setQuote(generatedQuote);
@@ -92,7 +81,6 @@ export default function QuotePage() {
         dropoff: dropoffAddress?.display_name,
         date: selectedDate,
         time: selectedTime,
-        serviceType,
         waitingTime,
         additionalNotes
       },
@@ -123,7 +111,6 @@ export default function QuotePage() {
     setContactNumber('');
     setSelectedDate('');
     setSelectedTime('');
-    setServiceType('Select Service');
     setWaitingTime(0);
     setAdditionalNotes('');
     handleCloseQuote();
@@ -248,22 +235,18 @@ export default function QuotePage() {
                   />
                 </div>
 
-                {/* Service Type */}
+                {/* Email Address */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Service Type *
+                    Email Address *
                   </label>
-                  <select
-                    value={serviceType}
-                    onChange={(e) => setServiceType(e.target.value)}
+                  <input
+                    type="email"
+                    value={customerEmail}
+                    onChange={(e) => setCustomerEmail(e.target.value)}
+                    placeholder="Enter your email address"
                     className="w-full p-3 border text-gray-600 border-gray-300 rounded-lg focus:ring-2 focus:ring-[#235e99] focus:border-transparent"
-                  >
-                    {serviceOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
 
                 {/* Date */}

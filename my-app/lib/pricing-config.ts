@@ -19,11 +19,7 @@ export interface PricingConfig {
 
 export const pricingConfig: PricingConfig = {
   baseFare: {
-    "Airport Transfer": 25.0,
-    "Corporate Travel": 30.0,
-    "Wedding Cars": 45.0,
-    "Business & Social Events": 35.0,
-    "Select Service": 20.0, // Default service
+    "default": 25.0, // Standard base fare for all services
   },
   costPerMile: 2.5,
   costPerMinuteWaiting: 0.8,
@@ -50,6 +46,5 @@ export interface QuoteBreakdown {
   total: number;
   distance: number;
   estimatedDuration: number;
-  serviceType: string;
   validUntil: Date;
 }

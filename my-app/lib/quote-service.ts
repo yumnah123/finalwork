@@ -81,14 +81,13 @@ export class QuoteService {
     pickup: AddressResult,
     dropoff: AddressResult,
     routeData: RouteData,
-    serviceType: string,
     selectedDate: Date,
   ): QuoteBreakdown {
-    const baseFare = pricingConfig.baseFare[serviceType] || pricingConfig.baseFare["Select Service"];
+    const baseFare = pricingConfig.baseFare["default"];
     const distanceCost = routeData.distance * pricingConfig.costPerMile * 0.621371; // Convert km to miles
-    
-    // Estimate waiting time based on service type (in minutes)
-    const estimatedWaitingTime = this.getEstimatedWaitingTime(serviceType);
+
+    // Standard waiting time (10 minutes)
+    const estimatedWaitingTime = 10;
     const waitingTimeCost = estimatedWaitingTime * pricingConfig.costPerMinuteWaiting;
 
     // Calculate surge multiplier
@@ -110,22 +109,10 @@ export class QuoteService {
       total,
       distance: routeData.distance,
       estimatedDuration: routeData.duration,
-      serviceType,
       validUntil,
     };
   }
 
-  private static getEstimatedWaitingTime(serviceType: string): number {
-    const waitingTimes: { [key: string]: number } = {
-      "Airport Transfer": 15, // 15 minutes waiting time
-      "Corporate Travel": 5,  // 5 minutes waiting time
-      "Wedding Cars": 30,     // 30 minutes waiting time
-      "Business & Social Events": 20, // 20 minutes waiting time
-      "Select Service": 10,   // 10 minutes waiting time
-    };
-    
-    return waitingTimes[serviceType] || waitingTimes["Select Service"];
-  }
 
   private static calculateSurgeMultiplier(selectedDate: Date): number {
     const dayOfWeek = selectedDate.getDay(); // 0 = Sunday, 1 = Monday, etc.
@@ -158,10 +145,9 @@ export class QuoteService {
   static async generateQuote(
     pickup: AddressResult,
     dropoff: AddressResult,
-    serviceType: string,
     selectedDate: Date,
   ): Promise<QuoteBreakdown> {
     const routeData = await this.getRouteData(pickup, dropoff);
-    return this.calculateQuote(pickup, dropoff, routeData, serviceType, selectedDate);
+    return this.calculateQuote(pickup, dropoff, routeData, selectedDate);
   }
 }

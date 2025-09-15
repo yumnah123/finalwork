@@ -22,6 +22,7 @@ interface QuoteDisplayProps {
   onClose: () => void;
   onBook?: () => void;
   bookButtonText?: string;
+  bookingLoading?: boolean;
 }
 
 export const QuoteDisplay: React.FC<QuoteDisplayProps> = ({
@@ -32,6 +33,7 @@ export const QuoteDisplay: React.FC<QuoteDisplayProps> = ({
   onClose,
   onBook,
   bookButtonText = "Book Now",
+  bookingLoading = false,
 }) => {
   if (!quote && !loading) return null;
 
@@ -91,10 +93,10 @@ export const QuoteDisplay: React.FC<QuoteDisplayProps> = ({
             <div className="grid grid-cols-1 gap-6">              
               {/* Quote Details Section */}
               <div className="space-y-6 col-span-2">
-              {/* Service Type */}
+              {/* Journey Details */}
               <div className="text-center">
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                  {quote.serviceType}
+                  Journey Details
                 </h3>
                 <div className="flex items-center justify-center space-x-4 text-sm text-gray-600">
                   <span>📍 {formatDistance(quote.distance)}</span>
@@ -202,9 +204,21 @@ export const QuoteDisplay: React.FC<QuoteDisplayProps> = ({
                 {onBook && (
                   <button
                     onClick={onBook}
-                    className="flex-1 px-4 py-3 bg-[#235e99] text-white rounded-lg hover:bg-[#1e4f82] transition-colors font-medium"
+                    disabled={bookingLoading}
+                    className={`flex-1 px-4 py-3 rounded-lg transition-colors font-medium flex items-center justify-center space-x-2 ${
+                      bookingLoading
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-[#235e99] hover:bg-[#1e4f82]"
+                    } text-white`}
                   >
-                    {bookButtonText}
+                    {bookingLoading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Sending Quote...</span>
+                      </>
+                    ) : (
+                      <span>{bookButtonText}</span>
+                    )}
                   </button>
                 )}
               </div>

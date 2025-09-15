@@ -18,8 +18,8 @@ interface HeroProps {
     setContactNumber: (number: string) => void;
     selectedDate: string;
     setSelectedDate: (date: string) => void;
-    serviceType: string;
-    setServiceType: (type: string) => void;
+    customerEmail: string;
+    setCustomerEmail: (email: string) => void;
     handleGetQuote: () => void;
     isFormValid: () => any;
     quoteLoading: boolean;
@@ -125,32 +125,15 @@ export default function Hero({
                     </span>
                   )}
                 </div> */}
-                <select
-                  value={bookingFormProps.serviceType}
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  value={bookingFormProps.customerEmail}
                   onChange={(e) =>
-                    bookingFormProps.setServiceType(e.target.value)
+                    bookingFormProps.setCustomerEmail(e.target.value)
                   }
-                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
-                >
-                  <option value="Select Service" className="text-black">
-                    Select Service
-                  </option>
-                  <option value="Airport Transfer" className="text-black">
-                    Airport Transfer
-                  </option>
-                  <option value="Corporate Travel" className="text-black">
-                    Corporate Travel
-                  </option>
-                  <option value="Wedding Cars" className="text-black">
-                    Wedding Cars
-                  </option>
-                  <option
-                    value="Business & Social Events"
-                    className="text-black"
-                  >
-                    Business & Social Events
-                  </option>
-                </select>
+                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                />
               </div>
               <button
                 onClick={bookingFormProps.handleGetQuote}

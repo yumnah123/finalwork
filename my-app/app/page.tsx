@@ -217,14 +217,15 @@ export default function Home() {
     null
   );
   const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
-  const [serviceType, setServiceType] = useState("Select Service");
 
   // Quote state
   const [quote, setQuote] = useState<QuoteBreakdown | null>(null);
   const [quoteLoading, setQuoteLoading] = useState(false);
   const [showQuote, setShowQuote] = useState(false);
+  const [bookingLoading, setBookingLoading] = useState(false);
 
   // Contact form state
   const [contactForm, setContactForm] = useState({
@@ -242,9 +243,9 @@ export default function Home() {
       pickupAddress &&
       dropoffAddress &&
       customerName.trim() &&
+      customerEmail.trim() &&
       contactNumber.trim() &&
-      selectedDate &&
-      serviceType !== "Select Service"
+      selectedDate
     );
   };
 
@@ -257,7 +258,6 @@ export default function Home() {
       const generatedQuote = await QuoteService.generateQuote(
         pickupAddress,
         dropoffAddress,
-        serviceType,
         quoteDate
       );
       setQuote(generatedQuote);
@@ -275,10 +275,45 @@ export default function Home() {
     setQuote(null);
   };
 
-  const handleBookNow = () => {
-    // TODO: Implement booking functionality
-    alert("Booking functionality will be implemented next!");
-    handleCloseQuote();
+  const handleBookNow = async () => {
+    if (!quote || !customerEmail.trim()) {
+      alert("Please ensure all required fields are filled.");
+      return;
+    }
+
+    setBookingLoading(true);
+
+    try {
+      const response = await fetch("/api/send-quote", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customerEmail,
+          customerName,
+          quote,
+          pickupAddress: pickupAddress?.display_name,
+          dropoffAddress: dropoffAddress?.display_name,
+          selectedDate,
+          contactNumber,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Quote sent to your email successfully! Please check your inbox.");
+        handleCloseQuote();
+      } else {
+        alert(data.error || "Failed to send quote. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error sending quote:", error);
+      alert("Failed to send quote. Please try again.");
+    } finally {
+      setBookingLoading(false);
+    }
   };
 
   // Contact form handlers
@@ -378,8 +413,8 @@ export default function Home() {
           setContactNumber,
           selectedDate,
           setSelectedDate,
-          serviceType,
-          setServiceType,
+          customerEmail,
+          setCustomerEmail,
           handleGetQuote,
           isFormValid,
           quoteLoading,
@@ -1021,6 +1056,7 @@ export default function Home() {
           dropoff={dropoffAddress}
           onClose={handleCloseQuote}
           onBook={handleBookNow}
+          bookingLoading={bookingLoading}
         />
       )}
 
