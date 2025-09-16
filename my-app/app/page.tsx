@@ -680,7 +680,7 @@ export default function Home() {
               Experience Luxury Travel
             </h2>
             <p className="text-primary text-[27px] font-light">
-              in Chauffeur-Driven Executive Cars
+              in Chauffeur-Driven Executive Cars 
             </p>
           </div>
 
