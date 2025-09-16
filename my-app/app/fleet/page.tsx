@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   Users,
   Briefcase,
@@ -19,6 +20,15 @@ import Header from "../../components/Header";
 import Hero from "../../components/Hero";
 
 export default function Fleet() {
+  const router = useRouter();
+
+  const handleBookNow = () => {
+    router.push('/quote');
+  };
+
+  const handleViewPrices = () => {
+    router.push('/pricing');
+  };
 
   const fleetVehicles = [
     {
@@ -295,10 +305,16 @@ export default function Fleet() {
           <h2 className="text-4xl font-bold mb-6">Experience Our Luxury Fleet</h2>
           <p className="text-xl mb-8">Book your premium vehicle today and travel in style</p>
           <div className="space-x-4">
-            <button className="bg-white text-[#235e99] px-8 py-3 rounded font-semibold hover:bg-gray-100 transition-colors">
+            <button
+              onClick={handleBookNow}
+              className="bg-white text-[#235e99] px-8 py-3 rounded font-semibold hover:bg-gray-100 transition-colors"
+            >
               Book Now
             </button>
-            <button className="border border-white text-white px-8 py-3 rounded font-semibold hover:bg-white hover:text-[#235e99] transition-colors">
+            <button
+              onClick={handleViewPrices}
+              className="border border-white text-white px-8 py-3 rounded font-semibold hover:bg-white hover:text-[#235e99] transition-colors"
+            >
               View Prices
             </button>
           </div>

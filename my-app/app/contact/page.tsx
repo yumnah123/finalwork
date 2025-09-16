@@ -136,71 +136,6 @@ export default function Contact() {
         description="Contact our team for bookings, inquiries, or to discuss your transportation requirements"
       />
 
-      {/* Contact Information */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4 max-w-[1440px]">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Contact Information
-            </h2>
-            <p className="text-primary text-xl">
-              We're here to help you 24/7
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Phone Contact */}
-            <div className="bg-white rounded-lg shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <Phone className="w-8 h-8 text-black" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 text-gray-800">Phone Booking</h3>
-              <p className="text-gray-600 mb-4">Call us for immediate booking and assistance</p>
-              <div className="space-y-2">
-                <p className="text-lg font-semibold text-primary">+44 (0) 203 858 786</p>
-                <p className="text-sm text-gray-500">Available 24/7</p>
-              </div>
-              <button className="mt-4 bg-[#235e99] text-white px-6 py-2 rounded font-semibold hover:bg-[#1e4d82] transition-colors">
-                Call Now
-              </button>
-            </div>
-
-            {/* Email Contact */}
-            <div className="bg-white rounded-lg shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <Mail className="w-8 h-8 text-black" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 text-gray-800">Email Us</h3>
-              <p className="text-gray-600 mb-4">Send us a message for detailed inquiries</p>
-              <div className="space-y-2">
-                <p className="text-lg font-semibold text-primary">booking@goldstarexecutive.com</p>
-                <p className="text-sm text-gray-500">Response within 2 hours</p>
-              </div>
-              <button className="mt-4 bg-[#235e99] text-white px-6 py-2 rounded font-semibold hover:bg-[#1e4d82] transition-colors">
-                Send Email
-              </button>
-            </div>
-
-            {/* Office Location */}
-            <div className="bg-white rounded-lg shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <MapPin className="w-8 h-8 text-black" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 text-gray-800">Visit Our Office</h3>
-              <p className="text-gray-600 mb-4">Come meet our team in person</p>
-              <div className="space-y-2 text-sm">
-                <p className="font-semibold text-gray-800">Goldstar Executive Ltd</p>
-                <p className="text-gray-600">2000 Cathedral Hill</p>
-                <p className="text-gray-600">Guildford, Surrey</p>
-                <p className="text-gray-600">United Kingdom</p>
-              </div>
-              <button className="mt-4 bg-[#235e99] text-white px-6 py-2 rounded font-semibold hover:bg-[#1e4d82] transition-colors">
-                Get Directions
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Business Hours */}
       <section className="py-20 bg-white">
@@ -468,66 +403,6 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Quick Contact Options */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4 max-w-[1440px]">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Quick Contact Options
-            </h2>
-            <p className="text-primary text-xl">
-              Choose the best way to reach us
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Phone className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-lg font-bold mb-2 text-gray-800">Immediate Booking</h3>
-              <p className="text-gray-600 text-sm mb-4">Call for instant quotes and bookings</p>
-              <button className="bg-green-500 text-white px-4 py-2 rounded font-semibold hover:bg-green-600 transition-colors text-sm">
-                Call Now
-              </button>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MessageCircle className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-lg font-bold mb-2 text-gray-800">Live Chat</h3>
-              <p className="text-gray-600 text-sm mb-4">Get instant answers to your questions</p>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded font-semibold hover:bg-blue-600 transition-colors text-sm">
-                Start Chat
-              </button>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Calendar className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-lg font-bold mb-2 text-gray-800">Schedule Callback</h3>
-              <p className="text-gray-600 text-sm mb-4">Book a convenient time for us to call you</p>
-              <button className="bg-purple-500 text-white px-4 py-2 rounded font-semibold hover:bg-purple-600 transition-colors text-sm">
-                Schedule
-              </button>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Car className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-lg font-bold mb-2 text-gray-800">Emergency Service</h3>
-              <p className="text-gray-600 text-sm mb-4">24/7 emergency transportation</p>
-              <button className="bg-orange-500 text-white px-4 py-2 rounded font-semibold hover:bg-orange-600 transition-colors text-sm">
-                Emergency
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* FAQ Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 max-w-[1440px]">
@@ -565,22 +440,6 @@ export default function Contact() {
               <h3 className="text-lg font-bold text-gray-800 mb-2">What is your cancellation policy?</h3>
               <p className="text-gray-600">Free cancellation up to 2 hours before the scheduled pickup time. Cancellations within 2 hours may incur charges. No-shows will be charged the full fare. Corporate accounts may have different terms.</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-20 bg-[#235e99] text-white">
-        <div className="container mx-auto px-4 max-w-[1440px] text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Experience Premium Service?</h2>
-          <p className="text-xl mb-8">Contact us today for your next journey</p>
-          <div className="space-x-4">
-            <button className="bg-white text-[#235e99] px-8 py-3 rounded font-semibold hover:bg-gray-100 transition-colors">
-              Book Now
-            </button>
-            <button className="border border-white text-white px-8 py-3 rounded font-semibold hover:bg-white hover:text-[#235e99] transition-colors">
-              Get Quote
-            </button>
           </div>
         </div>
       </section>

@@ -111,38 +111,6 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Service Types & Base Fares */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4 max-w-[1440px]">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Service Types & Base Fares</h2>
-            <p className="text-lg text-gray-600">Different services have different base rates to reflect their unique requirements</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {Object.entries(pricingConfig.baseFare).filter(([key]) => key !== "Select Service").map(([service, fare]) => (
-              <div key={service} className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-                <div className="text-center">
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{service}</h3>
-                  <div className="text-3xl font-bold text-[#235e99] mb-4">
-                    {formatCurrency(fare)}
-                  </div>
-                  <p className="text-sm text-gray-500 mb-4">Base fare</p>
-                  <div className="space-y-2">
-                    {serviceFeatures[service as keyof typeof serviceFeatures]?.map((feature, index) => (
-                      <div key={index} className="flex items-center text-sm text-gray-600">
-                        <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                        <span>{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Surge Pricing Rules */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 max-w-[1440px]">

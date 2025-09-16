@@ -84,13 +84,13 @@ export default function Header({ activeSection = '' }: HeaderProps) {
             />
           </div>
           <div className="flex flex-col items-end gap-4">
-            <div className="hidden md:flex items-center text-white text-base xl:text-lg font-semibold">
+            <div className="hidden md:flex items-center text-white text-base xl:text-lg font-light">
               <Image src={contact} alt="contact" className="mr-2" />
               +44 (0) 203 858 786
             </div>
             <div className="flex items-center gap-4">
               {/* Desktop Navigation */}
-              <nav className="hidden lg:flex items-center text-base font-light xl:text-lg space-x-8">
+              <nav className="hidden lg:flex items-center text-base font-light xl:text-base space-x-8">
                 {navigationItems.map((item) => (
                   <a
                     key={item.name}

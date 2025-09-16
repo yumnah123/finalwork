@@ -7,6 +7,7 @@ import {
   Calendar,
   Shield,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import executiveCar from "../../public/assets1/section2.jpg";
 import premium from "../../public/assets1/section3.jpg";
 import Footer from "../../components/Footer";
@@ -14,6 +15,11 @@ import Header from "../../components/Header";
 import Hero from "../../components/Hero";
 
 export default function Services() {
+  const router = useRouter();
+
+  const handleGetQuote = () => {
+    router.push('/quote');
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -306,12 +312,15 @@ export default function Services() {
           <h2 className="text-4xl font-bold mb-6">Ready to Experience Premium Service?</h2>
           <p className="text-xl mb-8">Get your quote today and discover the Goldstar difference</p>
           <div className="space-x-4">
-            <button className="bg-white text-[#235e99] px-8 py-3 rounded font-semibold hover:bg-gray-100 transition-colors">
+            <button
+              onClick={handleGetQuote}
+              className="bg-white text-[#235e99] px-8 py-3 rounded font-semibold hover:bg-gray-100 transition-colors"
+            >
               Get Quote
             </button>
-            <button className="border border-white text-white px-8 py-3 rounded font-semibold hover:bg-white hover:text-[#235e99] transition-colors">
+            {/* <button className="border border-white text-white px-8 py-3 rounded font-semibold hover:bg-white hover:text-[#235e99] transition-colors">
               Call Now
-            </button>
+            </button> */}
           </div>
         </div>
       </section>

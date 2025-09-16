@@ -354,7 +354,7 @@ export default function Home() {
       <Hero
         title="Welcome to"
         subtitle="Goldstar Executive"
-        description="An executive car and chauffeur service covering Surrey, London and the Home Counties"
+        description="An executive car and chauffeur service covering Surrey, London and the home counties."
         showBookingForm={true}
         bookingFormProps={{
           AddressAutocomplete,
