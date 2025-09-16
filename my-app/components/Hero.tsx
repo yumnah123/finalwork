@@ -36,16 +36,20 @@ export default function Hero({
   return (
     <section
       className={`${
-        showBookingForm ? "2xl:min-h-[1080px] xl:min-h-[800px]" : "min-h-[350px] lg:min-h-[900px]"
+        showBookingForm
+          ? "2xl:min-h-[926px] xl:min-h-[800px]"
+          : "min-h-[350px] lg:min-h-[900px]"
       } bg-cover bg-center overflow-hidden px-4 md:px-0`}
       style={{
         backgroundImage: `url(${herobg.src})`,
       }}
     >
-      <div className="inset-0 flex items-center justify-center mt-[120px] md:mt-[120px] lg:mt-[200px] 2xl:mt-[280px]">
+      <div className="inset-0 flex items-center justify-center mt-[120px] md:mt-[120px] lg:mt-[200px] 2xl:mt-[200px]">
         <div className="text-center text-white">
           {title && (
-            <h1 className="text-3xl lg:text-4xl xl:text-6xl font-light lg:mb-2 xl:mb-4">{title}</h1>
+            <h1 className="text-3xl lg:text-4xl xl:text-6xl font-light lg:mb-2 xl:mb-4">
+              {title}
+            </h1>
           )}
           <h2 className="text-4xl lg:text-5xl xl:text-7xl font-bold lg:mb-4 xl:mb-6">
             {subtitle}
@@ -94,6 +98,15 @@ export default function Hero({
                   }
                   className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
                 />
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  value={bookingFormProps.customerEmail}
+                  onChange={(e) =>
+                    bookingFormProps.setCustomerEmail(e.target.value)
+                  }
+                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                />
                 <div className="relative w-full md:w-auto">
                   <input
                     type="date"
@@ -125,15 +138,6 @@ export default function Hero({
                     </span>
                   )}
                 </div> */}
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  value={bookingFormProps.customerEmail}
-                  onChange={(e) =>
-                    bookingFormProps.setCustomerEmail(e.target.value)
-                  }
-                  className="bg-white/10 backdrop-blur-sm text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
-                />
               </div>
               <button
                 onClick={bookingFormProps.handleGetQuote}
@@ -158,7 +162,9 @@ export default function Hero({
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="lg:text-xl text-sm">Professional, Local Experts</span>
+                  <span className="lg:text-xl text-sm">
+                    Professional, Local Experts
+                  </span>
                 </div>
                 <div className="flex items-center">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />

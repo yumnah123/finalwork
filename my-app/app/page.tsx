@@ -118,27 +118,6 @@ export default function Home() {
       passengers: 6,
       luggage: 4,
     },
-    // {
-    //   name: "Executive Class",
-    //   description: "Premium comfort for discerning travelers with style",
-    //   image: sls,
-    //   passengers: 4,
-    //   luggage: 3,
-    // },
-    // {
-    //   name: "Luxury Sedan",
-    //   description: "Sophisticated transport for special occasions and events",
-    //   image: caravan,
-    //   passengers: 4,
-    //   luggage: 2,
-    // },
-    // {
-    //   name: "Premium SUV",
-    //   description: "Spacious luxury for family trips and group transportation",
-    //   image: merc,
-    //   passengers: 7,
-    //   luggage: 5,
-    // },
   ];
 
   const testimonials = [
@@ -153,30 +132,6 @@ export default function Home() {
     {
       text: "Outstanding chauffeur service! The booking process was seamless, and our driver went above and beyond to ensure we arrived on time for our important meeting. Highly recommended!",
       author: "David Thompson, Manchester",
-    },
-    {
-      text: "Perfect for corporate events. Our clients were impressed with the luxury vehicles and professional service. The drivers are always smartly dressed and courteous.",
-      author: "Emma Richardson, Birmingham",
-    },
-    {
-      text: "Reliable and luxurious! I've used Goldstar multiple times for airport transfers and they never disappoint. Clean cars, friendly drivers, and always on time.",
-      author: "James Wilson, Leeds",
-    },
-    {
-      text: "First-class service at competitive prices. The Mercedes was spotless and the driver was knowledgeable about the best routes. Made our wedding day even more special.",
-      author: "Lisa & Mark Johnson, Liverpool",
-    },
-    {
-      text: "Excellent customer service and attention to detail. From the initial booking to the final destination, everything was handled professionally. Will use again.",
-      author: "Robert Chen, Bristol",
-    },
-    {
-      text: "Goldstar exceeded our expectations! The driver was patient with our elderly parents and helped with luggage. A truly caring and professional service.",
-      author: "Michelle Adams, Glasgow",
-    },
-    {
-      text: "Top-notch executive travel service. The vehicles are luxurious, drivers are professional, and the booking system is user-friendly. Perfect for business travel.",
-      author: "Andrew Foster, Edinburgh",
     },
   ];
 
@@ -687,15 +642,9 @@ export default function Home() {
           <div className="embla overflow-hidden" ref={vehicleEmblaRef}>
             <div className="embla__container flex">
               {[...vehicles, ...vehicles].map((vehicle, index) => (
-                <motion.div
+                <div
                   key={`vehicle-${index}`}
                   className="embla__slide min-w-0"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: (index % vehicles.length) * 0.1,
-                  }}
                 >
                   <div className="overflow-hidden">
                     <div className="h-64 flex items-center justify-center">
@@ -737,7 +686,7 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -783,25 +732,14 @@ export default function Home() {
               <div className="embla overflow-hidden" ref={emblaRef}>
                 <div className="embla__container flex">
                   {/* Duplicate testimonials for seamless infinite loop */}
-                  {[...testimonials, ...testimonials, ...testimonials].map(
+                  {[...testimonials, ...testimonials].map(
                     (testimonial, index) => (
-                      <motion.div
+                      <div
                         key={`testimonial-${index}`}
                         className="embla__slide min-w-0"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{
-                          duration: 0.5,
-                          delay: (index % testimonials.length) * 0.1,
-                        }}
                       >
-                        <motion.div
+                        <div
                           className=" rounded-lg p-6 h-full"
-                          whileHover={{
-                            y: -5,
-                            scale: 1.02,
-                          }}
-                          transition={{ duration: 0.3 }}
                         >
                           <div
                             className="text-4xl flex justify-center text-white/40 mb-4"
@@ -817,8 +755,8 @@ export default function Home() {
                           >
                             {testimonial.author}
                           </motion.p>
-                        </motion.div>
-                      </motion.div>
+                        </div>
+                      </div>
                     )
                   )}
                 </div>
