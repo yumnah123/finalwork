@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/iomechs/Downloads/**)",
+      "Bash(npm run dev:*)",
+      "WebSearch",
+      "Bash(npm install:*)",
+      "WebFetch(domain:nominatim.org)",
+      "Bash(npx tsc:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

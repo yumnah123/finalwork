@@ -13,13 +13,13 @@ import world from "../public/assets1/world.png";
 export default function Footer() {
   return (
     <footer
-      className="bg-black text-gray-300 bg-cover bg-center 2xl:h-[647px] pt-24 px-6 pb-4 md:pb-8 2xl:pb-0 2xl:px-0"
+      className="bg-black text-gray-300 bg-cover bg-center lg:h-[485px] pt-24 px-6 pb-4 md:pb-8 2xl:pb-0 2xl:px-0"
       style={{
         backgroundImage: `url(${footer.src})`,
       }}
     >
-      <div className="container mx-auto max-w-[1440px]">
-        <div className="grid grid-cols-1 lg:grid-cols-4 mt-4 mb-12 lg:mb-0 gap-8">
+      <div className="container mx-auto max-w-[1170px] lg:gap-16 flex flex-col justify-between">
+        <div className="flex flex-col lg:flex-row mt-4 lg:mx-6 mb-12 lg:mb-0 gap-24">
           <div className="max-w-[280px] flex flex-col justify-start items-start gap-5">
             <div className="flex items-center">
               <Image
@@ -47,6 +47,7 @@ export default function Footer() {
             </div>
           </div>
 
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div>
             <h3 className="text-lg font-bold mb-4 text-primary">LINKS</h3>
             <ul className="space-y-2 text-lg text-gray-300">
@@ -172,10 +173,11 @@ export default function Footer() {
               </div>
             </div>
           </div>
+          </div>
         </div>
 
-        <div className="flex md:flex-row flex-col justify-between lg:mt-24 2xl:mt-52 text-center text-gray-300">
-          <p>Copyright © 2023 Gold Star Executive. All Rights Reserved.</p>
+        <div className="flex md:flex-row flex-col justify-between text-center text-gray-300">
+          <p>Copyright © 2025 Gold Star Executive. All Rights Reserved.</p>
           <p>Web Design UK by myteamscot.</p>
         </div>
       </div>

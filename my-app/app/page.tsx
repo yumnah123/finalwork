@@ -118,27 +118,27 @@ export default function Home() {
       passengers: 6,
       luggage: 4,
     },
-    {
-      name: "Executive Class",
-      description: "Premium comfort for discerning travelers with style",
-      image: sls,
-      passengers: 4,
-      luggage: 3,
-    },
-    {
-      name: "Luxury Sedan",
-      description: "Sophisticated transport for special occasions and events",
-      image: caravan,
-      passengers: 4,
-      luggage: 2,
-    },
-    {
-      name: "Premium SUV",
-      description: "Spacious luxury for family trips and group transportation",
-      image: merc,
-      passengers: 7,
-      luggage: 5,
-    },
+    // {
+    //   name: "Executive Class",
+    //   description: "Premium comfort for discerning travelers with style",
+    //   image: sls,
+    //   passengers: 4,
+    //   luggage: 3,
+    // },
+    // {
+    //   name: "Luxury Sedan",
+    //   description: "Sophisticated transport for special occasions and events",
+    //   image: caravan,
+    //   passengers: 4,
+    //   luggage: 2,
+    // },
+    // {
+    //   name: "Premium SUV",
+    //   description: "Spacious luxury for family trips and group transportation",
+    //   image: merc,
+    //   passengers: 7,
+    //   luggage: 5,
+    // },
   ];
 
   const testimonials = [
@@ -423,7 +423,7 @@ export default function Home() {
 
       {/* Executive Car Services */}
       <section
-        className="py-20 relative bg-cover bg-center"
+        className="py-[40px] relative bg-cover bg-center"
         style={{
           backgroundImage: `url(${executiveCar.src})`,
         }}
@@ -550,7 +550,7 @@ export default function Home() {
             <div className="text-center mt-6">
               <button
                 onClick={() => router.push("/services")}
-                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] text-white px-10 py-4 shadow-xl/30 rounded-lg font-semibold transition-all duration-300 hover:shadow-2xl border border-white/20 cursor-pointer"
+                className="bg-[#235e99] hover:bg-[#1a4773] lg:text-lg font-light text-white px-10 py-4 shadow-[6px_6px_15px_rgba(0,0,0,0.4)] rounded-lg transition-all duration-300 hover:shadow-[6px_6px_20px_rgba(0,0,0,0.4)] border border-white/20 cursor-pointer"
               >
                 Find out more
               </button>
@@ -686,7 +686,7 @@ export default function Home() {
 
           <div className="embla overflow-hidden" ref={vehicleEmblaRef}>
             <div className="embla__container flex">
-              {[...vehicles, ...vehicles, ...vehicles].map((vehicle, index) => (
+              {[...vehicles, ...vehicles].map((vehicle, index) => (
                 <motion.div
                   key={`vehicle-${index}`}
                   className="embla__slide min-w-0"
@@ -746,7 +746,7 @@ export default function Home() {
             <div className="text-center mt-12">
               <button
                 onClick={() => router.push("/fleet")}
-                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] shadow-xl/30 text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-2xl border border-white/20 cursor-pointer"
+                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] font-light lg:text-lg  shadow-[6px_6px_15px_rgba(0,0,0,0.4)] hover:shadow-[6px_6px_20px_rgba(0,0,0,0.4)] text-white px-10 py-4 rounded-lg transition-all duration-300 border border-white/20 cursor-pointer"
               >
                 Find out more
               </button>
@@ -1007,27 +1007,11 @@ export default function Home() {
 
               <FadeInWhenVisible delay={0.4}>
                 <div className="text-center">
-                  <motion.button
+                  <button
                     type="submit"
                     disabled={contactLoading || contactSuccess || !recaptchaValue}
-                    className={`backdrop-blur-md text-white px-10 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl border border-white/20 ${
-                      contactLoading || contactSuccess || !recaptchaValue
-                        ? "bg-gray-500 cursor-not-allowed"
-                        : "bg-[#235e99] hover:bg-[#1a4773]"
-                    }`}
-                    whileHover={
-                      !contactLoading && !contactSuccess && recaptchaValue
-                        ? {
-                            scale: 1.05,
-                            boxShadow:
-                              "0 20px 40px -12px rgba(35, 94, 153, 0.4)",
-                            backdropFilter: "blur(16px)",
-                          }
-                        : {}
-                    }
-                    whileTap={
-                      !contactLoading && !contactSuccess && recaptchaValue ? { scale: 0.98 } : {}
-                    }
+                    className={`bg-[#235e99] shadow-[6px_6px_15px_rgba(0,0,0,0.4)] hover:shadow-[6px_6px_20px_rgba(0,0,0,0.4)] lg:text-lg font-light text-white lg:px-12 lg:py-4 rounded-lg px-4 py-2 disabled:cursor-not-allowed"
+                    `}
                   >
                     {contactLoading ? (
                       <div className="flex items-center space-x-2">
@@ -1040,9 +1024,9 @@ export default function Home() {
                         <span>Sent!</span>
                       </div>
                     ) : (
-                      "Send Message"
+                      "Send"
                     )}
-                  </motion.button>
+                  </button>
                 </div>
               </FadeInWhenVisible>
             </form>

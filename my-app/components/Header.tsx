@@ -90,7 +90,7 @@ export default function Header({ activeSection = '' }: HeaderProps) {
             </div>
             <div className="flex items-center gap-4">
               {/* Desktop Navigation */}
-              <nav className="hidden lg:flex items-center text-base xl:text-lg space-x-8">
+              <nav className="hidden lg:flex items-center text-base font-light xl:text-lg space-x-8">
                 {navigationItems.map((item) => (
                   <a
                     key={item.name}
