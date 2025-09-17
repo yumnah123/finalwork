@@ -1,4 +1,4 @@
-import herobg from "../public/assets1/banner.jpg";
+import herobg from "../public/assets1/banner.webp";
 import { CheckCircle } from "lucide-react";
 
 interface HeroProps {
@@ -47,11 +47,11 @@ export default function Hero({
       <div className={`inset-0 flex items-center justify-center ${showBookingForm ? "mt-[120px] md:mt-[120px] lg:mt-[200px] 2xl:mt-[200px]" : "mt-[120px] lg:mt-[320px]"}`}>
         <div className="text-center text-white">
           {title && (
-            <h1 className="text-3xl lg:text-4xl xl:text-6xl font-light lg:mb-2 xl:mb-2">
+            <h1 className={`${showBookingForm ? 'text-2xl md:text-3xl' : 'text-2xl md:text-3xl'} lg:text-4xl xl:text-6xl font-light lg:mb-2 xl:mb-2`}>
               {title}
             </h1>
           )}
-          <h2 className="text-4xl lg:text-5xl xl:text-7xl font-bold lg:mb-4 xl:mb-6">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-bold mb-4 xl:mb-6">
             {subtitle}
           </h2>
           <p className="lg:text-xl lg:font-light text-base 2xl:mb-12 mb-4 mx-auto md:max-w-2xl lg:max-w-none">
@@ -59,7 +59,7 @@ export default function Hero({
           </p>
 
           {showBookingForm && bookingFormProps && (
-            <div className="p-8 !pt-6 max-w-5xl mx-auto">
+            <div className="p-6 !pt-4 md:p-8 md:!pt-6 max-w-5xl mx-auto">
               <h3 className="text-2xl lg:text-3xl xl:text-4xl text-primary mb-4">
                 QUOTE & BOOK A CAR
               </h3>

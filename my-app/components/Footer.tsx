@@ -1,6 +1,6 @@
 import Image from "next/image";
 import logo from "../public/Logo.svg";
-import footer from "../public/assets1/banner7.jpg";
+import footer from "../public/assets1/banner7.webp";
 import twitter from "../public/assets1/twitter.png";
 import facebook from "../public/assets1/facebook.png";
 import linkedln from "../public/assets1/linkdln.png";
@@ -13,14 +13,14 @@ import world from "../public/assets1/world.png";
 export default function Footer() {
   return (
     <footer
-      className="bg-black text-gray-300 bg-cover bg-center lg:h-[485px] pt-24 px-6 pb-4 md:pb-8 2xl:pb-0 2xl:px-0"
+      className="bg-black text-gray-300 bg-cover bg-center lg:h-[485px] pt-12 md:pt-24 px-4 pb-4 md:pb-8 2xl:pb-0 2xl:px-0"
       style={{
         backgroundImage: `url(${footer.src})`,
       }}
     >
       <div className="container mx-auto max-w-[1170px] lg:gap-16 flex flex-col justify-between">
-        <div className="flex flex-col lg:flex-row mt-4 lg:mx-6 mb-12 lg:mb-0 gap-24">
-          <div className="max-w-[280px] flex flex-col justify-start items-start gap-5">
+        <div className="flex flex-col lg:flex-row mt-4 lg:mx-6 mb-12 lg:mb-0 gap-12 lg:gap-24">
+          <div className="max-w-[280px] flex flex-col justify-start items-start gap-3 md:gap-5">
             <div className="flex items-center">
               <Image
                 src={logo}
@@ -30,7 +30,7 @@ export default function Footer() {
                 priority
               />
             </div>
-            <p className="text-gray-300 2xl:text-lg text-left leading-relaxed mb-4">
+            <p className="text-gray-300 2xl:text-lg text-left leading-relaxed md:mb-4">
               An executive car and chauffeur service covering Surrey, London and
               the Home Counties.
             </p>
@@ -62,10 +62,10 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
             <div>
-              <h3 className="text-lg font-bold mb-4 text-primary">LINKS</h3>
-              <ul className="space-y-2 text-lg text-gray-300">
+              <h3 className="text-lg font-bold mb-2 md:mb-4 text-primary">LINKS</h3>
+              <ul className="space-y-2 md:text-lg text-gray-300">
                 <li>
                   <a
                     href="/"
@@ -114,12 +114,12 @@ export default function Footer() {
             </div>
 
             <div>
-              <h3 className="text-lg font-bold mb-4 text-primary">ADDRESS</h3>
+              <h3 className="text-lg font-bold mb-2 md:mb-4 text-primary">ADDRESS</h3>
               <a
                 href="https://maps.google.com/?q=Goldstar+Executive+Ltd,+3000+Cathedral+Hill,+Guildford,+GU2+7YB,+United+Kingdom"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-lg text-gray-300 space-y-2 hover:text-primary transition-colors cursor-pointer block"
+                className="md:text-lg px-4 sm:0 text-gray-300 space-y-2 hover:text-primary transition-colors cursor-pointer block"
               >
                 <div className="relative">
                   <div className="absolute -left-4.5 top-2">
@@ -135,10 +135,10 @@ export default function Footer() {
             </div>
 
             <div>
-              <h3 className="text-lg font-bold mb-4 text-primary">
+              <h3 className="text-lg font-bold mb-2 md:mb-4 text-primary">
                 CONTACT US
               </h3>
-              <div className="text-lg text-gray-300 space-y-2">
+              <div className="md:text-lg text-gray-300 space-y-2">
                 <a
                   href="tel:+442038587786"
                   className="flex gap-2 hover:text-primary"
@@ -188,7 +188,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex md:flex-row flex-col justify-between text-center text-gray-300">
+        <div className="flex md:flex-row flex-col gap-4 lg:gap-0 justify-between text-center text-gray-300">
           <p>Copyright © 2025 Gold Star Executive. All Rights Reserved.</p>
           <p>Web Design UK by myteamscot.</p>
         </div>

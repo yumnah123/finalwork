@@ -14,34 +14,30 @@ import Hero from "../components/Hero";
 import { AddressResult } from "../hooks/useAddressAutocomplete";
 import { QuoteService } from "../lib/quote-service";
 import { QuoteBreakdown } from "../lib/pricing-config";
-import { Star, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import ReCAPTCHA from "react-google-recaptcha";
-import hero1 from "../public/assets1/hero-11.png";
-import hero2 from "../public/assets1/hero-2.png";
 import rtl from "../public/assets1/rtl-line.png";
-import ltr from "../public/assets1/ltr-line.png";
 import airport from "../public/assets1/airport.webp";
 import business from "../public/assets1/business.webp";
 import travel from "../public/assets1/travel.webp";
-import wedding from "../public/assets1/wedding.png";
-import comfortable from "../public/assets1/comfortable.png";
+import wedding from "../public/assets1/wedding.webp";
 import sls from "../public/assets1/sls.webp";
-import executiveCar from "../public/assets1/section2.jpg";
-import premium from "../public/assets1/section3.jpg";
-import banner from "../public/assets1/banner4.jpg";
-import testimonial from "../public/assets1/banner5.jpg";
+import executiveCar from "../public/assets1/section2.webp";
+import premium from "../public/assets1/section3.webp";
+import banner from "../public/assets1/banner4.webp";
+import testimonial from "../public/assets1/banner5.webp";
 import mercedez from "../public/assets1/banner6.webp";
 import comm from "../public/assets1/MPV_2_Group.png";
 import dollor from "../public/assets1/MPV_3_Group.png";
 import caravan from "../public/assets1/caravan.webp";
-import merc from "../public/assets1/merc.png";
+import merc from "../public/assets1/merc.webp";
 import payment from "../public/assets1/payment.png";
 import time from "../public/assets1/time.png";
 import reading from "../public/assets1/reading.png";
 import bottle from "../public/assets1/bottle.png";
 import contact from "../public/assets1/contact.png";
 import wifi from "../public/assets1/wifi.png";
-import test from "../public/assets1/test.png"
+import test from "../public/assets1/test.webp"
 // Animation components
 const FadeInWhenVisible = ({
   children,
@@ -378,7 +374,7 @@ export default function Home() {
 
       {/* Executive Car Services */}
       <section
-        className="py-[40px] relative bg-cover bg-center"
+        className="py-[20px] md:py-[40px] relative bg-cover bg-center"
         style={{
           backgroundImage: `url(${executiveCar.src})`,
         }}
@@ -386,10 +382,10 @@ export default function Home() {
         <div className="container mx-auto px-4 max-w-[1170px]">
           <FadeInWhenVisible>
             <div className="text-center mb-10">
-              <h2 className="text-4xl font-bold text-gray-800 mb-1">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 md:mb-1">
                 Executive Car
               </h2>
-              <p className="text-primary font-light text-3xl">Services</p>
+              <p className="text-primary font-light text-2xl md:text-3xl">Services</p>
             </div>
           </FadeInWhenVisible>
 
@@ -502,10 +498,10 @@ export default function Home() {
           </div>
 
           <FadeInWhenVisible delay={0.5}>
-            <div className="text-center mt-6">
+            <div className="text-center md-3 md:mt-6">
               <button
                 onClick={() => router.push("/services")}
-                className="bg-[#235e99] hover:bg-[#1a4773] lg:text-lg font-light text-white px-10 py-4 shadow-[6px_6px_15px_rgba(0,0,0,0.4)] rounded-lg transition-all duration-300 hover:shadow-[6px_6px_20px_rgba(0,0,0,0.4)] border border-white/20 cursor-pointer"
+                className="bg-[#235e99] hover:bg-[#1a4773] lg:text-lg font-light text-white px-5 py-2 md:px-10 md:py-4 shadow-[6px_6px_15px_rgba(0,0,0,0.4)] rounded-lg transition-all duration-300 hover:shadow-[6px_6px_20px_rgba(0,0,0,0.4)] border border-white/20 cursor-pointer"
               >
                 Find out more
               </button>
@@ -526,10 +522,10 @@ export default function Home() {
         </div>
         <div className="container mx-auto px-4 text-center max-w-[1170px] text-white">
           <FadeInWhenVisible>
-            <h2 className="text-4xl font-semibold mb-2">
+            <h2 className="text-3xl md:text-4xl font-semibold mb-2">
               Experience Premium Car Service
             </h2>
-            <p className="text-2xl font-light mb-16 text-primary">
+            <p className="text-2xl font-light mb-8 md:mb-16 text-primary">
               For those who value high quality
             </p>
           </FadeInWhenVisible>
@@ -624,17 +620,17 @@ export default function Home() {
 
       {/* Luxury Travel Section */}
       <section
-        className="py-20 bg-gray-50"
+        className="py-10 md:py-20 bg-gray-50"
         style={{
           backgroundImage: `url(${banner.src})`,
         }}
       >
         <div className="container mx-auto px-4 max-w-[1170px]">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-semibold text-gray-800 mb-2">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
               Experience Luxury Travel
             </h2>
-            <p className="text-primary text-[27px] font-light">
+            <p className="text-2xl text-primary md:text-[27px] font-light">
               in Chauffeur-Driven Executive Cars 
             </p>
           </div>
@@ -647,14 +643,14 @@ export default function Home() {
                   className="embla__slide min-w-0"
                 >
                   <div className="overflow-hidden">
-                    <div className="h-64 flex items-center justify-center">
+                    <div className="h-48 md:h-64 flex items-center justify-center">
                       <Image src={vehicle.image} alt={vehicle.name} />
                     </div>
-                    <div className="p-6">
-                      <h3 className="text-2xl font-bold mb-2 text-black">
+                    <div className="px-3 md:p-6">
+                      <h3 className="text-xl md:text-2xl font-bold mb-2 text-black">
                         {vehicle.name}
                       </h3>
-                      <p className="text-black text-lg h-[56px] mb-6">
+                      <p className="text-black md:text-lg h-[70Spx] mb-6">
                         {vehicle.description}
                       </p>
                       <div className="flex items-center space-x-4 mb-4">
@@ -692,10 +688,10 @@ export default function Home() {
           </div>
 
           <FadeInWhenVisible delay={0.3}>
-            <div className="text-center mt-12">
+            <div className="text-center mt-6 md:mt-12">
               <button
                 onClick={() => router.push("/fleet")}
-                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] font-light lg:text-lg  shadow-[6px_6px_15px_rgba(0,0,0,0.4)] hover:shadow-[6px_6px_20px_rgba(0,0,0,0.4)] text-white px-10 py-4 rounded-lg transition-all duration-300 border border-white/20 cursor-pointer"
+                className="bg-[#235e99] backdrop-blur-md hover:bg-[#1a4773] font-light lg:text-lg  shadow-[6px_6px_15px_rgba(0,0,0,0.4)] hover:shadow-[6px_6px_20px_rgba(0,0,0,0.4)] text-white px-5 py-2 md:px-10 md:py-4 rounded-lg transition-all duration-300 border border-white/20 cursor-pointer"
               >
                 Find out more
               </button>
@@ -706,24 +702,24 @@ export default function Home() {
 
       {/* Testimonials */}
       <section
-        className="py-20 bg-cover bg-center relative"
+        className="py-10 md:py-20 bg-cover bg-center relative"
         style={{
           backgroundImage: `url(${testimonial.src})`,
         }}
       >
         <div className="container mx-auto px-4 text-center text-white">
           <FadeInWhenVisible>
-            <h2 className="text-4xl font-bold mb-4">We Want To Hear</h2>
-            <p className="text-3xl mb-6">Your Opinion</p>
+            <h2 className="text-3xl md:text-4xl font-bold md:mb-4">We Want To Hear</h2>
+            <p className="text-2xl md:text-3xl mb-3 md:mb-6">Your Opinion</p>
           </FadeInWhenVisible>
 
           <div className="max-w-6xl mx-auto">
             <FadeInWhenVisible delay={0.2}>
-              <p className="text-lg leading-relaxed">
+              <p className="md:text-lg leading-relaxed">
                 It is our clients feedback and opinions which allow us to
                 provide a truly great service.
               </p>
-              <p className="text-lg mb-12 leading-relaxed">
+              <p className="text-lg mb-6 md:mb-12 leading-relaxed">
                 Every good review is the finest form of appreciation of our work imagination
               </p>
             </FadeInWhenVisible>
@@ -820,7 +816,7 @@ export default function Home() {
 
       {/* Contact Section */}
       <section
-        className="py-20 bg-cover bg-center relative"
+        className="py-10 md:py-20 bg-cover bg-center relative"
         style={{
           backgroundImage: `url(${mercedez.src})`,
         }}
@@ -829,15 +825,15 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/30 to-black/0"></div>
         <div className="container mx-auto px-4 relative z-10">
           <FadeInWhenVisible>
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-white mb-4">Talk To Us</h2>
+            <div className="text-center mb-6 md:mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Talk To Us</h2>
             </div>
           </FadeInWhenVisible>
 
           <div className="max-w-2xl mx-auto">
             <form onSubmit={handleContactSubmit}>
               <FadeInWhenVisible delay={0.2}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
                   <motion.input
                     type="text"
                     placeholder="Name"
@@ -845,15 +841,11 @@ export default function Home() {
                     onChange={(e) =>
                       handleContactInputChange("name", e.target.value)
                     }
-                    className={`bg-white/90 backdrop-blur-sm text-black px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:bg-white transition-all duration-300 border ${
+                    className={`bg-white/90 backdrop-blur-sm text-black px-2 py-2 md:px-4 md:py-3 rounded-lg focus:outline-none focus:ring-2 focus:bg-white transition-all duration-300 border ${
                       contactError && !contactForm.name.trim()
                         ? "border-red-500 focus:ring-red-500"
                         : "border-white/20 focus:ring-[#235e99]"
                     }`}
-                    whileFocus={{
-                      scale: 1.02,
-                      boxShadow: "0 8px 25px rgba(35, 94, 153, 0.2)",
-                    }}
                     disabled={contactLoading}
                     required
                   />
@@ -864,17 +856,13 @@ export default function Home() {
                     onChange={(e) =>
                       handleContactInputChange("email", e.target.value)
                     }
-                    className={`bg-white/90 backdrop-blur-sm text-black px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:bg-white transition-all duration-300 border ${
+                    className={`bg-white/90 backdrop-blur-sm text-black px-2 py-2 md:px-4 md:py-3 rounded-lg focus:outline-none focus:ring-2 focus:bg-white transition-all duration-300 border ${
                       contactError &&
                       (!contactForm.email.trim() ||
                         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactForm.email))
                         ? "border-red-500 focus:ring-red-500"
                         : "border-white/20 focus:ring-[#235e99]"
                     }`}
-                    whileFocus={{
-                      scale: 1.02,
-                      boxShadow: "0 8px 25px rgba(35, 94, 153, 0.2)",
-                    }}
                     disabled={contactLoading}
                     required
                   />
@@ -889,15 +877,11 @@ export default function Home() {
                   onChange={(e) =>
                     handleContactInputChange("message", e.target.value)
                   }
-                  className={`w-full text-black bg-white/90 backdrop-blur-sm px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:bg-white mb-6 transition-all duration-300 border ${
+                  className={`w-full text-black bg-white/90 backdrop-blur-sm px-2 py-2 md:px-4 md:py-3 rounded-lg focus:outline-none focus:ring-2 focus:bg-white mb-6 transition-all duration-300 border ${
                     contactError && !contactForm.message.trim()
                       ? "border-red-500 focus:ring-red-500"
                       : "border-white/20 focus:ring-[#235e99]"
                   }`}
-                  whileFocus={{
-                    scale: 1.01,
-                    boxShadow: "0 8px 25px rgba(35, 94, 153, 0.2)",
-                  }}
                   disabled={contactLoading}
                   required
                 ></motion.textarea>
