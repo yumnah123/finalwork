@@ -391,7 +391,10 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <FadeInWhenVisible delay={0.1}>
-              <motion.div className="overflow-hidden transition-all duration-300 transform p-2">
+              <motion.div
+                className="overflow-hidden transition-all duration-300 transform p-2 cursor-pointer hover:scale-105"
+                onClick={() => router.push("/services/airport-transfer")}
+              >
                 <div
                   className="h-[170px]  bg-cover border-[3px] border-white bg-center relative rounded-2xl overflow-hidden shadow-[0_0_10px_rgba(0,0,0,0.2)]"
                   style={{
@@ -417,7 +420,10 @@ export default function Home() {
             </FadeInWhenVisible>
 
             <FadeInWhenVisible delay={0.2}>
-              <motion.div className="bg-white overflow-hidden transition-all duration-300 transform p-2">
+              <motion.div
+                className="bg-white overflow-hidden transition-all duration-300 transform p-2 cursor-pointer hover:scale-105"
+                onClick={() => router.push("/services/business-events")}
+              >
                 <div
                   className="h-[170px] bg-cover border-[3px] border-white bg-center relative rounded-2xl overflow-hidden shadow-[0_0_4px_rgba(0,0,0,0.2)]"
                   style={{
@@ -445,7 +451,10 @@ export default function Home() {
             </FadeInWhenVisible>
 
             <FadeInWhenVisible delay={0.3}>
-              <motion.div className="bg-white overflow-hidden transition-all duration-300 transform p-2">
+              <motion.div
+                className="bg-white overflow-hidden transition-all duration-300 transform p-2 cursor-pointer hover:scale-105"
+                onClick={() => router.push("/services/corporate-travel")}
+              >
                 <div
                   className="h-[170px]  bg-cover border-[3px] border-white bg-center relative rounded-2xl overflow-hidden shadow-[0_0_10px_rgba(0,0,0,0.2)]"
                   style={{
@@ -471,7 +480,10 @@ export default function Home() {
             </FadeInWhenVisible>
 
             <FadeInWhenVisible delay={0.4}>
-              <motion.div className="bg-white overflow-hidden transition-all duration-300 transform p-2">
+              <motion.div
+                className="bg-white overflow-hidden transition-all duration-300 transform p-2 cursor-pointer hover:scale-105"
+                onClick={() => router.push("/services/wedding-cars")}
+              >
                 <div
                   className="h-[170px]  bg-cover border-[3px] border-white bg-center relative rounded-2xl overflow-hidden shadow-[0_0_10px_rgba(0,0,0,0.2)]"
                   style={{
