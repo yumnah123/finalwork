@@ -84,10 +84,13 @@ export default function Header({ activeSection = '' }: HeaderProps) {
             />
           </div>
           <div className="flex flex-col items-end gap-4">
-            <div className="hidden md:flex items-center text-white text-base xl:text-lg font-light">
+            <a
+              href="tel:+442038587786"
+              className="hidden md:flex items-center text-white text-base xl:text-lg font-light hover:text-primary transition-colors cursor-pointer"
+            >
               <Image src={contact} alt="contact" className="mr-2" />
               +44 (0) 203 858 786
-            </div>
+            </a>
             <div className="flex items-center gap-4">
               {/* Desktop Navigation */}
               <nav className="hidden lg:flex items-center text-base font-light xl:text-base space-x-8">

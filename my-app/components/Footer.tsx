@@ -63,94 +63,113 @@ export default function Footer() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          <div>
-            <h3 className="text-lg font-bold mb-4 text-primary">LINKS</h3>
-            <ul className="space-y-2 text-lg text-gray-300">
-              <li>
-                <a
-                  href="/"
-                  className="hover:text-white flex gap-2 transition-colors"
-                >
-                  <div className="flex items-center">
-                    <Image src={dot} alt="dot" />
-                  </div>
-                  <span>Home</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/services"
-                  className="hover:text-white flex gap-2 transition-colors"
-                >
-                  <div className="flex items-center">
-                    <Image src={dot} alt="dot" />
-                  </div>
-                  <span>Services</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/fleet"
-                  className="hover:text-white flex gap-2 transition-colors"
-                >
-                  <div className="flex items-center">
-                    <Image src={dot} alt="dot" />
-                  </div>
-                  <span>Our Fleet</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/contact"
-                  className="hover:text-white flex gap-2 transition-colors"
-                >
-                  <div className="flex items-center">
-                    <Image src={dot} alt="dot" />
-                  </div>
-                  <span>Contact</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-bold mb-4 text-primary">ADDRESS</h3>
-            <div className="text-lg text-gray-300 space-y-2">
-              <div className="relative">
-                <div className="absolute -left-4.5 top-2">
-                  <Image src={adress} alt="adress" />
-                </div>
-                <p>Goldstar Executive Ltd</p>
-              </div>
-              <p>3000 Cathedral Hill,</p>
-              <p>Guildford,</p>
-              <p>GU2 7YB</p>
-              <p>United Kingdom</p>
+            <div>
+              <h3 className="text-lg font-bold mb-4 text-primary">LINKS</h3>
+              <ul className="space-y-2 text-lg text-gray-300">
+                <li>
+                  <a
+                    href="/"
+                    className="hover:text-primary flex gap-2 transition-colors"
+                  >
+                    <div className="flex items-center">
+                      <Image src={dot} alt="dot" />
+                    </div>
+                    <span>Home</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/services"
+                    className="hover:text-primary flex gap-2 transition-colors"
+                  >
+                    <div className="flex items-center">
+                      <Image src={dot} alt="dot" />
+                    </div>
+                    <span>Services</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/fleet"
+                    className="hover:text-primary flex gap-2 transition-colors"
+                  >
+                    <div className="flex items-center">
+                      <Image src={dot} alt="dot" />
+                    </div>
+                    <span>Our Fleet</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/contact"
+                    className="hover:text-primary flex gap-2 transition-colors"
+                  >
+                    <div className="flex items-center">
+                      <Image src={dot} alt="dot" />
+                    </div>
+                    <span>Contact</span>
+                  </a>
+                </li>
+              </ul>
             </div>
-          </div>
 
-          <div>
-            <h3 className="text-lg font-bold mb-4 text-primary">CONTACT US</h3>
-            <div className="text-lg text-gray-300 space-y-2">
-              <div className="flex gap-2">
-                <div className="flex items-center">
-                  <Image src={contact} alt="contact" />
+            <div>
+              <h3 className="text-lg font-bold mb-4 text-primary">ADDRESS</h3>
+              <a
+                href="https://maps.google.com/?q=Goldstar+Executive+Ltd,+3000+Cathedral+Hill,+Guildford,+GU2+7YB,+United+Kingdom"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-lg text-gray-300 space-y-2 hover:text-primary transition-colors cursor-pointer block"
+              >
+                <div className="relative">
+                  <div className="absolute -left-4.5 top-2">
+                    <Image src={adress} alt="adress" />
+                  </div>
+                  <p>Goldstar Executive Ltd</p>
                 </div>
-                <p>+44 (0) 1483 765 765</p>
-              </div>
-              <div className="flex gap-2">
-                <div className="flex items-center">
-                  <Image src={email} alt="contact" />
-                </div>
-                <p>bookings@goldstarexecutive.com</p>
-              </div>
-              <div className="flex gap-2">
-                <div className="flex items-center">
-                  <Image src={world} alt="contact" />
-                </div>
-                <p>www.goldstarexecutive.com</p>
-              </div>
-              {/* <div className="mt-4 flex flex-col gap-1.5">
+                <p>3000 Cathedral Hill,</p>
+                <p>Guildford,</p>
+                <p>GU2 7YB</p>
+                <p>United Kingdom</p>
+              </a>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-bold mb-4 text-primary">
+                CONTACT US
+              </h3>
+              <div className="text-lg text-gray-300 space-y-2">
+                <a
+                  href="tel:+442038587786"
+                  className="flex gap-2 hover:text-primary"
+                >
+                  <div className="flex items-center">
+                    <Image src={contact} alt="contact" />
+                  </div>
+                  <p>+44 (0) 1483 765 765</p>
+                </a>
+                <a
+                  href="mailto:bookings@goldstarexecutive.com"
+                  className="flex gap-2 hover:text-primary transition-colors cursor-pointer"
+                >
+                  <div className="flex items-center">
+                    <Image src={email} alt="contact" />
+                  </div>
+                  <p>bookings@goldstarexecutive.com</p>
+                </a>
+                <a
+                  href="https://www.goldstarexecutive.co.uk"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex gap-2 hover:text-primary        
+     transition-colors cursor-pointer"
+                >
+                  <div className="flex items-center">
+                    <Image src={world} alt="contact" />
+                  </div>
+                  <p>www.goldstarexecutive.com</p>
+                </a>
+                {/* <div className="mt-4 flex flex-col gap-1.5">
                 <a href="/terms" className="flex gap-2 hover:text-white transition-colors cursor-pointer">
                   <div className="flex items-center">
                     <Image src={dot} alt="contact" />
@@ -164,8 +183,8 @@ export default function Footer() {
                   <p>Privacy Policy</p>
                 </a>
               </div> */}
+              </div>
             </div>
-          </div>
           </div>
         </div>
 
