@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import banner from "../../public/assets1/banner4.jpg";
 import sls from "../../public/assets1/sls.png";
-import caravan from "../../public/assets1/caravan.png";
+import caravan from "../../public/assets1/caravan.webp";
 import merc from "../../public/assets1/merc.png";
 import comm from "../../public/assets1/MPV_2_Group.png";
 import dollor from "../../public/assets1/MPV_3_Group.png";

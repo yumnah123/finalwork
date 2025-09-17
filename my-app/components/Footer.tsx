@@ -35,15 +35,30 @@ export default function Footer() {
               the Home Counties.
             </p>
             <div className="flex gap-4">
-              <div className="bg-primary w-[32px] h-[32px] flex justify-center items-center">
-                <Image src={facebook} alt="twitter" />
-              </div>
-              <div className="bg-primary w-[32px] h-[32px] flex justify-center items-center">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-primary w-[32px] h-[32px] flex justify-center items-center hover:bg-opacity-80 transition-all cursor-pointer"
+              >
+                <Image src={facebook} alt="facebook" />
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-primary w-[32px] h-[32px] flex justify-center items-center hover:bg-opacity-80 transition-all cursor-pointer"
+              >
                 <Image src={twitter} alt="twitter" />
-              </div>
-              <div className="bg-primary w-[32px] h-[32px] flex justify-center items-center">
-                <Image src={linkedln} alt="twitter" />
-              </div>
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-primary w-[32px] h-[32px] flex justify-center items-center hover:bg-opacity-80 transition-all cursor-pointer"
+              >
+                <Image src={linkedln} alt="linkedin" />
+              </a>
             </div>
           </div>
 
@@ -82,28 +97,6 @@ export default function Footer() {
                     <Image src={dot} alt="dot" />
                   </div>
                   <span>Our Fleet</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/feedback"
-                  className="hover:text-white flex gap-2 transition-colors"
-                >
-                  <div className="flex items-center">
-                    <Image src={dot} alt="dot" />
-                  </div>
-                  <span>Feedback</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/corporate"
-                  className="hover:text-white flex gap-2 transition-colors"
-                >
-                  <div className="flex items-center">
-                    <Image src={dot} alt="dot" />
-                  </div>
-                  <span>Corporate Account</span>
                 </a>
               </li>
               <li>
@@ -157,20 +150,20 @@ export default function Footer() {
                 </div>
                 <p>www.goldstarexecutive.com</p>
               </div>
-              <div className="mt-4 flex flex-col gap-1.5">
-                <div className="flex gap-2">
+              {/* <div className="mt-4 flex flex-col gap-1.5">
+                <a href="/terms" className="flex gap-2 hover:text-white transition-colors cursor-pointer">
                   <div className="flex items-center">
                     <Image src={dot} alt="contact" />
                   </div>
                   <p>Terms & Conditions</p>
-                </div>
-                <div className="flex gap-2">
+                </a>
+                <a href="/privacy" className="flex gap-2 hover:text-white transition-colors cursor-pointer">
                   <div className="flex items-center">
                     <Image src={dot} alt="contact" />
                   </div>
                   <p>Privacy Policy</p>
-                </div>
-              </div>
+                </a>
+              </div> */}
             </div>
           </div>
           </div>

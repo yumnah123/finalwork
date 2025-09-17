@@ -20,20 +20,20 @@ import hero1 from "../public/assets1/hero-11.png";
 import hero2 from "../public/assets1/hero-2.png";
 import rtl from "../public/assets1/rtl-line.png";
 import ltr from "../public/assets1/ltr-line.png";
-import airport from "../public/assets1/airport.png";
-import business from "../public/assets1/business.png";
-import travel from "../public/assets1/travel.png";
+import airport from "../public/assets1/airport.webp";
+import business from "../public/assets1/business.webp";
+import travel from "../public/assets1/travel.webp";
 import wedding from "../public/assets1/wedding.png";
 import comfortable from "../public/assets1/comfortable.png";
-import sls from "../public/assets1/sls.png";
+import sls from "../public/assets1/sls.webp";
 import executiveCar from "../public/assets1/section2.jpg";
 import premium from "../public/assets1/section3.jpg";
 import banner from "../public/assets1/banner4.jpg";
 import testimonial from "../public/assets1/banner5.jpg";
-import mercedez from "../public/assets1/banner6.jpg";
+import mercedez from "../public/assets1/banner6.webp";
 import comm from "../public/assets1/MPV_2_Group.png";
 import dollor from "../public/assets1/MPV_3_Group.png";
-import caravan from "../public/assets1/caravan.png";
+import caravan from "../public/assets1/caravan.webp";
 import merc from "../public/assets1/merc.png";
 import payment from "../public/assets1/payment.png";
 import time from "../public/assets1/time.png";
@@ -825,7 +825,9 @@ export default function Home() {
           backgroundImage: `url(${mercedez.src})`,
         }}
       >
-        <div className="container mx-auto px-4">
+        {/* Gradient overlay - darker at top, lighter at bottom */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/30 to-black/0"></div>
+        <div className="container mx-auto px-4 relative z-10">
           <FadeInWhenVisible>
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-white mb-4">Talk To Us</h2>
