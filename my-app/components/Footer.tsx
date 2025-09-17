@@ -52,7 +52,7 @@ export default function Footer() {
                 <Image src={twitter} alt="twitter" />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-primary w-[32px] h-[32px] flex justify-center items-center hover:bg-opacity-80 transition-all cursor-pointer"
