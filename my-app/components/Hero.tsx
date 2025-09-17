@@ -69,7 +69,7 @@ export default function Hero({
                     placeholder="Pick Up Location"
                     className="bg-white/15 w-full backdrop-blur-xs text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/70 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
                     onAddressSelect={bookingFormProps.setPickupAddress}
-                  />
+                  /> 
                 </div>
                 <div className="md:col-span-2">
                   <bookingFormProps.AddressAutocomplete
