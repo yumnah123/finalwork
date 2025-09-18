@@ -152,13 +152,13 @@ export default function BusinessEvents() {
               <div className="space-x-4">
                 <button
                   onClick={() => window.location.href = '/quote'}
-                  className="bg-[#235e99] hover:bg-[#1a4773] text-white px-8 py-3 rounded-lg font-semibold transition-colors shadow-lg"
+                  className="bg-[#235e99] hover:bg-[#1a4773] text-white px-8 py-3 rounded-lg font-semibold transition-colors shadow-lg cursor-pointer"
                 >
                   Plan Event Transport
                 </button>
                 <button
                   onClick={() => window.location.href = '/contact'}
-                  className="border border-[#235e99] text-[#235e99] hover:bg-[#235e99] hover:text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+                  className="border border-[#235e99] text-[#235e99] hover:bg-[#235e99] hover:text-white px-8 py-3 rounded-lg font-semibold transition-colors cursor-pointer"
                 >
                   Contact Us
                 </button>

@@ -374,7 +374,7 @@ export default function Home() {
 
       {/* Executive Car Services */}
       <section
-        className="py-[20px] md:py-[40px] relative bg-cover bg-center"
+        className="py-[20px] lg:py-[40px] relative bg-cover bg-center"
         style={{
           backgroundImage: `url(${executiveCar.src})`,
         }}
@@ -632,7 +632,7 @@ export default function Home() {
 
       {/* Luxury Travel Section */}
       <section
-        className="py-10 md:py-20 bg-gray-50"
+        className="py-10 lg:py-20 bg-gray-50"
         style={{
           backgroundImage: `url(${banner.src})`,
         }}
@@ -649,53 +649,60 @@ export default function Home() {
 
           <div className="embla overflow-hidden" ref={vehicleEmblaRef}>
             <div className="embla__container flex">
-              {[...vehicles, ...vehicles].map((vehicle, index) => (
-                <div
-                  key={`vehicle-${index}`}
-                  className="embla__slide min-w-0"
-                >
-                  <div className="overflow-hidden">
-                    <div className="h-48 md:h-64 flex items-center justify-center">
-                      <Image src={vehicle.image} alt={vehicle.name} />
-                    </div>
-                    <div className="px-3 md:p-6">
-                      <h3 className="text-xl md:text-2xl font-bold mb-2 text-black">
-                        {vehicle.name}
-                      </h3>
-                      <p className="text-black md:text-lg h-[70Spx] mb-6">
-                        {vehicle.description}
-                      </p>
-                      <div className="flex items-center space-x-4 mb-4">
-                        <div className="flex gap-2">
-                          <div>
-                            <Image
-                              src={dollor}
-                              alt="passengers"
-                              className="w-[20px] h-[20px]"
-                            />
+              {[...vehicles, ...vehicles].map((vehicle, index) => {
+                const actualIndex = index % vehicles.length;
+                const vehicleSlug = vehicles[actualIndex].name.toLowerCase().replace(/\s+/g, '-');
+                return (
+                  <div
+                    key={`vehicle-${index}`}
+                    className="embla__slide min-w-0"
+                  >
+                    <div
+                      className="overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105"
+                      onClick={() => router.push(`/fleet/${vehicleSlug}`)}
+                    >
+                      <div className="h-48 md:h-64 flex items-center justify-center">
+                        <Image src={vehicle.image} alt={vehicle.name} />
+                      </div>
+                      <div className="px-3 md:p-6">
+                        <h3 className="text-xl md:text-2xl font-bold mb-2 text-black">
+                          {vehicle.name}
+                        </h3>
+                        <p className="text-black md:text-lg h-[70Spx] mb-6">
+                          {vehicle.description}
+                        </p>
+                        <div className="flex items-center space-x-4 mb-4">
+                          <div className="flex gap-2">
+                            <div>
+                              <Image
+                                src={dollor}
+                                alt="passengers"
+                                className="w-[20px] h-[20px]"
+                              />
+                            </div>
+                            <span className="text-base font-medium text-black">
+                              max: {vehicle.passengers}
+                            </span>
                           </div>
-                          <span className="text-base font-medium text-black">
-                            max: {vehicle.passengers}
-                          </span>
-                        </div>
-                        <div className="h-6 w-px bg-black"></div>
-                        <div className="flex gap-2">
-                          <div>
-                            <Image
-                              src={comm}
-                              alt="luggage"
-                              className="w-[20px] h-[20px]"
-                            />
+                          <div className="h-6 w-px bg-black"></div>
+                          <div className="flex gap-2">
+                            <div>
+                              <Image
+                                src={comm}
+                                alt="luggage"
+                                className="w-[20px] h-[20px]"
+                              />
+                            </div>
+                            <span className="text-base font-medium text-black">
+                              max: {vehicle.luggage}
+                            </span>
                           </div>
-                          <span className="text-base font-medium text-black">
-                            max: {vehicle.luggage}
-                          </span>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
@@ -714,7 +721,7 @@ export default function Home() {
 
       {/* Testimonials */}
       <section
-        className="py-10 md:py-20 bg-cover bg-center relative"
+        className="py-10 lg:py-20 bg-cover bg-center relative"
         style={{
           backgroundImage: `url(${testimonial.src})`,
         }}
@@ -797,7 +804,7 @@ export default function Home() {
                           emblaApi.scrollTo(targetIndex);
                         }
                       }}
-                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${
                         index === currentTestimonial
                           ? "bg-white scale-125"
                           : "bg-black hover:bg-white/60"
@@ -828,7 +835,7 @@ export default function Home() {
 
       {/* Contact Section */}
       <section
-        className="py-10 md:py-20 bg-cover bg-center relative"
+        className="py-10 lg:py-20 bg-cover bg-center relative"
         style={{
           backgroundImage: `url(${mercedez.src})`,
         }}
@@ -946,7 +953,7 @@ export default function Home() {
                   <button
                     type="submit"
                     disabled={contactLoading || contactSuccess || !recaptchaValue}
-                    className={`bg-[#235e99] shadow-[6px_6px_15px_rgba(0,0,0,0.4)] hover:shadow-[6px_6px_20px_rgba(0,0,0,0.4)] lg:text-lg font-light text-white lg:px-12 lg:py-4 rounded-lg px-4 py-2 disabled:cursor-not-allowed"
+                    className={`bg-[#235e99] cursor-pointer shadow-[6px_6px_15px_rgba(0,0,0,0.4)] hover:shadow-[6px_6px_20px_rgba(0,0,0,0.4)] lg:text-lg font-light text-white lg:px-12 lg:py-4 rounded-lg px-4 py-2 disabled:cursor-not-allowed"
                     `}
                   >
                     {contactLoading ? (

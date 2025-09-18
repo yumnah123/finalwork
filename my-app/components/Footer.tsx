@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import logo from "../public/Logo.svg";
 import footer from "../public/assets1/banner7.webp";
 import twitter from "../public/assets1/twitter.png";
@@ -11,6 +14,7 @@ import email from "../public/assets1/email.png";
 import world from "../public/assets1/world.png";
 
 export default function Footer() {
+  const router = useRouter();
   return (
     <footer
       className="bg-black text-gray-300 bg-cover bg-center lg:h-[485px] pt-12 xl:pt-24 pb-4 lg:px-6 md:pb-8 2xl:pb-0 2xl:px-0"
@@ -22,13 +26,18 @@ export default function Footer() {
         <div className="flex flex-col items-center lg:items-start lg:flex-row mt-4 xl:mx-6 mb-10 lg:mb-0 gap-8 xl:gap-24">
           <div className="max-w-[280px] flex flex-col justify-start items-start gap-5">
             <div className="flex items-center">
-              <Image
-                src={logo}
-                alt="GoldStar Logo"
-                width={280}
-                height={95}
-                priority
-              />
+              <div
+                onClick={() => router.push('/')}
+                className="cursor-pointer"
+              >
+                <Image
+                  src={logo}
+                  alt="GoldStar Logo"
+                  width={280}
+                  height={95}
+                  priority
+                />
+              </div>
             </div>
             <p className="text-gray-300 2xl:text-lg text-center lg:text-left leading-relaxed lg:mb-4">
               An executive car and chauffeur service covering Surrey, London and

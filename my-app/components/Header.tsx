@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import logo from "../public/Logo.svg";
 import contact from "../public/assets1/contact.png";
@@ -13,6 +14,7 @@ interface HeaderProps {
 export default function Header({ activeSection = "" }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,14 +77,19 @@ export default function Header({ activeSection = "" }: HeaderProps) {
         {/* Logo and Navigation - Bottom Row */}
         <div className="flex items-center justify-between pb-4">
           <div className="flex items-center">
-            <Image
-              src={logo}
-              alt="GoldStar Logo"
-              width={280}
-              height={95}
-              priority
-              className="max-w-[200px] md:max-w-[280px] xl:mt-6 h-auto"
-            />
+            <div
+              onClick={() => router.push('/')}
+              className="cursor-pointer"
+            >
+              <Image
+                src={logo}
+                alt="GoldStar Logo"
+                width={280}
+                height={95}
+                priority
+                className="max-w-[200px] md:max-w-[280px] xl:mt-6 h-auto"
+              />
+            </div>
           </div>
           <div className="flex flex-col items-end gap-4">
             <a
@@ -109,7 +116,7 @@ export default function Header({ activeSection = "" }: HeaderProps) {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden text-white hover:text-primary transition-colors p-2"
+                className="lg:hidden text-white hover:text-primary transition-colors p-2 cursor-pointer"
                 aria-label="Toggle mobile menu"
               >
                 {isMobileMenuOpen ? (

@@ -314,7 +314,7 @@ export default function Services() {
           <div className="space-x-4">
             <button
               onClick={handleGetQuote}
-              className="bg-white text-[#235e99] px-8 py-3 rounded font-semibold hover:bg-gray-100 transition-colors"
+              className="bg-white text-[#235e99] px-8 py-3 rounded font-semibold hover:bg-gray-100 transition-colors cursor-pointer"
             >
               Get Quote
             </button>

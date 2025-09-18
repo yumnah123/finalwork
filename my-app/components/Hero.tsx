@@ -150,7 +150,7 @@ export default function Hero({
                   !bookingFormProps.isFormValid() ||
                   bookingFormProps.quoteLoading
                 }
-                className="bg-[#235e99] shadow-[6px_6px_15px_rgba(0,0,0,0.4)] hover:shadow-[6px_6px_20px_rgba(0,0,0,0.4)] lg:text-lg font-light text-white lg:px-12 lg:py-4 rounded-lg px-4 py-2 transition-colors disabled:cursor-not-allowed"
+                className="bg-[#235e99] shadow-[6px_6px_15px_rgba(0,0,0,0.4)] hover:shadow-[6px_6px_20px_rgba(0,0,0,0.4)] lg:text-lg font-light text-white lg:px-12 lg:py-4 rounded-lg px-4 py-2 transition-colors cursor-pointer"
               >
                 {bookingFormProps.quoteLoading
                   ? "Getting Quote..."
