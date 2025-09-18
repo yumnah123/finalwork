@@ -10,7 +10,7 @@ interface HeaderProps {
   activeSection?: string;
 }
 
-export default function Header({ activeSection = '' }: HeaderProps) {
+export default function Header({ activeSection = "" }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -43,19 +43,20 @@ export default function Header({ activeSection = '' }: HeaderProps) {
   }, [isMobileMenuOpen]);
 
   const navigationItems = [
-    { name: 'HOME', href: '/' },
-    { name: 'SERVICES', href: '/services' },
-    { name: 'OUR FLEET', href: '/fleet' },
-    { name: 'PRICING', href: '/pricing' },
-    { name: 'GET QUOTE', href: '/quote' },
-    { name: 'CONTACT', href: '/contact' }
+    { name: "HOME", href: "/" },
+    { name: "SERVICES", href: "/services" },
+    { name: "OUR FLEET", href: "/fleet" },
+    { name: "PRICING", href: "/pricing" },
+    { name: "GET QUOTE", href: "/quote" },
+    { name: "CONTACT", href: "/contact" },
   ];
 
   const getNavLinkClass = (itemName: string) => {
-    const isActive = activeSection === itemName ||
-      (activeSection === 'PRICING' && itemName === 'PRICING') ||
-      (activeSection === 'QUOTE' && itemName === 'GET QUOTE') ||
-      (activeSection === 'HOME' && itemName === 'HOME');
+    const isActive =
+      activeSection === itemName ||
+      (activeSection === "PRICING" && itemName === "PRICING") ||
+      (activeSection === "QUOTE" && itemName === "GET QUOTE") ||
+      (activeSection === "HOME" && itemName === "HOME");
 
     return `transition-colors ${
       isActive
@@ -112,7 +113,32 @@ export default function Header({ activeSection = '' }: HeaderProps) {
                 aria-label="Toggle mobile menu"
               >
                 {isMobileMenuOpen ? (
-                  <X className="w-6 h-6" />
+                  <div className="relative">
+                    <X className="w-6 h-6" />
+                    <div className="absolute -bottom-[33px] right-2 bg-black/95 z-10 w-4 h-4 bg-border border-l border-t border-white/10 rotate-45"></div>
+                    <div className="lg:hidden absolute right-0 top-12 w-54 bg-black/95 backdrop-blur-sm border border-white/10 rounded-lg shadow-xl overflow-hidden">
+                      {/* Pointer Arrow */}
+
+                      <nav className="relative bg-black/95 p-3">
+                        <div className="flex flex-col">
+                          {navigationItems.map((item, index) => (
+                            <a
+                              key={item.name}
+                              href={item.href}
+                              className={`text-white hover:text-primary hover:bg-white/5 transition-all duration-200 py-3 rounded-md font-medium text-sm tracking-wide ${
+                                index < navigationItems.length - 1
+                                  ? "border-b border-white/5"
+                                  : ""
+                              }`}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                              {item.name}
+                            </a>
+                          ))}
+                        </div>
+                      </nav>
+                    </div>
+                  </div>
                 ) : (
                   <Menu className="w-6 h-6" />
                 )}
@@ -121,28 +147,6 @@ export default function Header({ activeSection = '' }: HeaderProps) {
           </div>
         </div>
       </div>
-
-      {/* Mobile Navigation Dropdown */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-black/95 backdrop-blur-sm border-t border-white/10">
-          <nav className="container mx-auto px-4 py-4 max-w-[1440px]">
-            <div className="flex flex-col space-y-4">
-              {navigationItems.map((item, index) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className={`text-white hover:text-primary transition-colors py-2 ${
-                    index < navigationItems.length - 1 ? 'border-b border-white/10' : ''
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
-              ))}
-            </div>
-          </nav>
-        </div>
-      )}
     </header>
   );
 }

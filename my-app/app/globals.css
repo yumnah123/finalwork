@@ -25,8 +25,47 @@ body {
   font-family: var(--font-archivo), sans-serif;
 }
 
-/* Hide default placeholders for date and time inputs on mobile only */
-@media (max-width: 768px) {
+/* iPad and Mobile Input Fixes */
+/* Fix for all iOS devices including iPad */
+@supports (-webkit-touch-callout: none) {
+  input, textarea, select {
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    border-radius: inherit;
+    background-clip: padding-box;
+  }
+
+  /* Ensure full width on iPad */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  textarea {
+    width: 100% !important;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  /* Enhance placeholder visibility on iPad */
+  input::placeholder,
+  textarea::placeholder {
+    color: inherit;
+    opacity: 0.7;
+    -webkit-text-fill-color: inherit;
+  }
+
+  /* Fix for semi-transparent background inputs */
+  input[style*="backdrop-blur"]::placeholder,
+  textarea[style*="backdrop-blur"]::placeholder,
+  .backdrop-blur-xs::placeholder {
+    color: rgba(255, 255, 255, 0.8) !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.8) !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Hide default placeholders for date and time inputs on mobile and tablet */
+@media (max-width: 1024px) {
   input[type="date"]:invalid {
     color: transparent;
   }
@@ -70,6 +109,20 @@ body {
   input[type="time"]:focus::-webkit-datetime-edit-minute-field,
   input[type="time"]:focus::-webkit-datetime-edit-ampm-field {
     color: white;
+  }
+}
+
+/* Additional iPad-specific fixes */
+@media (min-width: 768px) and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+  /* Target iPad specifically */
+  input, textarea, select {
+    font-size: 16px; /* Prevents zoom on focus */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Ensure proper touch targets */
+  input, button, select, textarea {
+    min-height: 44px;
   }
 }
 

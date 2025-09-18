@@ -13,13 +13,13 @@ import world from "../public/assets1/world.png";
 export default function Footer() {
   return (
     <footer
-      className="bg-black text-gray-300 bg-cover bg-center lg:h-[485px] pt-24 px-6 pb-4 md:pb-8 2xl:pb-0 2xl:px-0"
+      className="bg-black text-gray-300 bg-cover bg-center lg:h-[485px] pt-12 xl:pt-24 pb-4 lg:px-6 md:pb-8 2xl:pb-0 2xl:px-0"
       style={{
         backgroundImage: `url(${footer.src})`,
       }}
     >
       <div className="container mx-auto max-w-[1170px] lg:gap-16 flex flex-col justify-between">
-        <div className="flex flex-col lg:flex-row mt-4 lg:mx-6 mb-12 lg:mb-0 gap-24">
+        <div className="flex flex-col items-center lg:items-start lg:flex-row mt-4 xl:mx-6 mb-10 lg:mb-0 gap-8 xl:gap-24">
           <div className="max-w-[280px] flex flex-col justify-start items-start gap-5">
             <div className="flex items-center">
               <Image
@@ -30,11 +30,11 @@ export default function Footer() {
                 priority
               />
             </div>
-            <p className="text-gray-300 2xl:text-lg text-left leading-relaxed mb-4">
+            <p className="text-gray-300 2xl:text-lg text-center lg:text-left leading-relaxed lg:mb-4">
               An executive car and chauffeur service covering Surrey, London and
               the Home Counties.
             </p>
-            <div className="flex gap-4">
+            <div className="gap-4 hidden lg:flex">
               <a
                 href="https://facebook.com"
                 target="_blank"
@@ -62,14 +62,16 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div>
-              <h3 className="text-lg font-bold mb-4 text-primary">LINKS</h3>
-              <ul className="space-y-2 text-lg text-gray-300">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-0 xl:gap-8">
+            <div className="lg:w-[140px]">
+              <h3 className="text-lg font-bold mb-4 text-center lg:text-left text-primary">
+                LINKS
+              </h3>
+              <ul className="space-y-2 xl:text-lg text-gray-300 ">
                 <li>
                   <a
                     href="/"
-                    className="hover:text-primary flex gap-2 transition-colors"
+                    className="hover:text-primary lg:justify-normal justify-center flex gap-2 transition-colors"
                   >
                     <div className="flex items-center">
                       <Image src={dot} alt="dot" />
@@ -80,7 +82,7 @@ export default function Footer() {
                 <li>
                   <a
                     href="/services"
-                    className="hover:text-primary flex gap-2 transition-colors"
+                    className="hover:text-primary flex gap-2 lg:justify-normal justify-center transition-colors"
                   >
                     <div className="flex items-center">
                       <Image src={dot} alt="dot" />
@@ -91,7 +93,7 @@ export default function Footer() {
                 <li>
                   <a
                     href="/fleet"
-                    className="hover:text-primary flex gap-2 transition-colors"
+                    className="hover:text-primary flex lg:justify-normal justify-center gap-2 transition-colors"
                   >
                     <div className="flex items-center">
                       <Image src={dot} alt="dot" />
@@ -102,7 +104,7 @@ export default function Footer() {
                 <li>
                   <a
                     href="/contact"
-                    className="hover:text-primary flex gap-2 transition-colors"
+                    className="hover:text-primary flex lg:justify-normal justify-center gap-2 transition-colors"
                   >
                     <div className="flex items-center">
                       <Image src={dot} alt="dot" />
@@ -114,15 +116,17 @@ export default function Footer() {
             </div>
 
             <div>
-              <h3 className="text-lg font-bold mb-4 text-primary">ADDRESS</h3>
+              <h3 className="text-lg font-bold mb-4 text-primary text-center lg:text-left">
+                ADDRESS
+              </h3>
               <a
                 href="https://maps.google.com/?q=Goldstar+Executive+Ltd,+3000+Cathedral+Hill,+Guildford,+GU2+7YB,+United+Kingdom"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-lg text-gray-300 space-y-2 hover:text-primary transition-colors cursor-pointer block"
+                className="xl:text-lg text-gray-300 lg:text-left text-center space-y-2 ml-4 hover:text-primary transition-colors cursor-pointer block"
               >
                 <div className="relative">
-                  <div className="absolute -left-4.5 top-2">
+                  <div className="absolute left-6 lg:-left-4.5 top-2">
                     <Image src={adress} alt="adress" />
                   </div>
                   <p>Goldstar Executive Ltd</p>
@@ -135,13 +139,13 @@ export default function Footer() {
             </div>
 
             <div>
-              <h3 className="text-lg font-bold mb-4 text-primary">
+              <h3 className="text-lg font-bold mb-4 text-primary text-center lg:text-left">
                 CONTACT US
               </h3>
-              <div className="text-lg text-gray-300 space-y-2">
+              <div className="xl:text-lg text-gray-300 space-y-2">
                 <a
                   href="tel:+442038587786"
-                  className="flex gap-2 hover:text-primary"
+                  className="flex gap-2 lg:justify-normal justify-center hover:text-primary"
                 >
                   <div className="flex items-center">
                     <Image src={contact} alt="contact" />
@@ -150,7 +154,7 @@ export default function Footer() {
                 </a>
                 <a
                   href="mailto:bookings@goldstarexecutive.com"
-                  className="flex gap-2 hover:text-primary transition-colors cursor-pointer"
+                  className="flex gap-2 hover:text-primary lg:justify-normal justify-center transition-colors cursor-pointer"
                 >
                   <div className="flex items-center">
                     <Image src={email} alt="contact" />
@@ -161,7 +165,7 @@ export default function Footer() {
                   href="https://www.goldstarexecutive.co.uk"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex gap-2 hover:text-primary        
+                  className="flex gap-2 hover:text-primary lg:justify-normal justify-center        
      transition-colors cursor-pointer"
                 >
                   <div className="flex items-center">
@@ -188,7 +192,34 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex md:flex-row flex-col justify-between text-center text-gray-300">
+        <div className="gap-4 flex justify-center mb-10 lg:hidden">
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-primary w-[32px] h-[32px] flex lg:justify-normal justify-center items-center hover:bg-opacity-80 transition-all cursor-pointer"
+          >
+            <Image src={facebook} alt="facebook" />
+          </a>
+          <a
+            href="https://twitter.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-primary w-[32px] h-[32px] flex lg:justify-normal justify-center items-center hover:bg-opacity-80 transition-all cursor-pointer"
+          >
+            <Image src={twitter} alt="twitter" />
+          </a>
+          <a
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-primary w-[32px] h-[32px] flex lg:justify-normal justify-center items-center hover:bg-opacity-80 transition-all cursor-pointer"
+          >
+            <Image src={linkedln} alt="linkedin" />
+          </a>
+        </div>
+
+        <div className="flex lg:flex-row flex-col gap-4 justify-between text-center text-gray-300">
           <p>Copyright © 2025 Gold Star Executive. All Rights Reserved.</p>
           <p>Web Design UK by myteamscot.</p>
         </div>

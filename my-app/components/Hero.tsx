@@ -1,5 +1,6 @@
 import herobg from "../public/assets1/banner.jpg";
 import { CheckCircle } from "lucide-react";
+import { useDeviceDetection } from "../hooks/useDeviceDetection";
 
 interface HeroProps {
   title: string | null;
@@ -33,6 +34,7 @@ export default function Hero({
   showBookingForm = false,
   bookingFormProps,
 }: HeroProps) {
+  const { isDesktop } = useDeviceDetection();
   return (
     <section
       className={`${
@@ -87,16 +89,18 @@ export default function Hero({
                   onChange={(e) =>
                     bookingFormProps.setCustomerName(e.target.value)
                   }
-                  className="bg-white/15 backdrop-blur-xs text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/70 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                  className="w-full bg-white/15 backdrop-blur-xs text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/70 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70 webkit-appearance-none"
+                  style={{ WebkitAppearance: 'none', minHeight: '44px' }}
                 />
                 <input
-                  type="text"
+                  type="tel"
                   placeholder="Contact Number"
                   value={bookingFormProps.contactNumber}
                   onChange={(e) =>
                     bookingFormProps.setContactNumber(e.target.value)
                   }
-                  className="bg-white/15 backdrop-blur-xs text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/70 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                  className="w-full bg-white/15 backdrop-blur-xs text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/70 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70 webkit-appearance-none"
+                  style={{ WebkitAppearance: 'none', minHeight: '44px' }}
                 />
                 <input
                   type="email"
@@ -105,7 +109,8 @@ export default function Hero({
                   onChange={(e) =>
                     bookingFormProps.setCustomerEmail(e.target.value)
                   }
-                  className="bg-white/15 backdrop-blur-xs text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/70 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70"
+                  className="w-full bg-white/15 backdrop-blur-xs text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/70 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20 placeholder-white/70 webkit-appearance-none"
+                  style={{ WebkitAppearance: 'none', minHeight: '44px' }}
                 />
                 <div className="relative w-full md:w-auto">
                   <input
@@ -118,8 +123,8 @@ export default function Hero({
                     className="bg-white/15 w-full backdrop-blur-xs text-white lg:px-4 lg:py-3 px-2 py-1.5 border border-white/70 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/20"
                     style={{ colorScheme: "dark" }}
                   />
-                  {!bookingFormProps.selectedDate && (
-                    <span className="absolute left-2 lg:left-4 top-1/2 transform -translate-y-1/2 text-white/70 pointer-events-none text-sm lg:text-base md:hidden">
+                  {!bookingFormProps.selectedDate && !isDesktop && (
+                    <span className="absolute left-2 lg:left-4 top-1/2 transform -translate-y-1/2 text-white/70 pointer-events-none text-sm lg:text-base">
                       Select Date
                     </span>
                   )}
