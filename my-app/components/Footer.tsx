@@ -1,6 +1,6 @@
 import Image from "next/image";
 import logo from "../public/Logo.svg";
-import footer from "../public/assets1/banner7.jpg";
+import footer from "../public/assets1/banner7.webp";
 import twitter from "../public/assets1/twitter.png";
 import facebook from "../public/assets1/facebook.png";
 import linkedln from "../public/assets1/linkdln.png";
@@ -52,7 +52,7 @@ export default function Footer() {
                 <Image src={twitter} alt="twitter" />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-primary w-[32px] h-[32px] flex justify-center items-center hover:bg-opacity-80 transition-all cursor-pointer"
