@@ -542,8 +542,7 @@ export default function Home() {
             </p>
           </FadeInWhenVisible>
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-            <FadeInWhenVisible delay={0.1}>
+          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-5 gap-8">
               <motion.div
                 className="text-center group"
                 transition={{ duration: 0.3 }}
@@ -558,9 +557,7 @@ export default function Home() {
                   We are available 24/7
                 </h3>
               </motion.div>
-            </FadeInWhenVisible>
 
-            <FadeInWhenVisible delay={0.2}>
               <motion.div
                 className="text-center group"
 
@@ -576,9 +573,7 @@ export default function Home() {
                   Secure Payment methods
                 </h3>
               </motion.div>
-            </FadeInWhenVisible>
 
-            <FadeInWhenVisible delay={0.3}>
               <motion.div
                 className="text-center group"
                 transition={{ duration: 0.3 }}
@@ -593,9 +588,7 @@ export default function Home() {
                   Bottled Water
                 </h3>
               </motion.div>
-            </FadeInWhenVisible>
 
-            <FadeInWhenVisible delay={0.4}>
               <motion.div
                 className="text-center group"
                 transition={{ duration: 0.3 }}
@@ -608,11 +601,9 @@ export default function Home() {
                 </motion.div>
                 <h3 className="text-lg font-semibold mb-2">Wi-fi</h3>
               </motion.div>
-            </FadeInWhenVisible>
 
-            <FadeInWhenVisible delay={0.5}>
               <motion.div
-                className="text-center group"
+                className="text-center group xs:col-span-2 justify-items-center md:justify-items-start md:col-span-1"
                 transition={{ duration: 0.3 }}
               >
                 <motion.div
@@ -625,7 +616,6 @@ export default function Home() {
                   Reading Materials
                 </h3>
               </motion.div>
-            </FadeInWhenVisible>
           </div>
         </div>
       </section>

@@ -23,7 +23,7 @@ export default function Footer() {
       }}
     >
       <div className="container mx-auto max-w-[1170px] lg:gap-16 flex flex-col justify-between">
-        <div className="flex flex-col items-center lg:items-start lg:flex-row mt-4 xl:mx-6 mb-10 lg:mb-0 gap-8 xl:gap-24">
+        <div className="flex flex-col items-center lg:items-start lg:flex-row lg:justify-between mt-4 xl:ml-6 mb-10 lg:mb-0 gap-8 xl:gap-24">
           <div className="max-w-[280px] flex flex-col justify-start items-start gap-5">
             <div className="flex items-center">
               <div
@@ -71,8 +71,8 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-0 xl:gap-8">
-            <div className="lg:w-[140px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-2 lg:grid-rows-1 lg:grid-cols-[140px_minmax(240px,_1fr)_300px] gap-8 lg:gap-0 xl:gap-8">
+            <div className="">
               <h3 className="text-lg font-bold mb-4 text-center lg:text-left text-primary">
                 LINKS
               </h3>
@@ -147,7 +147,7 @@ export default function Footer() {
               </a>
             </div>
 
-            <div>
+            <div className="sm:justify-self-center lg:justify-self-start sm:col-span-2 lg:col-span-1">
               <h3 className="text-lg font-bold mb-4 text-primary text-center lg:text-left">
                 CONTACT US
               </h3>

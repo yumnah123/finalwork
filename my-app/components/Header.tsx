@@ -76,7 +76,7 @@ export default function Header({ activeSection = "" }: HeaderProps) {
       <div className="container mx-auto px-4 max-w-[1440px]">
         {/* Logo and Navigation - Bottom Row */}
         <div className="flex items-center justify-between pb-4">
-          <div className="flex items-center">
+          <div className="flex items-center mt-[5px] lg:mt-0">
             <div
               onClick={() => router.push('/')}
               className="cursor-pointer"

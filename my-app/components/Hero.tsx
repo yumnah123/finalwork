@@ -41,7 +41,7 @@ export default function Hero({
         showBookingForm
           ? "2xl:min-h-[926px] xl:min-h-[800px]"
           : "min-h-[350px] lg:min-h-[800px]"
-      } bg-cover bg-center overflow-hidden px-4 md:px-0`}
+      } bg-cover overflow-hidden px-4 md:px-0 bg-top-right 3xl:bg-center`}
       style={{
         backgroundImage: `url(${herobg.src})`,
       }}

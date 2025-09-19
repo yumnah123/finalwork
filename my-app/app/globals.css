@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --color-primary: #9D8556;
   --font-sans: var(--font-archivo);
+  --breakpoint-xs: 475px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -121,7 +122,7 @@ body {
   }
 
   /* Ensure proper touch targets */
-  input, button, select, textarea {
+  input, select, textarea {
     min-height: 44px;
   }
 }
