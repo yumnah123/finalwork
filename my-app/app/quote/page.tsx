@@ -235,20 +235,6 @@ export default function QuotePage() {
                   />
                 </div>
 
-                {/* Email Address */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    value={customerEmail}
-                    onChange={(e) => setCustomerEmail(e.target.value)}
-                    placeholder="Enter your email address"
-                    className="w-full p-3 border text-gray-600 border-gray-300 rounded-lg focus:ring-2 focus:ring-[#235e99] focus:border-transparent"
-                  />
-                </div>
-
                 {/* Date */}
                 <div>
                   <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
@@ -260,6 +246,7 @@ export default function QuotePage() {
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
                     min={new Date().toISOString().split('T')[0]}
+                    style={{ colorScheme: "dark", color: 'black !important' }}
                     className="w-full p-3 text-gray-600 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#235e99] focus:border-transparent"
                   />
                 </div>
