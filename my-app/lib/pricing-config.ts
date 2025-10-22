@@ -16,7 +16,7 @@ export interface PricingConfig {
     eveningEnd: number; // 24-hour format (e.g., 19 for 7 PM)
   };
 }
-
+/*
 export const pricingConfig: PricingConfig = {
   baseFare: {
     "default": 25.0, // Standard base fare for all services
@@ -35,7 +35,7 @@ export const pricingConfig: PricingConfig = {
     eveningEnd: 19, // 7 PM
   },
 };
-
+*/
 export interface QuoteBreakdown {
   baseFare: number;
   distanceCost: number;

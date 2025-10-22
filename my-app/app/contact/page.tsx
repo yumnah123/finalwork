@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Phone,
@@ -18,6 +18,23 @@ import mercedez from "../../public/assets1/banner6.jpg";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import Hero from "../../components/Hero";
+import { getContactData } from "../api/get-contact-data";
+
+// Define types for the data structure
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
+interface ContactPageData {
+  bookingService: string;
+  phoneSupport: string;
+  officeHours: string;
+  weekendOffice: string;
+  emergencyService: string;
+  note: string;
+  faqs: FAQ[];
+}
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -29,10 +46,29 @@ export default function Contact() {
     serviceType: ''
   });
 
+  // CMS Data state
+  const [contactData, setContactData] = useState<ContactPageData | null>(null);
+  const [loading, setLoading] = useState(true);
+
   // Form states
   const [contactLoading, setContactLoading] = useState(false);
   const [contactSuccess, setContactSuccess] = useState(false);
   const [contactError, setContactError] = useState('');
+
+  // Fetch CMS data on component mount
+  useEffect(() => {
+    async function fetchContactData() {
+      try {
+        const data = await getContactData();
+        setContactData(data);
+      } catch (error) {
+        console.error("Error fetching contact data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchContactData();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -78,7 +114,6 @@ export default function Contact() {
     setContactError('');
 
     try {
-      // Create enhanced message with all form data
       const enhancedMessage = `
         ${formData.message}
 
@@ -112,7 +147,6 @@ export default function Contact() {
           message: '',
           serviceType: ''
         });
-        // Auto-hide success message after 8 seconds
         setTimeout(() => setContactSuccess(false), 8000);
       } else {
         setContactError(data.error || 'Failed to send message. Please try again.');
@@ -125,9 +159,31 @@ export default function Contact() {
     }
   };
 
+  // Default values in case CMS data is not available
+  const defaultData: ContactPageData = {
+    bookingService: '24/7 Available',
+    phoneSupport: '24/7 Available',
+    officeHours: 'Mon-Fri: 8:00-18:00',
+    weekendOffice: 'Sat-Sun: 9:00-17:00',
+    emergencyService: '24/7 Available',
+    note: 'Our vehicles operate 24/7, including weekends and holidays. Emergency bookings and urgent requests are always accommodated.',
+    faqs: [
+      {
+        question: 'How far in advance should I book?',
+        answer: 'We recommend booking at least 24 hours in advance for regular services. However, we can accommodate same-day bookings subject to availability.'
+      },
+      {
+        question: 'What payment methods do you accept?',
+        answer: 'We accept all major credit cards, bank transfers, cash, and for corporate accounts, we offer monthly invoicing with 30-day payment terms.'
+      }
+    ]
+  };
+
+ 
+  const displayData = contactData || defaultData;
+
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
       <Header activeSection="CONTACT" />
 
       <Hero 
@@ -135,7 +191,6 @@ export default function Contact() {
         subtitle="Touch"
         description="Contact our team for bookings, inquiries, or to discuss your transportation requirements"
       />
-
 
       {/* Business Hours */}
       <section className="py-20 bg-white">
@@ -150,42 +205,47 @@ export default function Contact() {
           </div>
 
           <div className="max-w-2xl mx-auto">
-            <div className="bg-gray-50 rounded-lg p-8">
-              <div className="text-center mb-8">
-                <Clock className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 text-black" />
-                <h3 className="text-2xl font-bold text-gray-800">Operating Hours</h3>
+            {loading ? (
+              <div className="flex justify-center items-center h-64">
+                <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
               </div>
-              
-              <div className="space-y-4">
-                <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                  <span className="font-semibold text-gray-800">Booking Service</span>
-                  <span className="text-primary font-semibold">24/7 Available</span>
+            ) : (
+              <div className="bg-gray-50 rounded-lg p-8">
+                <div className="text-center mb-8">
+                  <Clock className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 text-black" />
+                  <h3 className="text-2xl font-bold text-gray-800">Operating Hours</h3>
                 </div>
-                <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                  <span className="font-semibold text-gray-800">Phone Support</span>
-                  <span className="text-gray-600">24/7 Available</span>
+                
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                    <span className="font-semibold text-gray-800">Booking Service</span>
+                    <span className="text-primary font-semibold">{displayData.bookingService}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                    <span className="font-semibold text-gray-800">Phone Support</span>
+                    <span className="text-gray-600">{displayData.phoneSupport}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                    <span className="font-semibold text-gray-800">Office Hours</span>
+                    <span className="text-gray-600">{displayData.officeHours}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-3 border-b border-gray-200">
+                    <span className="font-semibold text-gray-800">Weekend Office</span>
+                    <span className="text-gray-600">{displayData.weekendOffice}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <span className="font-semibold text-gray-800">Emergency Service</span>
+                    <span className="text-primary font-semibold">{displayData.emergencyService}</span>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                  <span className="font-semibold text-gray-800">Office Hours</span>
-                  <span className="text-gray-600">Mon-Fri: 8:00-18:00</span>
-                </div>
-                <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                  <span className="font-semibold text-gray-800">Weekend Office</span>
-                  <span className="text-gray-600">Sat-Sun: 9:00-17:00</span>
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <span className="font-semibold text-gray-800">Emergency Service</span>
-                  <span className="text-primary font-semibold">24/7 Available</span>
-                </div>
-              </div>
 
-              <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-                <p className="text-sm text-gray-600 text-center">
-                  <strong>Note:</strong> Our vehicles operate 24/7, including weekends and holidays. 
-                  Emergency bookings and urgent requests are always accommodated.
-                </p>
+                <div className="mt-8 p-4 bg-blue-50 rounded-lg">
+                  <p className="text-sm text-gray-600 text-center">
+                    <strong>Note:</strong> {displayData.note}
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </section>
@@ -211,7 +271,6 @@ export default function Contact() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              {/* Error Message */}
               {contactError && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
@@ -222,7 +281,6 @@ export default function Contact() {
                 </motion.div>
               )}
 
-              {/* Success Message */}
               {contactSuccess && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
@@ -416,30 +474,26 @@ export default function Contact() {
           </div>
 
           <div className="max-w-4xl mx-auto space-y-6">
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-gray-800 mb-2">How far in advance should I book?</h3>
-              <p className="text-gray-600">We recommend booking at least 24 hours in advance for regular services. However, we can accommodate same-day bookings subject to availability. For airport transfers, we suggest booking as soon as you have your flight details.</p>
-            </div>
-
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-gray-800 mb-2">What payment methods do you accept?</h3>
-              <p className="text-gray-600">We accept all major credit cards, bank transfers, cash, and for corporate accounts, we offer monthly invoicing with 30-day payment terms.</p>
-            </div>
-
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-gray-800 mb-2">Do you provide child seats?</h3>
-              <p className="text-gray-600">Yes, we can provide child seats and booster seats upon request. Please specify the age and weight of children when booking to ensure we have the appropriate safety equipment.</p>
-            </div>
-
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-gray-800 mb-2">What areas do you cover?</h3>
-              <p className="text-gray-600">We primarily cover Surrey, London, and the Home Counties. For destinations outside these areas, please contact us to discuss your requirements and any additional charges that may apply.</p>
-            </div>
-
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-gray-800 mb-2">What is your cancellation policy?</h3>
-              <p className="text-gray-600">Free cancellation up to 2 hours before the scheduled pickup time. Cancellations within 2 hours may incur charges. No-shows will be charged the full fare. Corporate accounts may have different terms.</p>
-            </div>
+            {loading ? (
+              <div className="flex justify-center items-center h-64">
+                <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            ) : displayData.faqs && displayData.faqs.length > 0 ? (
+              displayData.faqs.map((faq, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-gray-50 rounded-lg p-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <h3 className="text-lg font-bold text-gray-800 mb-2">{faq.question}</h3>
+                  <p className="text-gray-600">{faq.answer}</p>
+                </motion.div>
+              ))
+            ) : (
+              <p className="text-center text-gray-600">No FAQs available at the moment.</p>
+            )}
           </div>
         </div>
       </section>

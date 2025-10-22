@@ -1,57 +1,68 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { CheckCircle, Clock, Star, CreditCard } from "lucide-react";
-import { pricingConfig } from "../../lib/pricing-config";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import Hero from "@/components/Hero";
+import { PricingConfig } from "@/lib/pricing-config";
+
+
+
 
 export default function PricingPage() {
+  const [data, setData] = useState<PricingConfig | null>(null);
+ 
+
+  useEffect(() => {
+    const fetchPricing = async () => {
+      try {
+        const res = await fetch("/api/pricing");
+        if (!res.ok) throw new Error("Failed to fetch pricing data");
+        const json = await res.json();
+        setData(json);
+      } catch (err) {
+        console.error("Error fetching pricing page:", err);
+      } 
+    };
+
+    fetchPricing();
+  }, []);
+
+  // Wait for data before destructuring
+  if (!data) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-600">Loading pricing...</p>
+      </div>
+    );
+  }
+  const { baseFare, costPerMile, costPerMinuteWaiting, surgeRules, peakHours } = data;
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-GB', {
-      style: 'currency',
-      currency: 'GBP',
+    return new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
     }).format(amount);
   };
 
-  const serviceFeatures = {
-    "Airport Transfer": [
-      "Meet and greet service",
-      "Flight monitoring included",
-      "Free waiting time included",
-      "Professional chauffeur"
-    ],
-    "Corporate Travel": [
-      "Executive vehicles",
-      "Wi-Fi available",
-      "Phone charging facilities",
-      "Flexible scheduling"
-    ],
-    "Wedding Cars": [
-      "Luxury vehicle decoration",
-      "Red carpet service",
-      "Complimentary champagne",
-      "Professional photography assistance"
-    ],
-    "Business & Social Events": [
-      "Event coordination",
-      "Multiple vehicle options",
-      "Group discounts available",
-      "Flexible timing"
-    ]
-  };
+ const formatTime = (hour: number) => {
+  const suffix = hour >= 12 ? "PM" : "AM";
+  const formattedHour = hour % 12 === 0 ? 12 : hour % 12;
+  return `${formattedHour}:00 ${suffix}`;
+};
 
   return (
+    
     <div className="min-h-screen bg-white">
       <Header activeSection="PRICING" />
 
-            <Hero
-              title="Transparent"
-              subtitle="Pricing"
-              description="No hidden fees, no surprises. Our clear pricing structure ensures you know exactly what you're paying for."
-            />
-
+      <Hero
+        title="Transparent"
+        subtitle="Pricing"
+        description="No hidden fees, no surprises. Our clear pricing structure ensures you know exactly what you're paying for."
+      />
+ 
       {/* Hero Section
       <section className="pt-24 pb-16 bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="container mx-auto px-4 max-w-[1440px]">
@@ -66,45 +77,65 @@ export default function PricingPage() {
         </div>
       </section> */}
 
+
       {/* Pricing Structure Overview */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 max-w-[1440px]">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">How Our Pricing Works</h2>
-            <p className="text-lg text-gray-600">Every quote consists of three main components</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              How Our Pricing Works
+            </h2>
+            <p className="text-lg text-gray-600">
+              Every quote consists of three main components
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {/* Base Fare */}
             <div className="text-center bg-gray-50 rounded-lg p-8">
               <div className="w-16 h-16 bg-[#235e99] rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-white font-bold text-xl">£</span>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Base Fare</h3>
-              <p className="text-gray-600 mb-4">Starting price that varies by service type</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Base Fare
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Starting price for all services
+              </p>
               <div className="text-2xl font-bold text-[#235e99]">
-                From {formatCurrency(Math.min(...Object.values(pricingConfig.baseFare)))}
+             From {formatCurrency(Math.min(...Object.values(baseFare)))}
               </div>
             </div>
 
+            {/* Distance Cost */}
             <div className="text-center bg-gray-50 rounded-lg p-8">
               <div className="w-16 h-16 bg-[#235e99] rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-white font-bold text-xl">📍</span>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Distance Cost</h3>
-              <p className="text-gray-600 mb-4">Calculated based on actual route distance</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Distance Cost
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Calculated based on actual route distance
+              </p>
               <div className="text-2xl font-bold text-[#235e99]">
-                {formatCurrency(pricingConfig.costPerMile)}/mile
+                {formatCurrency(costPerMile)}/mile
               </div>
             </div>
 
+            {/* Waiting Time */}
             <div className="text-center bg-gray-50 rounded-lg p-8">
               <div className="w-16 h-16 bg-[#235e99] rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="text-white w-8 h-8" />
+                <span className="text-white font-bold text-xl">⏱️</span>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Waiting Time</h3>
-              <p className="text-gray-600 mb-4">Estimated based on service type</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Waiting Time
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Charged per minute of waiting time
+              </p>
               <div className="text-2xl font-bold text-[#235e99]">
-                {formatCurrency(pricingConfig.costPerMinuteWaiting)}/min
+                {formatCurrency(costPerMinuteWaiting)}/min
               </div>
             </div>
           </div>
@@ -115,56 +146,70 @@ export default function PricingPage() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 max-w-[1440px]">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Surge Pricing Rules</h2>
-            <p className="text-lg text-gray-600">Additional charges may apply during peak times to ensure service availability</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Surge Pricing Rules
+            </h2>
+            <p className="text-lg text-gray-600">
+              Additional charges may apply during peak times to ensure service availability
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Weekday Peak Hours */}
             <div className="bg-orange-50 border border-orange-200 rounded-lg p-6">
               <div className="text-center">
                 <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-white font-bold">📊</span>
+                  <span className="text-white font-bold">🏙️</span>
                 </div>
-                <h3 className="text-xl font-bold text-orange-800 mb-2">Weekday Peak Hours</h3>
-                <p className="text-orange-700 mb-4">
-                  Monday - Friday<br />
-                  7:00 AM - 9:00 AM<br />
-                  5:00 PM - 7:00 PM
+                <h3 className="text-xl font-bold text-orange-800 mb-2">
+                  Weekday Peak Hours
+                </h3>
+                <p className="text-orange-700 mb-2">
+                  Monday - Friday
+                </p>
+                <p className="text-orange-600 mb-4">
+                  {formatTime(peakHours.start)} - {formatTime(peakHours.end)} <br/> {formatTime(peakHours.eveningStart)} - {formatTime(peakHours.eveningEnd)}
                 </p>
                 <div className="text-2xl font-bold text-orange-600">
-                  +{pricingConfig.surgeRules.weekdayPeakPercentage}%
+                  +{surgeRules.weekdayPeakPercentage}%
                 </div>
               </div>
             </div>
 
+            {/* Saturday */}
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
               <div className="text-center">
                 <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-white font-bold">📅</span>
                 </div>
-                <h3 className="text-xl font-bold text-blue-800 mb-2">Saturday</h3>
+                <h3 className="text-xl font-bold text-blue-800 mb-2">
+                  Saturday
+                </h3>
                 <p className="text-blue-700 mb-4">
                   All day Saturday<br />
                   High demand day
                 </p>
                 <div className="text-2xl font-bold text-blue-600">
-                  +{pricingConfig.surgeRules.saturdayPercentage}%
+                  +{surgeRules.saturdayPercentage}%
                 </div>
               </div>
             </div>
 
+            {/* Sunday */}
             <div className="bg-green-50 border border-green-200 rounded-lg p-6">
               <div className="text-center">
                 <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-white font-bold">🗓️</span>
                 </div>
-                <h3 className="text-xl font-bold text-green-800 mb-2">Sunday</h3>
-                <p className="text-green-700 mb-4">
+                <h3 className="text-xl font-bold text-green-800 mb-2">
+                  Sunday
+                </h3>
+                 <p className="text-green-700 mb-4">
                   All day Sunday<br />
                   Weekend premium
                 </p>
                 <div className="text-2xl font-bold text-green-600">
-                  +{pricingConfig.surgeRules.sundayPercentage}%
+                  +{surgeRules.sundayPercentage}%
                 </div>
               </div>
             </div>
@@ -180,7 +225,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Why Choose Our Pricing */}
+       {/* Why Choose Our Pricing */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 max-w-[1440px]">
           <div className="text-center mb-12">
@@ -226,7 +271,9 @@ export default function PricingPage() {
       {/* CTA Section */}
       <section className="py-16 bg-[#235e99]">
         <div className="container mx-auto px-4 max-w-[1440px] text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Get Your Quote?</h2>
+          <h2 className="text-3xl font-bold text-white mb-4">
+            Ready to Get Your Quote?
+          </h2>
           <p className="text-xl text-gray-200 mb-8">
             Use our instant quote calculator to see exactly what your journey will cost
           </p>

@@ -1,0 +1,60 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Admin {
+  id       Int     @id @default(autoincrement()) 
+  name     String
+  email    String  @unique
+  password String
+  role     Role    @default(admin)
+
+  @@map("admin") 
+}
+
+model Pricing {
+  id                    Int     @id @default(autoincrement())
+  baseFareDefault       Float
+  costPerMile           Float
+  costPerMinuteWaiting  Float
+  weekdayPeakPercentage Int
+  saturdayPercentage    Int
+  sundayPercentage      Int
+  peakStartHour         Int
+  peakEndHour           Int
+  eveningStartHour      Int
+  eveningEndHour        Int
+  @@map("pricing") 
+}
+
+
+model SiteSettings {
+  id                Int      @id @default(1)
+  logoUrl           String?  // URL/path for uploaded logo image
+  phone             String?  // Main phone number
+  email             String?  // Contact email
+  bookingService    String?  // Example: "24/7 Available"
+  phoneSupport      String?  // Example: "24/7 Available"
+  officeHoursMonFri String?  // Example: "Mon-Fri: 8:00-18:00"
+  officeHoursWeekend String? // Example: "Sat-Sun: 9:00-17:00"
+  emergencyService  String?  // Example: "24/7 Available"
+
+  facebookUrl       String?  // Social media links
+  twitterUrl        String?
+  linkedinUrl       String?
+  instagramUrl      String?
+
+  updatedAt         DateTime @updatedAt
+  @@map("site_settings") 
+}
+
+
+enum Role {
+  superadmin
+  admin
+}

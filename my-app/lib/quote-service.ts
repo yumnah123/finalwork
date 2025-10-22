@@ -1,24 +1,32 @@
-import { pricingConfig, QuoteBreakdown } from './pricing-config';
-import { AddressResult } from '../hooks/useAddressAutocomplete';
+import { AddressResult } from "../hooks/useAddressAutocomplete";
+import { PricingConfig,QuoteBreakdown } from "./pricing-config";
 
 export interface RouteData {
-  distance: number; // in kilometers
-  duration: number; // in seconds
+  distance: number;
+  duration: number;
 }
 
 export class QuoteService {
-  private static readonly OPENROUTE_SERVICE_API = 'https://api.openrouteservice.org/v2';
-  
+  private static readonly OPENROUTE_SERVICE_API = "https://api.openrouteservice.org/v2";
+
   // You can get a free API key from https://openrouteservice.org/dev/#/signup
   // For demo purposes, we'll use a fallback calculation if no API key is provided
   private static readonly API_KEY = process.env.NEXT_PUBLIC_OPENROUTE_API_KEY;
+
+  // Fetch Pricing Config dynamically( So we can change in future through admin panel)
+  private static async getPricingConfig(): Promise<PricingConfig> {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/pricing`, {
+      cache: "no-store",
+    });
+    if (!res.ok) throw new Error("Failed to fetch pricing data");
+    return res.json();
+  }
 
   static async getRouteData(
     pickup: AddressResult,
     dropoff: AddressResult
   ): Promise<RouteData> {
     if (!this.API_KEY) {
-      // Fallback to simple distance calculation using Haversine formula
       return this.calculateFallbackRoute(pickup, dropoff);
     }
 
@@ -33,18 +41,17 @@ export class QuoteService {
       );
 
       if (!response.ok) {
-        console.warn('OpenRouteService API failed, using fallback calculation');
+        console.warn("OpenRouteService API failed, using fallback calculation");
         return this.calculateFallbackRoute(pickup, dropoff);
       }
 
       const data = await response.json();
       const route = data.features[0];
-      const distance = route.properties.summary.distance / 1000; // Convert meters to kilometers
-      const duration = route.properties.summary.duration; // Already in seconds
-
+      const distance = route.properties.summary.distance / 1000; // meters → km
+      const duration = route.properties.summary.duration; // seconds
       return { distance, duration };
     } catch (error) {
-      console.error('Error fetching route data:', error);
+      console.error("Error fetching route data:", error);
       return this.calculateFallbackRoute(pickup, dropoff);
     }
   }
@@ -53,48 +60,48 @@ export class QuoteService {
     pickup: AddressResult,
     dropoff: AddressResult
   ): RouteData {
-    // Haversine formula for distance calculation
-    const R = 6371; // Earth's radius in kilometers
+    const R = 6371;
     const dLat = this.toRad(parseFloat(dropoff.lat) - parseFloat(pickup.lat));
     const dLon = this.toRad(parseFloat(dropoff.lon) - parseFloat(pickup.lon));
-    
+
     const lat1 = this.toRad(parseFloat(pickup.lat));
     const lat2 = this.toRad(parseFloat(dropoff.lat));
 
     const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Distance in kilometers
-
-    // Estimate duration: average speed of 50 km/h in urban areas
-    const duration = (distance / 50) * 3600; // Convert hours to seconds
-
+    const distance = R * c;
+    const duration = (distance / 50) * 3600;
     return { distance, duration };
   }
 
-  private static toRad(degrees: number): number {
-    return degrees * (Math.PI / 180);
+  private static toRad(deg: number): number {
+    return deg * (Math.PI / 180);
   }
 
-  static calculateQuote(
+  // Use fetched pricing config in calculations
+  static async calculateQuote(
     pickup: AddressResult,
     dropoff: AddressResult,
     routeData: RouteData,
-    selectedDate: Date,
-  ): QuoteBreakdown {
-    const baseFare = pricingConfig.baseFare["default"];
-    const distanceCost = routeData.distance * pricingConfig.costPerMile * 0.621371; // Convert km to miles
+    selectedDate: Date
+  ): Promise<QuoteBreakdown> {
+    const config = await this.getPricingConfig(); // ✅ dynamic fetch
 
-    // Standard waiting time (10 minutes)
+    const baseFare = config.baseFare.default;
+    const distanceCost = routeData.distance * config.costPerMile * 0.621371;
+    
+     // Standard waiting time (10 minutes)
     const estimatedWaitingTime = 10;
-    const waitingTimeCost = estimatedWaitingTime * pricingConfig.costPerMinuteWaiting;
+    const waitingTimeCost = estimatedWaitingTime * config.costPerMinuteWaiting;
 
     // Calculate surge multiplier
-    const surgeMultiplier = this.calculateSurgeMultiplier(selectedDate);
+    const surgeMultiplier = this.calculateSurgeMultiplier(selectedDate, config);
     const subtotal = baseFare + distanceCost + waitingTimeCost;
     const surgeAmount = subtotal * (surgeMultiplier / 100);
     const total = subtotal + surgeAmount;
+
 
     // Quote valid for 30 minutes
     const validUntil = new Date(Date.now() + 30 * 60 * 1000);
@@ -113,39 +120,22 @@ export class QuoteService {
     };
   }
 
-
-  private static calculateSurgeMultiplier(selectedDate: Date): number {
-    const dayOfWeek = selectedDate.getDay(); // 0 = Sunday, 1 = Monday, etc.
-    // const hour = parseInt(selectedTime.split(':')[0]);
-
-    // Sunday surge
-    if (dayOfWeek === 0) {
-      return pricingConfig.surgeRules.sundayPercentage;
-    }
-
-    // Saturday surge
-    if (dayOfWeek === 6) {
-      return pricingConfig.surgeRules.saturdayPercentage;
-    }
-
-    // Weekday peak hours surge (Monday to Friday)
-    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
-      // const isPeakHour =
-      //   (hour >= pricingConfig.peakHours.start && hour < pricingConfig.peakHours.end) ||
-      //   (hour >= pricingConfig.peakHours.eveningStart && hour < pricingConfig.peakHours.eveningEnd);
-
-      // if (isPeakHour) {
-        return pricingConfig.surgeRules.weekdayPeakPercentage;
-      // }
-    }
-
-    return 0; // No surge
+  private static calculateSurgeMultiplier(
+    selectedDate: Date,
+    config: PricingConfig
+  ): number {
+    const day = selectedDate.getDay();
+    if (day === 0) return config.surgeRules.sundayPercentage;
+    if (day === 6) return config.surgeRules.saturdayPercentage;
+    if (day >= 1 && day <= 5) return config.surgeRules.weekdayPeakPercentage;
+    return 0;
   }
 
+  
   static async generateQuote(
     pickup: AddressResult,
     dropoff: AddressResult,
-    selectedDate: Date,
+    selectedDate: Date
   ): Promise<QuoteBreakdown> {
     const routeData = await this.getRouteData(pickup, dropoff);
     return this.calculateQuote(pickup, dropoff, routeData, selectedDate);
